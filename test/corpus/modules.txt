@@ -1,0 +1,34 @@
+================
+Require
+================
+
+helpers = require("./helpers")
+
+---
+
+(program
+  (require
+    variable: (identifier)
+    (string
+      (string_content))))
+
+================
+Export function
+================
+
+export def exposed(value)
+  value * 2
+end
+
+---
+
+(program
+  (export_method
+    (method
+      name: (identifier)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (binary
+        (identifier)
+        (integer)))))

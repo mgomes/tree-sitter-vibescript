@@ -1,0 +1,88 @@
+================
+While loop
+================
+
+while n > 0
+  n = n - 1
+end
+
+---
+
+(program
+  (while
+    condition: (binary
+      (identifier)
+      (integer))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (integer)))))
+
+================
+Until loop
+================
+
+until n >= limit
+  n = n + 1
+end
+
+---
+
+(program
+  (until
+    condition: (binary
+      (identifier)
+      (identifier))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (integer)))))
+
+================
+For in loop
+================
+
+for i in 1..10
+  total = total + i
+end
+
+---
+
+(program
+  (for
+    variable: (identifier)
+    iterable: (binary
+      (integer)
+      (integer))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (identifier)))))
+
+================
+Break and next
+================
+
+while true
+  if done
+    break
+  end
+  if skip
+    next
+  end
+end
+
+---
+
+(program
+  (while
+    condition: (true)
+    (if
+      condition: (identifier)
+      (break))
+    (if
+      condition: (identifier)
+      (next))))

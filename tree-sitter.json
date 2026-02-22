@@ -1,0 +1,25 @@
+{
+  "grammars": [
+    {
+      "name": "vibescript",
+      "camelCase": false,
+      "scope": "source.vibescript",
+      "path": ".",
+      "file-types": ["vibe"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Vibescript",
+    "authors": [
+      {
+        "name": "Mauricio Gomes"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/mgomes/tree-sitter-vibescript"
+    }
+  }
+}

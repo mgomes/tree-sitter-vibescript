@@ -1,0 +1,97 @@
+================
+Class with property and methods
+================
+
+class Point
+  property x, y
+
+  def initialize(@x, @y)
+  end
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (property_declaration
+      (identifier)
+      (identifier))
+    (method
+      name: (identifier)
+      (parameters
+        (ivar_parameter
+          (instance_variable))
+        (ivar_parameter
+          (instance_variable))))))
+
+================
+Class with getter and setter
+================
+
+class Person
+  getter age
+  setter name
+
+  def initialize(name)
+    @name = name
+    @age = 0
+  end
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (getter_declaration
+      (identifier))
+    (setter_declaration
+      (identifier))
+    (method
+      name: (identifier)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (assignment
+        (instance_variable)
+        (identifier))
+      (assignment
+        (instance_variable)
+        (integer)))))
+
+================
+Class with class variable and class method
+================
+
+class Counter
+  @@instances = 0
+
+  def initialize
+    @@instances = @@instances + 1
+  end
+
+  def self.instances
+    @@instances
+  end
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (class_variable_assignment
+      (class_variable)
+      (integer))
+    (method
+      name: (identifier)
+      (assignment
+        (class_variable)
+        (binary
+          (class_variable)
+          (integer))))
+    (method
+      name: (self_method_name
+        (identifier))
+      (class_variable))))

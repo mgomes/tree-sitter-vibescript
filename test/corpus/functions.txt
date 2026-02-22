@@ -1,0 +1,115 @@
+================
+Basic function
+================
+
+def greet(name)
+  "hello " + name
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (simple_parameter
+        (identifier)))
+    (binary
+      (string
+        (string_content))
+      (identifier))))
+
+================
+Typed parameters with return type
+================
+
+def add(a: int, b: int) -> int
+  a + b
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (binary
+      (identifier)
+      (identifier))))
+
+================
+Default parameter values
+================
+
+def greet(name, greeting = "hello")
+  greeting + " " + name
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (simple_parameter
+        (identifier))
+      (simple_parameter
+        (identifier)
+        (string
+          (string_content))))
+    (binary
+      (binary
+        (identifier)
+        (string
+          (string_content)))
+      (identifier))))
+
+================
+Private method
+================
+
+private def secret
+  42
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (integer)))
+
+================
+Export function
+================
+
+export def exposed(value)
+  value * 2
+end
+
+---
+
+(program
+  (export_method
+    (method
+      name: (identifier)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (binary
+        (identifier)
+        (integer)))))

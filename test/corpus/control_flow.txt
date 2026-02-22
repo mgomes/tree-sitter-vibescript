@@ -1,0 +1,60 @@
+================
+If elsif else
+================
+
+if amount >= 100
+  "large"
+elsif amount >= 10
+  "medium"
+else
+  "small"
+end
+
+---
+
+(program
+  (if
+    condition: (binary
+      (identifier)
+      (integer))
+    (string
+      (string_content))
+    (elsif
+      condition: (binary
+        (identifier)
+        (integer))
+      (string
+        (string_content)))
+    (else
+      (string
+        (string_content)))))
+
+================
+Case when
+================
+
+case score
+when 100
+  "perfect"
+when 90
+  "great"
+else
+  "ok"
+end
+
+---
+
+(program
+  (case
+    subject: (identifier)
+    (when
+      (integer)
+      (string
+        (string_content)))
+    (when
+      (integer)
+      (string
+        (string_content)))
+    (else
+      (string
+        (string_content)))))

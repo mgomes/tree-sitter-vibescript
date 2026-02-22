@@ -1,0 +1,99 @@
+================
+Block with parameters
+================
+
+values.each do |value|
+  total = total + value
+end
+
+---
+
+(program
+  (member_access
+    (identifier)
+    (identifier)
+    (block
+      (block_parameters
+        (identifier))
+      (assignment
+        (identifier)
+        (binary
+          (identifier)
+          (identifier))))))
+
+================
+Block with call and parameters
+================
+
+values.reduce(0) do |running_total, value|
+  running_total + value
+end
+
+---
+
+(program
+  (call
+    receiver: (identifier)
+    method: (identifier)
+    (argument_list
+      (integer))
+    (block
+      (block_parameters
+        (identifier)
+        (identifier))
+      (binary
+        (identifier)
+        (identifier)))))
+
+================
+Yield
+================
+
+def twice
+  yield
+  yield
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (yield)
+    (yield)))
+
+================
+Yield with arguments
+================
+
+def times(n)
+  i = 0
+  while i < n
+    yield(i)
+    i = i + 1
+  end
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (simple_parameter
+        (identifier)))
+    (assignment
+      (identifier)
+      (integer))
+    (while
+      condition: (binary
+        (identifier)
+        (identifier))
+      (yield
+        (argument_list
+          (identifier)))
+      (assignment
+        (identifier)
+        (binary
+          (identifier)
+          (integer))))))

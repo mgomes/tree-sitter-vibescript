@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-vibescript",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Vibescript",
+  "main": "bindings/node",
+  "keywords": ["tree-sitter", "parser", "vibescript"],
+  "author": "Mauricio Gomes",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.18.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.24.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.vibescript",
+      "file-types": ["vibe"],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
+}

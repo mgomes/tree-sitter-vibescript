@@ -1,0 +1,38 @@
+================
+Begin rescue ensure
+================
+
+begin
+  "ok"
+rescue(RuntimeError)
+  "rescued"
+ensure
+  now()
+end
+
+---
+
+(program
+  (begin
+    (string
+      (string_content))
+    (rescue
+      (constant)
+      (string
+        (string_content)))
+    (ensure
+      (call
+        method: (identifier)))))
+
+================
+Raise
+================
+
+raise("boom")
+
+---
+
+(program
+  (raise
+    (string
+      (string_content))))

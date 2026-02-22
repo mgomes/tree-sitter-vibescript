@@ -1,0 +1,111 @@
+================
+Integers
+================
+
+42
+1_000_000
+
+---
+
+(program
+  (integer)
+  (integer))
+
+================
+Floats
+================
+
+3.14
+10.5
+
+---
+
+(program
+  (float)
+  (float))
+
+================
+Strings
+================
+
+"hello"
+"line\nnext"
+
+---
+
+(program
+  (string
+    (string_content))
+  (string
+    (string_content)
+    (escape_sequence)
+    (string_content)))
+
+================
+Symbols
+================
+
+:read
+:write
+
+---
+
+(program
+  (symbol)
+  (symbol))
+
+================
+Booleans
+================
+
+true
+false
+
+---
+
+(program
+  (true)
+  (false))
+
+================
+Nil
+================
+
+nil
+
+---
+
+(program
+  (nil))
+
+================
+Arrays
+================
+
+[1, 2, 3]
+
+---
+
+(program
+  (array
+    (integer)
+    (integer)
+    (integer)))
+
+================
+Hashes
+================
+
+{ name: "alex", active: true }
+
+---
+
+(program
+  (hash
+    (hash_entry
+      key: (identifier)
+      value: (string
+        (string_content)))
+    (hash_entry
+      key: (identifier)
+      value: (true))))
