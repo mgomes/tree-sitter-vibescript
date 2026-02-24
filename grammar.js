@@ -364,13 +364,20 @@ module.exports = grammar({
       )),
 
     call: ($) =>
-      prec.right(PREC.CALL, seq(
-        field("receiver", optional(seq($._expression, "."))),
-        field("method", $.identifier),
-        "(",
-        optional($.argument_list),
-        ")",
-        optional($.block),
+      prec.right(PREC.CALL, choice(
+        seq(
+          field("receiver", optional(seq($._expression, "."))),
+          field("method", $.identifier),
+          "(",
+          optional($.argument_list),
+          ")",
+          optional($.block),
+        ),
+        seq(
+          field("receiver", optional(seq($._expression, "."))),
+          field("method", $.identifier),
+          $.block,
+        ),
       )),
 
     member_access: ($) =>

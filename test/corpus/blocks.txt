@@ -9,9 +9,9 @@ end
 ---
 
 (program
-  (member_access
-    (identifier)
-    (identifier)
+  (call
+    receiver: (identifier)
+    method: (identifier)
     (block
       (block_parameters
         (identifier))

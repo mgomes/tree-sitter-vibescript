@@ -47,11 +47,6 @@
 (call
   method: (identifier) @function.call)
 
-; Member access with block (no-arg method calls with blocks)
-(member_access
-  (identifier) @function.call
-  (block))
-
 ; Type annotations
 (type_name
   (identifier) @type)
