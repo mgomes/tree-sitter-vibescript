@@ -15,8 +15,10 @@ end
   (class
     name: (constant)
     (property_declaration
-      (identifier)
-      (identifier))
+      (accessor_name
+        (identifier))
+      (accessor_name
+        (identifier)))
     (method
       name: (identifier)
       (parameters
@@ -45,9 +47,11 @@ end
   (class
     name: (constant)
     (getter_declaration
-      (identifier))
+      (accessor_name
+        (identifier)))
     (setter_declaration
-      (identifier))
+      (accessor_name
+        (identifier)))
     (method
       name: (identifier)
       (parameters
@@ -95,3 +99,62 @@ end
       name: (self_method_name
         (identifier))
       (class_variable))))
+
+================
+Class with typed accessors
+================
+
+class User
+  property name: string
+  getter age: int?
+  setter tag: string
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (property_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (getter_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (setter_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))))
+
+================
+Class with typed multi-name property
+================
+
+class Point
+  property x: int, y: int
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (property_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))))
