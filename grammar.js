@@ -140,25 +140,31 @@ module.exports = grammar({
         ),
       ),
 
+    accessor_name: ($) =>
+      seq(
+        $.identifier,
+        optional(seq(":", $.type_annotation)),
+      ),
+
     property_declaration: ($) =>
       seq(
         "property",
-        $.identifier,
-        repeat(seq(",", $.identifier)),
+        $.accessor_name,
+        repeat(seq(",", $.accessor_name)),
       ),
 
     getter_declaration: ($) =>
       seq(
         "getter",
-        $.identifier,
-        repeat(seq(",", $.identifier)),
+        $.accessor_name,
+        repeat(seq(",", $.accessor_name)),
       ),
 
     setter_declaration: ($) =>
       seq(
         "setter",
-        $.identifier,
-        repeat(seq(",", $.identifier)),
+        $.accessor_name,
+        repeat(seq(",", $.accessor_name)),
       ),
 
     class_variable_assignment: ($) =>

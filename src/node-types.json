@@ -1,5 +1,24 @@
 [
   {
+    "type": "accessor_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument_list",
     "named": true,
     "fields": {},
@@ -2139,7 +2158,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "accessor_name",
           "named": true
         }
       ]
@@ -3270,7 +3289,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "accessor_name",
           "named": true
         }
       ]
@@ -3711,7 +3730,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "accessor_name",
           "named": true
         }
       ]
