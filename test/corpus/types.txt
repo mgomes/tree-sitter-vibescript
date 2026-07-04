@@ -1,0 +1,85 @@
+================
+Constant and generic types
+================
+
+def build(items: array<int>) -> Status
+  items
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_name
+                (identifier)))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (constant))))
+    (identifier)))
+
+================
+Shape type
+================
+
+def configure(opts: { retries: int, name: string })
+  opts
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_shape
+            (type_shape_field
+              (identifier)
+              (type_annotation
+                (type_name
+                  (identifier))))
+            (type_shape_field
+              (identifier)
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (identifier)))
+
+================
+Union and nullable types
+================
+
+def pick(x: int | string, y: int?)
+  x
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (identifier)))

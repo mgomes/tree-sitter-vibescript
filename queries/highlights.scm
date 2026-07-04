@@ -46,10 +46,14 @@
 ; Function calls
 (call
   method: (identifier) @function.call)
+(command_call
+  method: (identifier) @function.call)
 
 ; Type annotations
 (type_name
   (identifier) @type)
+(type_shape_field
+  name: (identifier) @property)
 
 ; Strings
 (string) @string
@@ -62,6 +66,13 @@
 
 ; Symbols
 (symbol) @string.special.symbol
+(quoted_symbol) @string.special.symbol
+
+; Regular expressions
+(regex) @string.regexp
+
+; Percent-array literals
+(percent_array) @string.special
 
 ; Booleans and nil
 (true) @constant.builtin
@@ -99,20 +110,37 @@
   "*"
   "/"
   "%"
+  "**"
+  "<<"
   "=="
+  "==="
   "!="
+  "=~"
+  "!~"
   "<"
   ">"
   "<="
   ">="
+  "<=>"
   "&&"
   "||"
+  "&"
   "="
   ".."
+  "..."
+  "::"
+  "&."
+  "?"
   "->"
   "!"
   "+="
   "-="
+  "*="
+  "/="
+  "%="
+  "**="
+  "||="
+  "&&="
 ] @operator
 
 ; Punctuation

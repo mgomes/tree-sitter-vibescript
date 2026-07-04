@@ -2,15 +2,22 @@
 
 const PREC = {
   ASSIGNMENT: 1,
-  OR: 2,
-  AND: 3,
-  EQUALITY: 4,
-  COMPARISON: 5,
-  RANGE: 6,
-  ADDITIVE: 7,
-  MULTIPLICATIVE: 8,
-  UNARY: 9,
-  CALL: 10,
+  RESCUE: 2,
+  WORD_OR: 3,
+  WORD_AND: 4,
+  CONDITIONAL: 5,
+  OR: 6,
+  AND: 7,
+  EQUALITY: 8,
+  COMPARISON: 9,
+  RANGE: 10,
+  BIT_AND: 11,
+  SHIFT: 12,
+  ADDITIVE: 13,
+  MULTIPLICATIVE: 14,
+  UNARY: 15,
+  POWER: 16,
+  CALL: 17,
 };
 
 module.exports = grammar({
@@ -20,11 +27,20 @@ module.exports = grammar({
 
   word: ($) => $.identifier,
 
+  externals: ($) => [
+    $.regex,
+    $._block_open,
+    $._command_start,
+  ],
+
   conflicts: ($) => [
     [$.simple_parameter, $._primary],
     [$.ivar_parameter, $._primary],
     [$.require, $._primary],
     [$.rescue, $._primary],
+    [$.modifier, $._expression_statement],
+    [$.splat_target, $._primary],
+    [$.type_annotation],
   ],
 
   rules: {
@@ -102,17 +118,51 @@ module.exports = grammar({
 
     type_annotation: ($) =>
       seq(
+        $._type,
+        repeat(seq("|", $._type)),
+      ),
+
+    _type: ($) =>
+      choice(
         $.type_name,
-        repeat(seq("|", $.type_name)),
+        $.type_shape,
       ),
 
     type_name: ($) =>
       seq(
         choice(
           $.identifier,
+          $.constant,
           "nil",
         ),
+        optional($.type_arguments),
         optional("?"),
+      ),
+
+    type_arguments: ($) =>
+      seq(
+        "<",
+        $._type,
+        repeat(seq(",", $._type)),
+        ">",
+      ),
+
+    type_shape: ($) =>
+      seq(
+        "{",
+        optional(seq(
+          $.type_shape_field,
+          repeat(seq(",", $.type_shape_field)),
+          optional(","),
+        )),
+        "}",
+      ),
+
+    type_shape_field: ($) =>
+      seq(
+        field("name", $.identifier),
+        ":",
+        $.type_annotation,
       ),
 
     return_type: ($) =>
@@ -191,9 +241,32 @@ module.exports = grammar({
         $.raise,
         $.yield,
         $.require,
+        $.modifier,
+        $.destructuring_assignment,
+        $.command_call,
         $.directive_comment,
         $._expression_statement,
       ),
+
+    command_call: ($) =>
+      prec.left(seq(
+        field("method", $.identifier),
+        $._command_start,
+        field("arguments", $.command_arguments),
+      )),
+
+    command_arguments: ($) =>
+      seq(
+        $._argument,
+        repeat(seq(",", $._argument)),
+      ),
+
+    modifier: ($) =>
+      prec.left(seq(
+        field("body", $._expression),
+        field("keyword", choice("if", "unless", "while", "until")),
+        field("condition", $._expression),
+      )),
 
     _expression_statement: ($) =>
       $._expression,
@@ -205,10 +278,30 @@ module.exports = grammar({
         $._expression,
       )),
 
+    destructuring_assignment: ($) =>
+      prec.right(PREC.ASSIGNMENT, seq(
+        field("left", seq(
+          $._destructure_target,
+          repeat1(seq(",", $._destructure_target)),
+        )),
+        "=",
+        field("right", $._expression),
+      )),
+
+    _destructure_target: ($) =>
+      choice(
+        $.identifier,
+        $.instance_variable,
+        $.splat_target,
+      ),
+
+    splat_target: ($) =>
+      seq("*", optional($.identifier)),
+
     compound_assignment: ($) =>
       prec.right(PREC.ASSIGNMENT, seq(
         $._expression,
-        choice("+=", "-="),
+        choice("+=", "-=", "*=", "/=", "%=", "**=", "||=", "&&="),
         $._expression,
       )),
 
@@ -344,35 +437,58 @@ module.exports = grammar({
       choice(
         $.assignment,
         $.compound_assignment,
+        $.ternary,
         $.binary,
         $.unary,
         $.call,
         $.member_access,
+        $.scope_resolution,
         $.subscript,
         $._primary,
       ),
 
     binary: ($) =>
       choice(
-        prec.left(PREC.OR, seq($._expression, choice("||", "or"), $._expression)),
-        prec.left(PREC.AND, seq($._expression, choice("&&", "and"), $._expression)),
-        prec.left(PREC.EQUALITY, seq($._expression, choice("==", "!="), $._expression)),
-        prec.left(PREC.COMPARISON, seq($._expression, choice("<", ">", "<=", ">="), $._expression)),
-        prec.left(PREC.RANGE, seq($._expression, "..", $._expression)),
+        prec.left(PREC.WORD_OR, seq($._expression, "or", $._expression)),
+        prec.left(PREC.WORD_AND, seq($._expression, "and", $._expression)),
+        prec.left(PREC.OR, seq($._expression, "||", $._expression)),
+        prec.left(PREC.AND, seq($._expression, "&&", $._expression)),
+        prec.left(PREC.EQUALITY, seq($._expression, choice("==", "===", "!=", "=~", "!~"), $._expression)),
+        prec.left(PREC.COMPARISON, seq($._expression, choice("<", ">", "<=", ">=", "<=>"), $._expression)),
+        prec.left(PREC.RANGE, seq($._expression, choice("..", "..."), $._expression)),
+        prec.left(PREC.BIT_AND, seq($._expression, "&", $._expression)),
+        prec.left(PREC.SHIFT, seq($._expression, "<<", $._expression)),
         prec.left(PREC.ADDITIVE, seq($._expression, choice("+", "-"), $._expression)),
         prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice("*", "/", "%"), $._expression)),
+        prec.right(PREC.POWER, seq($._expression, "**", $._expression)),
       ),
+
+    ternary: ($) =>
+      prec.right(PREC.CONDITIONAL, seq(
+        $._expression,
+        "?",
+        $._expression,
+        ":",
+        $._expression,
+      )),
 
     unary: ($) =>
       prec(PREC.UNARY, seq(
-        choice("-", "!"),
+        choice("-", "+", "!"),
         $._expression,
+      )),
+
+    scope_resolution: ($) =>
+      prec.left(PREC.CALL, seq(
+        $._expression,
+        "::",
+        choice($.constant, $.identifier),
       )),
 
     call: ($) =>
       prec.right(PREC.CALL, choice(
         seq(
-          field("receiver", optional(seq($._expression, "."))),
+          field("receiver", optional(seq($._expression, choice(".", "&.")))),
           field("method", $.identifier),
           "(",
           optional($.argument_list),
@@ -380,7 +496,7 @@ module.exports = grammar({
           optional($.block),
         ),
         seq(
-          field("receiver", optional(seq($._expression, "."))),
+          field("receiver", optional(seq($._expression, choice(".", "&.")))),
           field("method", $.identifier),
           $.block,
         ),
@@ -389,7 +505,7 @@ module.exports = grammar({
     member_access: ($) =>
       prec.left(PREC.CALL - 1, seq(
         $._expression,
-        ".",
+        choice(".", "&."),
         $.identifier,
         optional($.block),
       )),
@@ -403,19 +519,33 @@ module.exports = grammar({
       )),
 
     block: ($) =>
-      seq(
-        "do",
-        optional($.block_parameters),
-        optional($._body),
-        "end",
+      choice(
+        seq(
+          "do",
+          optional($.block_parameters),
+          optional($._body),
+          "end",
+        ),
+        seq(
+          $._block_open,
+          optional($.block_parameters),
+          optional($._body),
+          "}",
+        ),
       ),
 
     block_parameters: ($) =>
       seq(
         "|",
-        $.identifier,
-        repeat(seq(",", $.identifier)),
+        $._block_parameter,
+        repeat(seq(",", $._block_parameter)),
         "|",
+      ),
+
+    _block_parameter: ($) =>
+      choice(
+        $.identifier,
+        $.typed_parameter,
       ),
 
     argument_list: ($) =>
@@ -448,6 +578,9 @@ module.exports = grammar({
         $.float,
         $.string,
         $.symbol,
+        $.quoted_symbol,
+        $.percent_array,
+        $.regex,
         $.true,
         $.false,
         $.nil,
@@ -489,10 +622,17 @@ module.exports = grammar({
       ),
 
     hash_entry: ($) =>
-      seq(
-        field("key", choice($.identifier, $.string)),
-        ":",
-        field("value", $._expression),
+      choice(
+        seq(
+          field("key", choice($.identifier, $.string)),
+          ":",
+          field("value", $._expression),
+        ),
+        // value omission: { name:, age: } takes the value from a local of the same name
+        seq(
+          field("key", $.identifier),
+          ":",
+        ),
       ),
 
     // --- Body ---
@@ -529,6 +669,21 @@ module.exports = grammar({
 
     symbol: (_$) =>
       /:[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    quoted_symbol: (_$) =>
+      token(seq(':', '"', /[^"]*/, '"')),
+
+    percent_array: (_$) =>
+      token(seq(
+        '%',
+        /[wWiI]/,
+        choice(
+          seq('[', /[^\]]*/, ']'),
+          seq('(', /[^)]*/, ')'),
+          seq('{', /[^}]*/, '}'),
+          seq('<', /[^>]*/, '>'),
+        ),
+      )),
 
     instance_variable: (_$) =>
       /@[a-zA-Z_][a-zA-Z0-9_]*/,

@@ -1,0 +1,54 @@
+================
+Regex literal with flags
+================
+
+def run
+  x = /ab+c/i
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (regex))))
+
+================
+Percent word arrays
+================
+
+def run
+  a = %w[one two three]
+  b = %i[a b c]
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (percent_array))
+    (assignment
+      (identifier)
+      (percent_array))))
+
+================
+Quoted symbol
+================
+
+def run
+  x = :"multi word"
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (quoted_symbol))))

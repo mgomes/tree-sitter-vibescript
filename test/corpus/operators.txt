@@ -1,0 +1,207 @@
+================
+Binary operators and precedence
+================
+
+def run
+  a + b * c - d / e % f
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (binary
+      (binary
+        (identifier)
+        (binary
+          (identifier)
+          (identifier)))
+      (binary
+        (binary
+          (identifier)
+          (identifier))
+        (identifier)))))
+
+================
+Shift power spaceship and match
+================
+
+def run
+  x = a << b
+  y = a ** b
+  z = a <=> b
+  m = a === b
+  n = s =~ /re/
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (identifier)))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (identifier)))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (identifier)))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (identifier)))
+    (assignment
+      (identifier)
+      (binary
+        (identifier)
+        (regex)))))
+
+================
+Ternary conditional
+================
+
+def run
+  x = cond ? a : b
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (ternary
+        (identifier)
+        (identifier)
+        (identifier)))))
+
+================
+Ranges inclusive and exclusive
+================
+
+def run
+  a = 1..5
+  b = 1...5
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (binary
+        (integer)
+        (integer)))
+    (assignment
+      (identifier)
+      (binary
+        (integer)
+        (integer)))))
+
+================
+Scope resolution
+================
+
+def run
+  Status::Active
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (scope_resolution
+      (constant)
+      (constant))))
+
+================
+Compound assignments
+================
+
+def run
+  a += 1
+  a **= 2
+  a ||= 3
+  a &&= 4
+  a %= 5
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (compound_assignment
+      (identifier)
+      (integer))
+    (compound_assignment
+      (identifier)
+      (integer))
+    (compound_assignment
+      (identifier)
+      (integer))
+    (compound_assignment
+      (identifier)
+      (integer))
+    (compound_assignment
+      (identifier)
+      (integer))))
+
+================
+Unary operators
+================
+
+def run
+  a = -x
+  b = +x
+  c = !x
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (unary
+        (identifier)))
+    (assignment
+      (identifier)
+      (unary
+        (identifier)))
+    (assignment
+      (identifier)
+      (unary
+        (identifier)))))
+
+================
+Safe navigation
+================
+
+def run
+  user&.name
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (member_access
+      (identifier)
+      (identifier))))

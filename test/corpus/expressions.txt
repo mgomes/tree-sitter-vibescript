@@ -1,0 +1,100 @@
+================
+Command call with arguments
+================
+
+def run
+  assert value > 0, "must be positive"
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (command_call
+      (identifier)
+      (command_arguments
+        (binary
+          (identifier)
+          (integer))
+        (string
+          (string_content))))))
+
+================
+Command call single argument
+================
+
+def run
+  assert value
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (command_call
+      (identifier)
+      (command_arguments
+        (identifier)))))
+
+================
+Brace block
+================
+
+def run
+  items.each { |x| x }
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (call
+      (identifier)
+      (identifier)
+      (block
+        (block_parameters
+          (identifier))
+        (identifier)))))
+
+================
+Statement modifiers
+================
+
+def run
+  go if ready
+  stop unless done
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (modifier
+      (identifier)
+      (identifier))
+    (modifier
+      (identifier)
+      (identifier))))
+
+================
+Destructuring with splat
+================
+
+def run
+  first, *rest = items
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (destructuring_assignment
+      (identifier)
+      (splat_target
+        (identifier))
+      (identifier))))
