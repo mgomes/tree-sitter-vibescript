@@ -36,3 +36,196 @@ raise("boom")
   (raise
     (string
       (string_content))))
+
+================
+Rescue with type and binding
+================
+
+begin
+  risky()
+rescue TypeError => e
+  puts e
+end
+
+---
+
+(program
+  (begin
+    (call
+      (identifier))
+    (rescue
+      (constant)
+      (identifier)
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier))))))
+
+================
+Multiple rescue clauses
+================
+
+begin
+  risky()
+rescue TypeError => e
+  puts 1
+rescue Http::Error => e
+  puts 2
+rescue => e
+  puts e
+end
+
+---
+
+(program
+  (begin
+    (call
+      (identifier))
+    (rescue
+      (constant)
+      (identifier)
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))
+    (rescue
+      (scoped_constant
+        (constant)
+        (constant))
+      (identifier)
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))
+    (rescue
+      (identifier)
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier))))))
+
+================
+Begin with else and ensure
+================
+
+begin
+  x = 1
+rescue
+  puts 0
+else
+  puts x
+ensure
+  puts 2
+end
+
+---
+
+(program
+  (begin
+    (assignment
+      (identifier)
+      (integer))
+    (rescue
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))
+    (else
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier))))
+    (ensure
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))))
+
+================
+Retry inside rescue
+================
+
+begin
+  attempt()
+rescue
+  retry if tries < 2
+end
+
+---
+
+(program
+  (begin
+    (call
+      (identifier))
+    (rescue
+      (modifier
+        (retry)
+        (binary
+          (identifier)
+          (integer))))))
+
+================
+Method level rescue and ensure
+================
+
+def f
+  risky()
+rescue RuntimeError => e
+  0
+ensure
+  puts "done"
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (call
+      (identifier))
+    (rescue
+      (constant)
+      (identifier)
+      (integer))
+    (ensure
+      (command_call
+        (identifier)
+        (command_arguments
+          (string
+            (string_content)))))))
+
+================
+Rescue modifier expression
+================
+
+x = risky() rescue 0
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (rescue_modifier
+      (call
+        (identifier))
+      (integer))))
+
+================
+Raise with type and parenless arguments
+================
+
+raise ArgumentError, "bad"
+raise "boom"
+raise
+
+---
+
+(program
+  (raise
+    (constant)
+    (string
+      (string_content)))
+  (raise
+    (string
+      (string_content)))
+  (raise))

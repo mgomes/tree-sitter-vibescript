@@ -58,3 +58,165 @@ end
     (else
       (string
         (string_content)))))
+
+================
+Control flow as assignment values
+================
+
+x = if a > 0
+  1
+else
+  2
+end
+y = begin
+  compute()
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (if
+      (binary
+        (identifier)
+        (integer))
+      (integer)
+      (else
+        (integer))))
+  (assignment
+    (identifier)
+    (begin
+      (call
+        (identifier)))))
+
+================
+Contextual then and loop do
+================
+
+if a then puts 1 end
+while ready do
+  step()
+end
+
+---
+
+(program
+  (if
+    (identifier)
+    (command_call
+      (identifier)
+      (command_arguments
+        (integer))))
+  (while
+    (identifier)
+    (call
+      (identifier))))
+
+================
+Statement modifiers on control keywords
+================
+
+raise "x" if bad
+next if done
+break if full
+return 0 if empty
+
+---
+
+(program
+  (modifier
+    (raise
+      (string
+        (string_content)))
+    (identifier))
+  (modifier
+    (next)
+    (identifier))
+  (modifier
+    (break)
+    (identifier))
+  (modifier
+    (return
+      (integer))
+    (identifier)))
+
+================
+Multi value return and destructuring
+================
+
+def pair
+  return 1, 2
+end
+a, b = pair()
+c, d = 1, 2
+
+---
+
+(program
+  (method
+    (identifier)
+    (return
+      (integer)
+      (integer)))
+  (destructuring_assignment
+    (identifier)
+    (identifier)
+    (call
+      (identifier)))
+  (destructuring_assignment
+    (identifier)
+    (identifier)
+    (integer)
+    (integer)))
+
+================
+Break and next with values
+================
+
+r = [1, 2].map do |v|
+  next v * 2
+end
+while true
+  break 5
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (call
+      (array
+        (integer)
+        (integer))
+      (identifier)
+      (block
+        (block_parameters
+          (identifier))
+        (next
+          (binary
+            (identifier)
+            (integer))))))
+  (while
+    (true)
+    (break
+      (integer))))
+
+================
+Parenless yield arguments
+================
+
+def f
+  yield 1, 2
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (yield
+      (argument_list
+        (integer)
+        (integer)))))

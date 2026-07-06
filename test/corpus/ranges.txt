@@ -1,0 +1,219 @@
+================
+Endless range ends at a newline
+================
+
+x = 5..
+puts x
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (endless_range
+      (integer)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier))))
+
+================
+Exclusive endless range
+================
+
+x = 1...
+puts x
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (endless_range
+      (integer)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier))))
+
+================
+Beginless range assignment
+================
+
+y = ..5
+z = ...9
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (beginless_range
+      (integer)))
+  (assignment
+    (identifier)
+    (beginless_range
+      (integer))))
+
+================
+Open-ended subscript slices
+================
+
+a = arr[1..]
+b = arr[..2]
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (subscript
+      (identifier)
+      (endless_range
+        (integer))))
+  (assignment
+    (identifier)
+    (subscript
+      (identifier)
+      (beginless_range
+        (integer)))))
+
+================
+Bounded range endpoint continues inside parens
+================
+
+y = (3..
+9)
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (parenthesized
+      (binary
+        (integer)
+        (integer)))))
+
+================
+Parenthesized endless range
+================
+
+x = (5..)
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (parenthesized
+      (endless_range
+        (integer)))))
+
+================
+Endless ranges in when clauses
+================
+
+case n
+when 3.., 7..
+  puts 1
+else
+  puts 0
+end
+
+---
+
+(program
+  (case
+    (identifier)
+    (when
+      (endless_range
+        (integer))
+      (endless_range
+        (integer))
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))
+    (else
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer))))))
+
+================
+Endless ranges in array and hash literals
+================
+
+rs = [1.., ..5]
+h = { a: 1.. }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (array
+      (endless_range
+        (integer))
+      (beginless_range
+        (integer))))
+  (assignment
+    (identifier)
+    (hash
+      (hash_entry
+        (identifier)
+        (endless_range
+          (integer))))))
+
+================
+Endless range call arguments
+================
+
+puts arr.values_at(1..)
+puts 1..
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (call
+        (identifier)
+        (identifier)
+        (argument_list
+          (endless_range
+            (integer))))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (endless_range
+        (integer)))))
+
+================
+Same-line bounded ranges stay binary
+================
+
+x = 1..5
+for i in 1..5
+  puts i
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (binary
+      (integer)
+      (integer)))
+  (for
+    (identifier)
+    (binary
+      (integer)
+      (integer))
+    (command_call
+      (identifier)
+      (command_arguments
+        (identifier)))))
