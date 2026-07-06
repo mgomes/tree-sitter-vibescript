@@ -3,9 +3,11 @@
   "def"
   "end"
   "class"
+  "module"
   "if"
   "elsif"
   "else"
+  "then"
   "unless"
   "while"
   "until"
@@ -21,6 +23,12 @@
   "return"
   "yield"
   "private"
+  "public"
+  "protected"
+  "include"
+  "extend"
+  "alias"
+  "alias_method"
   "property"
   "getter"
   "setter"
@@ -29,18 +37,23 @@
   "or"
 ] @keyword
 
-; Break and next are named nodes
+; Break, next, and retry are named nodes
 (break) @keyword
 (next) @keyword
+(retry) @keyword
 
 ; Function definitions
 (method
   name: (identifier) @function.method)
 (method
   name: (self_method_name) @function.method)
+(method
+  name: (operator_name) @function.method)
 
-; Class definitions
+; Class and module definitions
 (class
+  name: (constant) @type)
+(module
   name: (constant) @type)
 
 ; Function calls
@@ -48,6 +61,11 @@
   method: (identifier) @function.call)
 (command_call
   method: (identifier) @function.call)
+
+; Callable constructors
+((call
+  method: (identifier) @function.builtin)
+  (#any-of? @function.builtin "proc" "lambda"))
 
 ; Type annotations
 (type_name
@@ -94,6 +112,16 @@
 (ivar_parameter
   (instance_variable) @variable.parameter)
 (block_parameters
+  (identifier) @variable.parameter)
+(keyword_parameter
+  name: (identifier) @variable.parameter)
+(splat_parameter
+  (identifier) @variable.parameter)
+(double_splat_parameter
+  (identifier) @variable.parameter)
+(block_parameter
+  (identifier) @variable.parameter)
+(lambda_parameters
   (identifier) @variable.parameter)
 
 ; Constants
