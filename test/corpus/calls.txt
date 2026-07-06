@@ -215,3 +215,126 @@ puts f 3, 4
         (command_arguments
           (integer)
           (integer))))))
+
+================
+Spaced bracket opens an array command argument
+================
+
+puts [3, 1, 2].sort
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (member_access
+        (array
+          (integer)
+          (integer)
+          (integer))
+        (identifier)))))
+
+================
+Array command arguments with further arguments
+================
+
+concat [1], [2]
+f x, [1]
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (array
+        (integer))
+      (array
+        (integer))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)
+      (array
+        (integer)))))
+
+================
+Multiline array command argument
+================
+
+puts [
+  3,
+  1,
+]
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (array
+        (integer)
+        (integer)))))
+
+================
+Flush brackets stay indexing
+================
+
+puts[1]
+a[0]
+a[0] = 1
+
+---
+
+(program
+  (subscript
+    (identifier)
+    (integer))
+  (subscript
+    (identifier)
+    (integer))
+  (assignment
+    (subscript
+      (identifier)
+      (integer))
+    (integer)))
+
+================
+Self never takes a bracket command argument
+================
+
+class C
+  def probe
+    self [0]
+  end
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (method
+      (identifier)
+      (subscript
+        (self)
+        (integer)))))
+
+================
+Assignment to an array command argument
+================
+
+f [0] = 5
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (assignment
+        (array
+          (integer))
+        (integer)))))

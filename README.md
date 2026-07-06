@@ -13,10 +13,11 @@ tree-sitter test
 
 ### Known divergences from the interpreter
 
-The interpreter disambiguates several prefix sigils (`*`, `&`, `/`) by
-consulting its local-variable table: a slash or star after a *known local*
-is an operator, while after a non-local callee it opens a parenless
-argument. Tree-sitter has no symbol table, so this grammar approximates the
+The interpreter disambiguates several prefix sigils (`*`, `&`, `/`, `[`)
+by consulting its local-variable table: a slash, star, or bracket after a
+*known local* is an operator or index, while after a non-local callee it
+opens a parenless argument. Tree-sitter has no symbol table, so this
+grammar approximates the
 rule with spacing alone (space before the sigil, none after it). Both
 readings keep the tree free of `ERROR` nodes; only which nodes appear can
 differ from how the interpreter executes the code:
@@ -30,6 +31,14 @@ differ from how the interpreter executes the code:
   argument even when `f` is a local (the interpreter keeps dividing for
   locals, including the implicit `it` parameter and enclosing class
   constants).
+- `a [0]` (spaced bracket) parses as an array command argument even when
+  `a` is a local, and `a [0] = 1` becomes a command whose argument is an
+  assignment to an array literal (the interpreter indexes locals in every
+  spacing). Flush brackets (`a[0]`, `puts[1]`) always stay indexing, and
+  `self [0]` stays indexing because a command callee must be an
+  identifier. `f [0] = 5` with a non-local callee is a parse error in the
+  interpreter; the grammar keeps the intact command-with-assignment tree
+  instead.
 
 Other approximations, all chosen so that the tree stays intact:
 

@@ -316,6 +316,13 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       return false;
     }
+    // Array-literal argument: a bracket detached from the callee opens an
+    // array (`puts [3, 1, 2].sort`), while a flush bracket (`puts[1]`) stays
+    // indexing because no space precedes it.
+    if (c == '[') {
+      lexer->result_symbol = COMMAND_START;
+      return true;
+    }
     // Beginless range argument: `puts ..5`.
     if (c == '.') {
       advance(lexer);
