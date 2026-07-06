@@ -19,6 +19,66 @@
     }
   },
   {
+    "type": "alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "alias_method",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "argument_list",
     "named": true,
     "fields": {},
@@ -35,7 +95,15 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
+          "named": true
+        },
+        {
+          "type": "block_argument",
           "named": true
         },
         {
@@ -52,6 +120,14 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "double_splat_argument",
+          "named": true
+        },
+        {
+          "type": "endless_range",
           "named": true
         },
         {
@@ -83,6 +159,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -107,11 +187,19 @@
           "named": true
         },
         {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
           "type": "scope_resolution",
           "named": true
         },
         {
           "type": "self",
+          "named": true
+        },
+        {
+          "type": "splat_argument",
           "named": true
         },
         {
@@ -158,6 +246,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -175,6 +267,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "endless_range",
           "named": true
         },
         {
@@ -202,6 +298,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -223,6 +323,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -277,11 +381,23 @@
           "named": true
         },
         {
+          "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
           "named": true
         },
         {
@@ -297,11 +413,19 @@
           "named": true
         },
         {
+          "type": "endless_range",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
           "named": true
         },
         {
@@ -313,11 +437,19 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "instance_variable",
           "named": true
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -342,6 +474,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -375,6 +511,18 @@
         {
           "type": "unary",
           "named": true
+        },
+        {
+          "type": "unless",
+          "named": true
+        },
+        {
+          "type": "until",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
         }
       ]
     }
@@ -388,6 +536,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -397,6 +549,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -444,6 +600,10 @@
           "named": true
         },
         {
+          "type": "else",
+          "named": true
+        },
+        {
           "type": "ensure",
           "named": true
         },
@@ -484,6 +644,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -493,6 +657,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -529,6 +697,14 @@
         },
         {
           "type": "rescue",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -587,11 +763,11 @@
     }
   },
   {
-    "type": "binary",
+    "type": "beginless_range",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -600,6 +776,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -647,6 +827,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -668,6 +852,141 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "binary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -714,6 +1033,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -723,6 +1046,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -810,6 +1137,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -819,6 +1150,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -851,6 +1186,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -909,6 +1252,152 @@
     }
   },
   {
+    "type": "block_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block_parameters",
     "named": true,
     "fields": {},
@@ -922,6 +1411,137 @@
         },
         {
           "type": "typed_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "break",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -959,6 +1579,10 @@
           },
           {
             "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
             "named": true
           },
           {
@@ -1006,6 +1630,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -1027,6 +1655,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -1096,6 +1728,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -1140,6 +1776,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -1161,6 +1801,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -1233,7 +1877,87 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "alias_method",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "class",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
           "type": "class_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "command_call",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "destructuring_assignment",
+          "named": true
+        },
+        {
+          "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
           "named": true
         },
         {
@@ -1241,7 +1965,59 @@
           "named": true
         },
         {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "mixin",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
           "named": true
         },
         {
@@ -1249,7 +2025,87 @@
           "named": true
         },
         {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
           "type": "setter_declaration",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "unless",
+          "named": true
+        },
+        {
+          "type": "until",
+          "named": true
+        },
+        {
+          "type": "visibility_directive",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
@@ -1269,6 +2125,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -1316,6 +2176,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -1337,6 +2201,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -1391,7 +2259,15 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
+          "named": true
+        },
+        {
+          "type": "block_argument",
           "named": true
         },
         {
@@ -1403,11 +2279,23 @@
           "named": true
         },
         {
+          "type": "command_call",
+          "named": true
+        },
+        {
           "type": "compound_assignment",
           "named": true
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "double_splat_argument",
+          "named": true
+        },
+        {
+          "type": "endless_range",
           "named": true
         },
         {
@@ -1439,6 +2327,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -1463,11 +2355,19 @@
           "named": true
         },
         {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
           "type": "scope_resolution",
           "named": true
         },
         {
           "type": "self",
+          "named": true
+        },
+        {
+          "type": "splat_argument",
           "named": true
         },
         {
@@ -1540,11 +2440,23 @@
           "named": true
         },
         {
+          "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
           "named": true
         },
         {
@@ -1560,11 +2472,19 @@
           "named": true
         },
         {
+          "type": "endless_range",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
           "named": true
         },
         {
@@ -1576,11 +2496,19 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "instance_variable",
           "named": true
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -1605,6 +2533,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -1638,6 +2570,18 @@
         {
           "type": "unary",
           "named": true
+        },
+        {
+          "type": "unless",
+          "named": true
+        },
+        {
+          "type": "until",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
         }
       ]
     }
@@ -1669,15 +2613,23 @@
         ]
       },
       "right": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": ",",
+            "named": false
+          },
           {
             "type": "array",
             "named": true
           },
           {
             "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
             "named": true
           },
           {
@@ -1725,6 +2677,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -1746,6 +2702,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -1790,12 +2750,12 @@
     "fields": {}
   },
   {
-    "type": "else",
+    "type": "double_splat_argument",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "array",
@@ -1806,7 +2766,161 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "double_splat_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -1890,6 +3004,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -1899,6 +3017,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -1931,6 +3053,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -2005,6 +3135,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -2049,6 +3183,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -2070,6 +3208,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -2112,6 +3254,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -2121,6 +3267,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -2204,6 +3354,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -2213,6 +3367,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -2245,6 +3403,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -2303,12 +3469,12 @@
     }
   },
   {
-    "type": "ensure",
+    "type": "endless_range",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "array",
@@ -2319,7 +3485,146 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ensure",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -2403,6 +3708,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -2412,6 +3721,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -2444,6 +3757,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -2533,6 +3854,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -2577,6 +3902,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -2598,6 +3927,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -2650,6 +3983,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -2659,6 +3996,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -2742,6 +4083,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -2751,6 +4096,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -2783,6 +4132,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -2843,7 +4200,26 @@
   {
     "type": "getter_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "private",
+            "named": false
+          },
+          {
+            "type": "protected",
+            "named": false
+          },
+          {
+            "type": "public",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -2901,6 +4277,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -2918,6 +4298,10 @@
           },
           {
             "type": "constant",
+            "named": true
+          },
+          {
+            "type": "endless_range",
             "named": true
           },
           {
@@ -2945,6 +4329,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -2966,6 +4354,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -3021,6 +4413,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -3065,6 +4461,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -3086,6 +4486,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -3128,6 +4532,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -3137,6 +4545,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -3228,6 +4640,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -3237,6 +4653,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -3269,6 +4689,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -3372,6 +4800,146 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "endless_range",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "keyword_parameter",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -3416,6 +4984,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -3437,6 +5009,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -3472,7 +5048,62 @@
             "named": true
           }
         ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
       }
+    }
+  },
+  {
+    "type": "lambda",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "lambda_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lambda_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3489,6 +5120,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -3540,6 +5175,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -3561,6 +5200,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -3611,8 +5254,30 @@
             "named": true
           },
           {
+            "type": "operator_name",
+            "named": true
+          },
+          {
             "type": "self_method_name",
             "named": true
+          }
+        ]
+      },
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "private",
+            "named": false
+          },
+          {
+            "type": "protected",
+            "named": false
+          },
+          {
+            "type": "public",
+            "named": false
           }
         ]
       }
@@ -3621,6 +5286,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -3631,6 +5300,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -3678,6 +5351,10 @@
           "named": true
         },
         {
+          "type": "ensure",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -3714,6 +5391,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -3723,6 +5404,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -3759,6 +5444,18 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -3821,6 +5518,40 @@
     }
   },
   {
+    "type": "mixin",
+    "named": true,
+    "fields": {
+      "keyword": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extend",
+            "named": false
+          },
+          {
+            "type": "include",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "scoped_constant",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "modifier",
     "named": true,
     "fields": {
@@ -3837,7 +5568,15 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
+            "named": true
+          },
+          {
+            "type": "break",
             "named": true
           },
           {
@@ -3881,7 +5620,15 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "next",
             "named": true
           },
           {
@@ -3901,7 +5648,23 @@
             "named": true
           },
           {
+            "type": "raise",
+            "named": true
+          },
+          {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "retry",
+            "named": true
+          },
+          {
+            "type": "return",
             "named": true
           },
           {
@@ -3935,6 +5698,10 @@
           {
             "type": "unary",
             "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
           }
         ]
       },
@@ -3948,6 +5715,10 @@
           },
           {
             "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
             "named": true
           },
           {
@@ -3995,6 +5766,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -4016,6 +5791,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -4077,40 +5856,266 @@
     }
   },
   {
-    "type": "nil",
+    "type": "module",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "parameters",
-    "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "ivar_parameter",
+          "type": "alias",
           "named": true
         },
         {
-          "type": "simple_parameter",
+          "type": "alias_method",
           "named": true
         },
         {
-          "type": "typed_parameter",
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "class_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "command_call",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "destructuring_assignment",
+          "named": true
+        },
+        {
+          "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "getter_declaration",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method",
+          "named": true
+        },
+        {
+          "type": "mixin",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "property_declaration",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "setter_declaration",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "unless",
+          "named": true
+        },
+        {
+          "type": "until",
+          "named": true
+        },
+        {
+          "type": "visibility_directive",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "parenthesized",
+    "type": "next",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "array",
@@ -4118,6 +6123,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -4165,6 +6174,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4186,6 +6199,194 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nil",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "operator_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_parameter",
+          "named": true
+        },
+        {
+          "type": "double_splat_parameter",
+          "named": true
+        },
+        {
+          "type": "ivar_parameter",
+          "named": true
+        },
+        {
+          "type": "keyword_parameter",
+          "named": true
+        },
+        {
+          "type": "simple_parameter",
+          "named": true
+        },
+        {
+          "type": "splat_parameter",
+          "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "endless_range",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -4233,6 +6434,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -4242,6 +6447,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -4325,6 +6534,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4334,6 +6547,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -4366,6 +6583,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -4426,7 +6651,26 @@
   {
     "type": "property_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "private",
+            "named": false
+          },
+          {
+            "type": "protected",
+            "named": false
+          },
+          {
+            "type": "public",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -4443,8 +6687,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "array",
@@ -4455,7 +6699,15 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
+          "named": true
+        },
+        {
+          "type": "block_argument",
           "named": true
         },
         {
@@ -4472,6 +6724,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "double_splat_argument",
           "named": true
         },
         {
@@ -4499,6 +6755,14 @@
           "named": true
         },
         {
+          "type": "keyword_argument",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4523,11 +6787,19 @@
           "named": true
         },
         {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
           "type": "scope_resolution",
           "named": true
         },
         {
           "type": "self",
+          "named": true
+        },
+        {
+          "type": "splat_argument",
           "named": true
         },
         {
@@ -4586,11 +6858,26 @@
   {
     "type": "rescue",
     "named": true,
-    "fields": {},
+    "fields": {
+      "binding": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -4601,6 +6888,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -4684,6 +6975,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4693,6 +6988,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -4728,11 +7027,23 @@
           "named": true
         },
         {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
+          "named": true
+        },
+        {
           "type": "return",
           "named": true
         },
         {
           "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "scoped_constant",
           "named": true
         },
         {
@@ -4783,11 +7094,269 @@
     }
   },
   {
+    "type": "rescue_modifier",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      },
+      "handler": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "return",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -4796,6 +7365,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -4816,6 +7389,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "endless_range",
           "named": true
         },
         {
@@ -4843,6 +7420,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4864,6 +7445,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -4933,6 +7518,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -4977,6 +7566,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -4998,6 +7591,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5030,6 +7627,21 @@
         },
         {
           "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scoped_constant",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
           "named": true
         }
       ]
@@ -5058,7 +7670,26 @@
   {
     "type": "setter_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "visibility": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "private",
+            "named": false
+          },
+          {
+            "type": "protected",
+            "named": false
+          },
+          {
+            "type": "public",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -5084,6 +7715,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -5131,6 +7766,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -5152,6 +7791,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5184,6 +7827,152 @@
         },
         {
           "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "splat_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "compound_assignment",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "percent_array",
+          "named": true
+        },
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "splat_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -5240,6 +8029,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -5257,6 +8050,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "endless_range",
           "named": true
         },
         {
@@ -5284,6 +8081,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -5305,6 +8106,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5359,6 +8164,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -5403,6 +8212,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -5424,6 +8237,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5580,6 +8397,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -5624,6 +8445,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -5645,6 +8470,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5703,6 +8532,10 @@
           "named": true
         },
         {
+          "type": "beginless_range",
+          "named": true
+        },
+        {
           "type": "binary",
           "named": true
         },
@@ -5747,6 +8580,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -5768,6 +8605,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
           "named": true
         },
         {
@@ -5822,6 +8663,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -5866,6 +8711,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -5887,6 +8736,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -5929,6 +8782,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -5938,6 +8795,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -6025,6 +8886,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -6034,6 +8899,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -6066,6 +8935,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -6140,6 +9017,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -6184,6 +9065,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -6205,6 +9090,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -6247,6 +9136,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -6256,6 +9149,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -6339,6 +9236,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -6348,6 +9249,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -6380,6 +9285,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -6438,6 +9351,21 @@
     }
   },
   {
+    "type": "visibility_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "symbol",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "when",
     "named": true,
     "fields": {},
@@ -6445,6 +9373,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -6455,6 +9387,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -6502,6 +9438,10 @@
           "named": true
         },
         {
+          "type": "endless_range",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -6538,6 +9478,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -6547,6 +9491,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -6579,6 +9527,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -6653,6 +9609,10 @@
             "named": true
           },
           {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
             "type": "binary",
             "named": true
           },
@@ -6697,6 +9657,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "member_access",
             "named": true
           },
@@ -6718,6 +9682,10 @@
           },
           {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           },
           {
@@ -6760,6 +9728,10 @@
       "required": false,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -6769,6 +9741,10 @@
         },
         {
           "type": "begin",
+          "named": true
+        },
+        {
+          "type": "beginless_range",
           "named": true
         },
         {
@@ -6852,6 +9828,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "member_access",
           "named": true
         },
@@ -6861,6 +9841,10 @@
         },
         {
           "type": "modifier",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         },
         {
@@ -6893,6 +9877,14 @@
         },
         {
           "type": "require",
+          "named": true
+        },
+        {
+          "type": "rescue_modifier",
+          "named": true
+        },
+        {
+          "type": "retry",
           "named": true
         },
         {
@@ -7110,6 +10102,10 @@
     "named": false
   },
   {
+    "type": "=>",
+    "named": false
+  },
+  {
     "type": "=~",
     "named": false
   },
@@ -7130,7 +10126,23 @@
     "named": false
   },
   {
+    "type": "[]",
+    "named": false
+  },
+  {
+    "type": "[]=",
+    "named": false
+  },
+  {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "alias",
+    "named": false
+  },
+  {
+    "type": "alias_method",
     "named": false
   },
   {
@@ -7147,7 +10159,7 @@
   },
   {
     "type": "break",
-    "named": true
+    "named": false
   },
   {
     "type": "case",
@@ -7203,6 +10215,10 @@
     "named": false
   },
   {
+    "type": "extend",
+    "named": false
+  },
+  {
     "type": "false",
     "named": true
   },
@@ -7231,6 +10247,10 @@
     "named": false
   },
   {
+    "type": "include",
+    "named": false
+  },
+  {
     "type": "instance_variable",
     "named": true
   },
@@ -7239,8 +10259,12 @@
     "named": true
   },
   {
+    "type": "module",
+    "named": false
+  },
+  {
     "type": "next",
-    "named": true
+    "named": false
   },
   {
     "type": "nil",
@@ -7260,6 +10284,14 @@
   },
   {
     "type": "property",
+    "named": false
+  },
+  {
+    "type": "protected",
+    "named": false
+  },
+  {
+    "type": "public",
     "named": false
   },
   {
@@ -7283,6 +10315,10 @@
     "named": false
   },
   {
+    "type": "retry",
+    "named": true
+  },
+  {
     "type": "return",
     "named": false
   },
@@ -7301,6 +10337,10 @@
   {
     "type": "symbol",
     "named": true
+  },
+  {
+    "type": "then",
+    "named": false
   },
   {
     "type": "true",

@@ -109,3 +109,36 @@ Hashes
     (hash_entry
       key: (identifier)
       value: (true))))
+
+================
+Hex and unicode string escapes
+================
+
+puts "\x41\u0041\e"
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (string
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)))))
+
+================
+Subscript slicing with two indices
+================
+
+x = arr[1, 2]
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (subscript
+      (identifier)
+      (integer)
+      (integer))))

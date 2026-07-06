@@ -1,0 +1,186 @@
+================
+Stabby lambda without parameters
+================
+
+f = -> { 1 }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (lambda
+      (block
+        (integer)))))
+
+================
+Stabby lambda with parameters
+================
+
+f = ->(a, b) { a + b }
+g = ->() { 1 }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (lambda
+      (lambda_parameters
+        (identifier)
+        (identifier))
+      (block
+        (binary
+          (identifier)
+          (identifier)))))
+  (assignment
+    (identifier)
+    (lambda
+      (lambda_parameters)
+      (block
+        (integer)))))
+
+================
+Stabby lambda with do end body
+================
+
+f = ->(n) do
+  n * 2
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (lambda
+      (lambda_parameters
+        (identifier))
+      (block
+        (binary
+          (identifier)
+          (integer))))))
+
+================
+Stabby lambda with typed parameters
+================
+
+f = ->(x: int) { x }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (lambda
+      (lambda_parameters
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
+      (block
+        (identifier)))))
+
+================
+Lambda called immediately
+================
+
+x = -> { 1 }.call
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (member_access
+      (lambda
+        (block
+          (integer)))
+      (identifier))))
+
+================
+Proc and lambda constructors
+================
+
+p = proc { 1 }
+q = Proc.new { 1 }
+l = lambda { |x| x }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (call
+      (identifier)
+      (block
+        (integer))))
+  (assignment
+    (identifier)
+    (call
+      (constant)
+      (identifier)
+      (block
+        (integer))))
+  (assignment
+    (identifier)
+    (call
+      (identifier)
+      (block
+        (block_parameters
+          (identifier))
+        (identifier)))))
+
+================
+Return annotation binds on the signature line only
+================
+
+def foo() -> int
+  1
+end
+
+def bar
+  -> { 2 }
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters)
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (integer))
+  (method
+    (identifier)
+    (lambda
+      (block
+        (integer)))))
+
+================
+Proc and lambda stay identifiers
+================
+
+proc = 5
+lambda = 6
+puts proc + lambda
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (binary
+        (identifier)
+        (identifier)))))

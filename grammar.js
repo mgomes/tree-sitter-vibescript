@@ -31,16 +31,36 @@ module.exports = grammar({
     $.regex,
     $._block_open,
     $._command_start,
+    $._endless_marker,
+    $._signature_arrow,
+    $._module_keyword,
+    $._include_keyword,
+    $._extend_keyword,
+    $._public_keyword,
+    $._protected_keyword,
+    $._alias_keyword,
+    $._rescue_modifier_keyword,
+    $._loop_do,
   ],
 
   conflicts: ($) => [
     [$.simple_parameter, $._primary],
     [$.ivar_parameter, $._primary],
     [$.require, $._primary],
-    [$.rescue, $._primary],
     [$.modifier, $._expression_statement],
-    [$.splat_target, $._primary],
     [$.type_annotation],
+    [$.class_variable_assignment, $._primary],
+    [$.argument_list],
+    [$._expression_or_closed_range, $._paren_argument],
+    [$._expression_or_closed_range, $._argument],
+    [$.type_shape, $.hash],
+    [$.type_name, $._primary],
+    [$.type_name, $.nil],
+    [$._statement, $.modifier],
+    [$.binary, $.beginless_range],
+    [$.scoped_constant, $._primary],
+    [$._rescue_type, $._primary],
+    [$.raise, $._expression_or_closed_range],
   ],
 
   rules: {
@@ -53,18 +73,35 @@ module.exports = grammar({
       choice(
         $.method,
         $.class,
+        $.module,
         $.export_method,
       ),
 
     method: ($) =>
       seq(
-        optional("private"),
+        optional(field("visibility", $._visibility_modifier)),
         "def",
-        field("name", choice($.identifier, $.self_method_name)),
+        field("name", choice($.identifier, $.self_method_name, $.operator_name)),
         optional($.parameters),
         optional($.return_type),
         optional($._body),
+        repeat($.rescue),
+        optional($.ensure),
         "end",
+      ),
+
+    _visibility_modifier: ($) =>
+      choice(
+        "private",
+        alias($._public_keyword, "public"),
+        alias($._protected_keyword, "protected"),
+      ),
+
+    operator_name: (_$) =>
+      choice(
+        "+", "-", "*", "/", "%", "**", "<<", "&",
+        "==", "!=", "<", "<=", ">", ">=", "<=>",
+        "[]", "[]=",
       ),
 
     self_method_name: ($) =>
@@ -92,9 +129,23 @@ module.exports = grammar({
     _parameter: ($) =>
       choice(
         $.typed_parameter,
+        $.keyword_parameter,
         $.ivar_parameter,
+        $.splat_parameter,
+        $.double_splat_parameter,
+        $.block_parameter,
         $.simple_parameter,
       ),
+
+    // `name: default` declares an optional keyword parameter and `name:` a
+    // required one; `name: Type` is a typed positional parameter. When the
+    // payload also parses as a type (`a: int`), the typed reading wins.
+    keyword_parameter: ($) =>
+      prec.dynamic(-5, seq(
+        field("name", $.identifier),
+        ":",
+        optional(field("default", $._expression)),
+      )),
 
     simple_parameter: ($) =>
       seq(
@@ -115,6 +166,15 @@ module.exports = grammar({
         $.instance_variable,
         optional(seq(":", $.type_annotation)),
       ),
+
+    splat_parameter: ($) =>
+      seq("*", $.identifier),
+
+    double_splat_parameter: ($) =>
+      seq("**", $.identifier),
+
+    block_parameter: ($) =>
+      seq("&", $.identifier),
 
     type_annotation: ($) =>
       seq(
@@ -167,7 +227,7 @@ module.exports = grammar({
 
     return_type: ($) =>
       seq(
-        "->",
+        alias($._signature_arrow, "->"),
         $.type_annotation,
       ),
 
@@ -187,6 +247,84 @@ module.exports = grammar({
           $.setter_declaration,
           $.class_variable_assignment,
           $.method,
+          $.mixin,
+          $.visibility_directive,
+          $.alias_method,
+          $.class,
+          $._statement,
+        ),
+      ),
+
+    module: ($) =>
+      seq(
+        alias($._module_keyword, "module"),
+        field("name", $.constant),
+        optional($._module_body),
+        "end",
+      ),
+
+    _module_body: ($) =>
+      repeat1(
+        choice(
+          $.property_declaration,
+          $.getter_declaration,
+          $.setter_declaration,
+          $.class_variable_assignment,
+          $.method,
+          $.mixin,
+          $.visibility_directive,
+          $.alias_method,
+          $.module,
+          $._statement,
+        ),
+      ),
+
+    mixin: ($) =>
+      seq(
+        field("keyword", choice(
+          alias($._include_keyword, "include"),
+          alias($._extend_keyword, "extend"),
+        )),
+        choice(
+          seq("(", $._mixin_list, ")"),
+          $._mixin_list,
+        ),
+      ),
+
+    _mixin_list: ($) =>
+      seq(
+        $._mixin_name,
+        repeat(seq(",", $._mixin_name)),
+      ),
+
+    _mixin_name: ($) =>
+      choice($.constant, $.scoped_constant),
+
+    scoped_constant: ($) =>
+      seq($.constant, repeat1(seq("::", $.constant))),
+
+    visibility_directive: ($) =>
+      prec.dynamic(-10, prec.right(seq(
+        $._visibility_modifier,
+        optional(seq($.symbol, repeat(seq(",", $.symbol)))),
+      ))),
+
+    alias: ($) =>
+      seq(
+        alias($._alias_keyword, "alias"),
+        field("name", $._alias_name),
+        field("target", $._alias_name),
+      ),
+
+    _alias_name: ($) =>
+      choice($.identifier, $.symbol),
+
+    alias_method: ($) =>
+      seq(
+        "alias_method",
+        choice(
+          seq("(", field("name", $.symbol), ",", field("target", $.symbol), ")"),
+          seq(field("name", $.symbol), ",", field("target", $.symbol)),
         ),
       ),
 
@@ -198,6 +336,7 @@ module.exports = grammar({
 
     property_declaration: ($) =>
       seq(
+        optional(field("visibility", $._visibility_modifier)),
         "property",
         $.accessor_name,
         repeat(seq(",", $.accessor_name)),
@@ -205,6 +344,7 @@ module.exports = grammar({
 
     getter_declaration: ($) =>
       seq(
+        optional(field("visibility", $._visibility_modifier)),
         "getter",
         $.accessor_name,
         repeat(seq(",", $.accessor_name)),
@@ -212,6 +352,7 @@ module.exports = grammar({
 
     setter_declaration: ($) =>
       seq(
+        optional(field("visibility", $._visibility_modifier)),
         "setter",
         $.accessor_name,
         repeat(seq(",", $.accessor_name)),
@@ -238,9 +379,11 @@ module.exports = grammar({
         $.return,
         $.break,
         $.next,
+        $.retry,
         $.raise,
         $.yield,
         $.require,
+        $.alias,
         $.modifier,
         $.destructuring_assignment,
         $.command_call,
@@ -248,22 +391,39 @@ module.exports = grammar({
         $._expression_statement,
       ),
 
+    // prec.right: in `puts f 3, 4` the comma-separated list binds to the
+    // innermost parenless call, matching Ruby's greedy command arguments.
     command_call: ($) =>
-      prec.left(seq(
+      prec.right(seq(
         field("method", $.identifier),
         $._command_start,
         field("arguments", $.command_arguments),
       )),
 
     command_arguments: ($) =>
-      seq(
+      prec.right(seq(
+        $._command_argument,
+        repeat(seq(",", $._command_argument)),
+      )),
+
+    _command_argument: ($) =>
+      choice(
         $._argument,
-        repeat(seq(",", $._argument)),
+        $.endless_range,
+        $.command_call,
       ),
 
     modifier: ($) =>
       prec.left(seq(
-        field("body", $._expression),
+        field("body", choice(
+          $._expression,
+          $.return,
+          $.break,
+          $.next,
+          $.retry,
+          $.raise,
+          $.yield,
+        )),
         field("keyword", choice("if", "unless", "while", "until")),
         field("condition", $._expression),
       )),
@@ -275,8 +435,21 @@ module.exports = grammar({
       prec.right(PREC.ASSIGNMENT, seq(
         $._expression,
         "=",
-        $._expression,
+        $._rhs_expression,
       )),
+
+    _rhs_expression: ($) =>
+      choice(
+        $._expression,
+        $.endless_range,
+        $.if,
+        $.unless,
+        $.case,
+        $.begin,
+        $.while,
+        $.until,
+        $.for,
+      ),
 
     destructuring_assignment: ($) =>
       prec.right(PREC.ASSIGNMENT, seq(
@@ -285,7 +458,10 @@ module.exports = grammar({
           repeat1(seq(",", $._destructure_target)),
         )),
         "=",
-        field("right", $._expression),
+        field("right", seq(
+          $._expression,
+          repeat(seq(",", $._expression)),
+        )),
       )),
 
     _destructure_target: ($) =>
@@ -302,23 +478,45 @@ module.exports = grammar({
       prec.right(PREC.ASSIGNMENT, seq(
         $._expression,
         choice("+=", "-=", "*=", "/=", "%=", "**=", "||=", "&&="),
-        $._expression,
+        $._rhs_expression,
       )),
 
     return: ($) =>
-      prec.right(seq("return", optional($._expression))),
+      prec.right(seq(
+        "return",
+        optional(seq(
+          $._range_or_expression,
+          repeat(seq(",", $._range_or_expression)),
+        )),
+      )),
 
-    break: (_$) => "break",
+    _range_or_expression: ($) =>
+      choice($._expression, $.endless_range),
 
-    next: (_$) => "next",
+    break: ($) =>
+      prec.right(seq("break", optional($._expression))),
+
+    next: ($) =>
+      prec.right(seq("next", optional($._expression))),
+
+    retry: (_$) => "retry",
 
     raise: ($) =>
-      seq("raise", "(", $._expression, ")"),
+      prec.right(seq(
+        "raise",
+        optional(choice(
+          prec.dynamic(10, seq("(", $._expression, ")")),
+          seq($._argument, repeat(seq(",", $._argument))),
+        )),
+      )),
 
     yield: ($) =>
       prec.right(seq(
         "yield",
-        optional(seq("(", optional($.argument_list), ")")),
+        optional(choice(
+          prec.dynamic(10, seq("(", optional($.argument_list), ")")),
+          $.argument_list,
+        )),
       )),
 
     require: ($) =>
@@ -338,6 +536,7 @@ module.exports = grammar({
       seq(
         "if",
         field("condition", $._expression),
+        optional("then"),
         optional($._body),
         repeat($.elsif),
         optional($.else),
@@ -348,6 +547,7 @@ module.exports = grammar({
       seq(
         "elsif",
         field("condition", $._expression),
+        optional("then"),
         optional($._body),
       ),
 
@@ -361,6 +561,7 @@ module.exports = grammar({
       seq(
         "unless",
         field("condition", $._expression),
+        optional("then"),
         optional($._body),
         optional($.else),
         "end",
@@ -378,15 +579,20 @@ module.exports = grammar({
     when: ($) =>
       seq(
         "when",
-        $._expression,
-        repeat(seq(",", $._expression)),
+        $._range_or_expression,
+        repeat(seq(",", $._range_or_expression)),
+        optional("then"),
         optional($._body),
       ),
 
+    // The loop separator `do` is an external token so that in `while f do`
+    // the `do` closes the loop header instead of opening a block on the
+    // condition's call, matching Ruby's binding.
     while: ($) =>
       seq(
         "while",
         field("condition", $._expression),
+        optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
       ),
@@ -395,6 +601,7 @@ module.exports = grammar({
       seq(
         "until",
         field("condition", $._expression),
+        optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
       ),
@@ -405,6 +612,7 @@ module.exports = grammar({
         field("variable", $.identifier),
         "in",
         field("iterable", $._expression),
+        optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
       ),
@@ -414,6 +622,7 @@ module.exports = grammar({
         "begin",
         optional($._body),
         repeat($.rescue),
+        optional($.else),
         optional($.ensure),
         "end",
       ),
@@ -421,9 +630,16 @@ module.exports = grammar({
     rescue: ($) =>
       seq(
         "rescue",
-        optional(prec.dynamic(10, seq("(", $.constant, ")"))),
+        optional(choice(
+          prec.dynamic(10, seq("(", $._rescue_type, ")")),
+          $._rescue_type,
+        )),
+        optional(seq("=>", field("binding", $.identifier))),
         optional($._body),
       ),
+
+    _rescue_type: ($) =>
+      choice($.constant, $.scoped_constant),
 
     ensure: ($) =>
       seq(
@@ -440,6 +656,8 @@ module.exports = grammar({
         $.ternary,
         $.binary,
         $.unary,
+        $.beginless_range,
+        $.rescue_modifier,
         $.call,
         $.member_access,
         $.scope_resolution,
@@ -462,6 +680,43 @@ module.exports = grammar({
         prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice("*", "/", "%"), $._expression)),
         prec.right(PREC.POWER, seq($._expression, "**", $._expression)),
       ),
+
+    // Dynamic -1: when GLR can read `expr .. expr` either as one binary range
+    // or as `expr` followed by a beginless-range statement, the binary range
+    // wins.
+    beginless_range: ($) =>
+      prec.dynamic(-1, prec.left(PREC.RANGE, seq(
+        choice("..", "..."),
+        $._expression,
+      ))),
+
+    endless_range: ($) =>
+      prec.left(PREC.RANGE, seq(
+        $._expression,
+        choice("..", "..."),
+        $._endless_marker,
+      )),
+
+    _endless_range_closed: ($) =>
+      prec.left(PREC.RANGE, seq(
+        $._expression,
+        choice("..", "..."),
+      )),
+
+    _expression_or_closed_range: ($) =>
+      choice(
+        $._expression,
+        alias($._endless_range_closed, $.endless_range),
+      ),
+
+    // The external keyword only fires on the body's own line, so a `rescue`
+    // opening a new line always reads as a begin/def rescue clause.
+    rescue_modifier: ($) =>
+      prec.left(PREC.RESCUE, seq(
+        field("body", $._expression),
+        alias($._rescue_modifier_keyword, "rescue"),
+        field("handler", $._expression),
+      )),
 
     ternary: ($) =>
       prec.right(PREC.CONDITIONAL, seq(
@@ -514,9 +769,35 @@ module.exports = grammar({
       prec(PREC.CALL, seq(
         $._expression,
         "[",
-        $._expression,
+        $._expression_or_closed_range,
+        repeat(seq(",", $._expression_or_closed_range)),
         "]",
       )),
+
+    lambda: ($) =>
+      seq(
+        "->",
+        optional($.lambda_parameters),
+        field("body", $.block),
+      ),
+
+    lambda_parameters: ($) =>
+      seq(
+        "(",
+        optional(
+          seq(
+            $._lambda_parameter,
+            repeat(seq(",", $._lambda_parameter)),
+          ),
+        ),
+        ")",
+      ),
+
+    _lambda_parameter: ($) =>
+      choice(
+        $.typed_parameter,
+        $.identifier,
+      ),
 
     block: ($) =>
       choice(
@@ -550,14 +831,23 @@ module.exports = grammar({
 
     argument_list: ($) =>
       seq(
-        $._argument,
-        repeat(seq(",", $._argument)),
+        $._paren_argument,
+        repeat(seq(",", $._paren_argument)),
         optional(","),
+      ),
+
+    _paren_argument: ($) =>
+      choice(
+        $._argument,
+        alias($._endless_range_closed, $.endless_range),
       ),
 
     _argument: ($) =>
       choice(
         $.keyword_argument,
+        $.splat_argument,
+        $.double_splat_argument,
+        $.block_argument,
         $._expression,
       ),
 
@@ -565,8 +855,17 @@ module.exports = grammar({
       seq(
         field("key", $.identifier),
         ":",
-        field("value", $._expression),
+        field("value", $._expression_or_closed_range),
       ),
+
+    splat_argument: ($) =>
+      seq("*", $._expression),
+
+    double_splat_argument: ($) =>
+      seq("**", $._expression),
+
+    block_argument: ($) =>
+      seq("&", $._expression),
 
     // --- Primaries ---
 
@@ -581,6 +880,7 @@ module.exports = grammar({
         $.quoted_symbol,
         $.percent_array,
         $.regex,
+        $.lambda,
         $.true,
         $.false,
         $.nil,
@@ -593,15 +893,15 @@ module.exports = grammar({
       ),
 
     parenthesized: ($) =>
-      seq("(", $._expression, ")"),
+      seq("(", $._expression_or_closed_range, ")"),
 
     array: ($) =>
       seq(
         "[",
         optional(
           seq(
-            $._expression,
-            repeat(seq(",", $._expression)),
+            $._expression_or_closed_range,
+            repeat(seq(",", $._expression_or_closed_range)),
             optional(","),
           ),
         ),
@@ -626,7 +926,7 @@ module.exports = grammar({
         seq(
           field("key", choice($.identifier, $.string)),
           ":",
-          field("value", $._expression),
+          field("value", $._expression_or_closed_range),
         ),
         // value omission: { name:, age: } takes the value from a local of the same name
         seq(
@@ -665,7 +965,7 @@ module.exports = grammar({
       /[^"\\]+/,
 
     escape_sequence: (_$) =>
-      /\\[nrt\\"]/,
+      /\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/,
 
     symbol: (_$) =>
       /:[a-zA-Z_][a-zA-Z0-9_]*/,

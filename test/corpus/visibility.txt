@@ -1,0 +1,330 @@
+================
+Include and extend mixins
+================
+
+class C
+  include M
+  extend M, N
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (mixin
+      (constant))
+    (mixin
+      (constant)
+      (constant))))
+
+================
+Scope-qualified and parenthesized mixins
+================
+
+class C
+  include Support::Naming
+  include(M)
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (mixin
+      (scoped_constant
+        (constant)
+        (constant)))
+    (mixin
+      (constant))))
+
+================
+Mixins in module bodies
+================
+
+module Q
+  include Other
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (mixin
+      (constant))))
+
+================
+Visibility sections
+================
+
+class C
+  public
+  def a
+    1
+  end
+  protected
+  def b
+    2
+  end
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (method
+      (identifier)
+      (integer))
+    (method
+      (identifier)
+      (integer))))
+
+================
+Inline visibility modifiers
+================
+
+class C
+  protected def x
+    1
+  end
+  private property t: string
+  public getter n: int
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (method
+      (identifier)
+      (integer))
+    (property_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (getter_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))))
+
+================
+Retroactive visibility symbols
+================
+
+class C
+  def a
+    1
+  end
+  private :a, :b
+  public :c
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (method
+      (identifier)
+      (integer))
+    (visibility_directive
+      (symbol)
+      (symbol))
+    (visibility_directive
+      (symbol))))
+
+================
+Visibility and mixin words stay identifiers
+================
+
+public = 1
+protected = 2
+include = 3
+extend = 4
+puts public + protected + include + extend
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (binary
+        (binary
+          (binary
+            (identifier)
+            (identifier))
+          (identifier))
+        (identifier)))))
+
+================
+Mixin word assignment inside a class body
+================
+
+class C
+  include = 5
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (assignment
+      (identifier)
+      (integer))))
+
+================
+Alias declarations
+================
+
+def a
+  1
+end
+alias b a
+
+class C
+  def f
+    1
+  end
+  alias g f
+  alias_method :h, :f
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (integer))
+  (alias
+    (identifier)
+    (identifier))
+  (class
+    (constant)
+    (method
+      (identifier)
+      (integer))
+    (alias
+      (identifier)
+      (identifier))
+    (alias_method
+      (symbol)
+      (symbol))))
+
+================
+Alias stays an identifier
+================
+
+alias = 5
+puts alias
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier))))
+
+================
+Operator method definitions
+================
+
+class V
+  def +(other)
+    other
+  end
+  def [](i)
+    i
+  end
+  def []=(i, v)
+    v
+  end
+  def <=>(o)
+    0
+  end
+end
+
+---
+
+(program
+  (class
+    (constant)
+    (method
+      (operator_name)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (identifier))
+    (method
+      (operator_name)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (identifier))
+    (method
+      (operator_name)
+      (parameters
+        (simple_parameter
+          (identifier))
+        (simple_parameter
+          (identifier)))
+      (identifier))
+    (method
+      (operator_name)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (integer))))
+
+================
+Class body constants and nested classes
+================
+
+class Config
+  LIMIT = 5
+  class Inner
+  end
+end
+puts Config::LIMIT
+
+---
+
+(program
+  (class
+    (constant)
+    (assignment
+      (constant)
+      (integer))
+    (class
+      (constant)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (scope_resolution
+        (constant)
+        (constant)))))

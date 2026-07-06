@@ -32,3 +32,130 @@ end
       (binary
         (identifier)
         (integer)))))
+
+================
+Empty module declaration
+================
+
+module Billing
+end
+
+---
+
+(program
+  (module
+    (constant)))
+
+================
+Nested modules with methods and constants
+================
+
+module Outer
+  LIMIT = 5
+  module Inner
+    def self.code
+      1
+    end
+  end
+  def self.limit
+    LIMIT
+  end
+end
+puts Outer::LIMIT
+puts Outer::Inner.code
+
+---
+
+(program
+  (module
+    (constant)
+    (assignment
+      (constant)
+      (integer))
+    (module
+      (constant)
+      (method
+        (self_method_name
+          (identifier))
+        (integer)))
+    (method
+      (self_method_name
+        (identifier))
+      (constant)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (scope_resolution
+        (constant)
+        (constant))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (member_access
+        (scope_resolution
+          (constant)
+          (constant))
+        (identifier)))))
+
+================
+Module accessors and visibility
+================
+
+module M
+  property x: int
+  private
+  def hidden
+    2
+  end
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (property_declaration
+      (accessor_name
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (method
+      (identifier)
+      (integer))))
+
+================
+Module stays an identifier
+================
+
+module = 5
+puts module
+obj.module
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (member_access
+    (identifier)
+    (identifier)))
+
+================
+Lowercase module word is a command call
+================
+
+module foo
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier))))

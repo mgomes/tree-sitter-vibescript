@@ -1,0 +1,217 @@
+================
+Block pass arguments
+================
+
+f(&blk)
+arr.map(&:to_s)
+f(1, &blk)
+f &blk
+
+---
+
+(program
+  (call
+    (identifier)
+    (argument_list
+      (block_argument
+        (identifier))))
+  (call
+    (identifier)
+    (identifier)
+    (argument_list
+      (block_argument
+        (symbol))))
+  (call
+    (identifier)
+    (argument_list
+      (integer)
+      (block_argument
+        (identifier))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (block_argument
+        (identifier)))))
+
+================
+Call splats
+================
+
+f(*args)
+f(**opts)
+f *args
+f **opts
+
+---
+
+(program
+  (call
+    (identifier)
+    (argument_list
+      (splat_argument
+        (identifier))))
+  (call
+    (identifier)
+    (argument_list
+      (double_splat_argument
+        (identifier))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (splat_argument
+        (identifier))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (double_splat_argument
+        (identifier)))))
+
+================
+Combined splats keywords and block pass
+================
+
+f(1, *rest, k: 2, **opts, &blk)
+
+---
+
+(program
+  (call
+    (identifier)
+    (argument_list
+      (integer)
+      (splat_argument
+        (identifier))
+      (keyword_argument
+        (identifier)
+        (integer))
+      (double_splat_argument
+        (identifier))
+      (block_argument
+        (identifier)))))
+
+================
+Rest keyword and block parameters
+================
+
+def f(a, *rest, k: 1, **opts, &blk)
+  a
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (simple_parameter
+        (identifier))
+      (splat_parameter
+        (identifier))
+      (keyword_parameter
+        (identifier)
+        (integer))
+      (double_splat_parameter
+        (identifier))
+      (block_parameter
+        (identifier)))
+    (identifier)))
+
+================
+Keyword parameters with defaults
+================
+
+def f(a: 1, b:)
+  a
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (keyword_parameter
+        (identifier)
+        (integer))
+      (keyword_parameter
+        (identifier)))
+    (identifier)))
+
+================
+Parenless command regex arguments
+================
+
+match /ID-[0-9]+/
+scan /a+/i, text
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex)
+      (identifier))))
+
+================
+Slash after a spaced operand stays division
+================
+
+puts total /2
+x = total / 2
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (binary
+        (identifier)
+        (integer))))
+  (assignment
+    (identifier)
+    (binary
+      (identifier)
+      (integer))))
+
+================
+Star with spaced operands stays multiplication
+================
+
+x = a * b
+x *= 2
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (binary
+      (identifier)
+      (identifier)))
+  (compound_assignment
+    (identifier)
+    (integer)))
+
+================
+Nested parenless command arguments
+================
+
+puts f 3, 4
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (command_call
+        (identifier)
+        (command_arguments
+          (integer)
+          (integer))))))
