@@ -965,15 +965,25 @@ module.exports = grammar({
         /\d(_?\d)*[eE][+-]?\d(_?\d)*/,
       )),
 
+    // Every intra-string token is immediate so the whitespace/comment extras
+    // can never fire between the quote and its contents.
     string: ($) =>
       choice(
         seq(
           '"',
-          repeat(choice($.escape_sequence, $.string_content)),
-          '"',
+          repeat(choice(
+            $.string_content,
+            // A '#' not opening an interpolation is plain text; '#{' wins
+            // over this single-character token by longest match.
+            alias(token.immediate(prec(1, '#')), $.string_content),
+            $.escape_sequence,
+            $.interpolation,
+          )),
+          token.immediate('"'),
         ),
         // Single-quoted strings only recognize \' and \\; every other
-        // backslash is literal text, matching the interpreter.
+        // backslash (and any #{...}) is literal text, matching the
+        // interpreter.
         seq(
           "'",
           repeat(choice(
@@ -986,10 +996,15 @@ module.exports = grammar({
       ),
 
     string_content: (_$) =>
-      /[^"\\]+/,
+      token.immediate(prec(1, /[^"\\#]+/)),
 
     escape_sequence: (_$) =>
-      /\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/,
+      token.immediate(/\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/),
+
+    // The body re-enters the full expression grammar, so nested strings and
+    // nested interpolations come along for free.
+    interpolation: ($) =>
+      seq(token.immediate(prec(2, '#{')), field('body', $._expression), '}'),
 
     // Symbols may name operators (used by alias_method, retroactive
     // visibility, and block-pass shorthand).

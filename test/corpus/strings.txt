@@ -1,0 +1,185 @@
+================
+String interpolation
+================
+
+greeting = "hello #{name}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        body: (identifier)))))
+
+================
+Interpolation containing a double-quoted string
+================
+
+label = "#{name || "guest"} joined"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (interpolation
+        body: (binary
+          (identifier)
+          (string
+            (string_content))))
+      (string_content))))
+
+================
+Nested interpolation
+================
+
+deep = "x#{"inner #{y}"}z"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        body: (string
+          (string_content)
+          (interpolation
+            body: (identifier))))
+      (string_content))))
+
+================
+Interpolation with a call and string arguments
+================
+
+joined = "#{["a", "b"].join(", ")}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (interpolation
+        body: (call
+          receiver: (array
+            (string
+              (string_content))
+            (string
+              (string_content)))
+          method: (identifier)
+          (argument_list
+            (string
+              (string_content))))))))
+
+================
+Bare hash characters stay text
+================
+
+plain = "just a # hash"
+trailing = "ends with #"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (string_content)
+      (string_content)
+      (string_content)))
+  (assignment
+    (identifier)
+    (string
+      (string_content)
+      (string_content))))
+
+================
+Escaped interpolation opener stays text
+================
+
+escaped = "literal \#{not interp}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (string_content)
+      (escape_sequence)
+      (string_content))))
+
+================
+Brace block inside interpolation
+================
+
+count = "#{items.map { it }.size}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (interpolation
+        body: (member_access
+          (call
+            receiver: (identifier)
+            method: (identifier)
+            (block
+              (identifier)))
+          (identifier))))))
+
+================
+Adjacent interpolations
+================
+
+pair = "#{a}#{b}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (interpolation
+        body: (identifier))
+      (interpolation
+        body: (identifier)))))
+
+================
+Interpolating percent arrays stay single tokens
+================
+
+words = %W[hello #{name} world]
+syms = %I[a #{b}]
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (percent_array))
+  (assignment
+    (identifier)
+    (percent_array)))
+
+================
+Single-quoted strings never interpolate
+================
+
+raw = 'no #{interp} here'
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (string_content))))

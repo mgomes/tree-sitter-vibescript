@@ -4327,18 +4327,41 @@
                 "members": [
                   {
                     "type": "SYMBOL",
+                    "name": "string_content"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 1,
+                        "content": {
+                          "type": "STRING",
+                          "value": "#"
+                        }
+                      }
+                    },
+                    "named": true,
+                    "value": "string_content"
+                  },
+                  {
+                    "type": "SYMBOL",
                     "name": "escape_sequence"
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "string_content"
+                    "name": "interpolation"
                   }
                 ]
               }
             },
             {
-              "type": "STRING",
-              "value": "\""
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "\""
+              }
             }
           ]
         },
@@ -4409,12 +4432,50 @@
       ]
     },
     "string_content": {
-      "type": "PATTERN",
-      "value": "[^\"\\\\]+"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\"\\\\#]+"
+        }
+      }
     },
     "escape_sequence": {
-      "type": "PATTERN",
-      "value": "\\\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\\n])"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\\n])"
+      }
+    },
+    "interpolation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 2,
+            "content": {
+              "type": "STRING",
+              "value": "#{"
+            }
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "symbol": {
       "type": "TOKEN",
