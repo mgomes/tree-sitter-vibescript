@@ -1125,10 +1125,12 @@ module.exports = grammar({
         /[+\-*\/%<>&|!]/,
       ))),
 
+    // Quoted symbols use the matching string quote's escapes, so an
+    // escaped quote stays inside the symbol (:'don\'t').
     quoted_symbol: (_$) =>
       token(seq(':', choice(
-        seq('"', /[^"]*/, '"'),
-        seq("'", /[^']*/, "'"),
+        seq('"', /([^"\\]|\\.)*/, '"'),
+        seq("'", /([^'\\]|\\.)*/, "'"),
       ))),
 
     percent_array: (_$) =>

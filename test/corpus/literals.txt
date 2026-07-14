@@ -159,10 +159,14 @@ Quoted symbols in both quote styles
 :"multi word"
 :'foo bar'
 :""
+:'don\'t'
+:"say \"hi\""
 
 ---
 
 (program
+  (quoted_symbol)
+  (quoted_symbol)
   (quoted_symbol)
   (quoted_symbol)
   (quoted_symbol))
