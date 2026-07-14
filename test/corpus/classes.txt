@@ -158,3 +158,41 @@ end
         (type_annotation
           (type_name
             (identifier)))))))
+
+================
+Setter method definitions
+================
+
+class Account
+  def balance=(value)
+    @balance = value
+  end
+
+  def self.default=(value)
+    @@default = value
+  end
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (method
+      name: (setter_name
+        (identifier))
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (assignment
+        (instance_variable)
+        (identifier)))
+    (method
+      name: (self_method_name
+        (identifier))
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (assignment
+        (class_variable)
+        (identifier)))))

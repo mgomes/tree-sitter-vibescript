@@ -608,6 +608,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -1098,6 +1102,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -2968,6 +2976,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -3315,6 +3327,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -3672,6 +3688,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -3820,6 +3840,36 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "enum",
+    "named": true,
+    "fields": {
+      "member": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "enum_member",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4044,6 +4094,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -4601,6 +4655,10 @@
         },
         {
           "type": "elsif",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -5392,6 +5450,10 @@
           {
             "type": "self_method_name",
             "named": true
+          },
+          {
+            "type": "setter_name",
+            "named": true
           }
         ]
       },
@@ -5483,7 +5545,15 @@
           "named": true
         },
         {
+          "type": "else",
+          "named": true
+        },
+        {
           "type": "ensure",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -6630,6 +6700,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -7068,6 +7142,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -7828,6 +7906,21 @@
       "types": [
         {
           "type": "accessor_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "setter_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -8986,6 +9079,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -9336,6 +9433,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -9575,6 +9676,10 @@
         },
         {
           "type": "endless_range",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -9925,6 +10030,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "enum",
           "named": true
         },
         {
@@ -10349,6 +10458,14 @@
   {
     "type": "ensure",
     "named": false
+  },
+  {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "enum_member",
+    "named": true
   },
   {
     "type": "escape_sequence",

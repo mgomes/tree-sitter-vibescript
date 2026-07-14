@@ -74,6 +74,7 @@ module.exports = grammar({
         $.method,
         $.class,
         $.module,
+        $.enum,
         $.export_method,
       ),
 
@@ -81,14 +82,25 @@ module.exports = grammar({
       seq(
         optional(field("visibility", $._visibility_modifier)),
         "def",
-        field("name", choice($.identifier, $.self_method_name, $.operator_name)),
+        field("name", choice(
+          $.identifier,
+          $.setter_name,
+          $.self_method_name,
+          $.operator_name,
+        )),
         optional($.parameters),
         optional($.return_type),
         optional($._body),
         repeat($.rescue),
+        optional($.else),
         optional($.ensure),
         "end",
       ),
+
+    // `def name=(value)` declares a setter; the `=` must sit flush against
+    // the name so `def foo` followed by an assignment body stays separate.
+    setter_name: ($) =>
+      seq($.identifier, token.immediate("=")),
 
     _visibility_modifier: ($) =>
       choice(
@@ -105,7 +117,7 @@ module.exports = grammar({
       ),
 
     self_method_name: ($) =>
-      seq("self", ".", $.identifier),
+      seq("self", ".", $.identifier, optional(token.immediate("="))),
 
     export_method: ($) =>
       seq(
@@ -260,6 +272,16 @@ module.exports = grammar({
         alias($._module_keyword, "module"),
         field("name", $.constant),
         optional($._module_body),
+        "end",
+      ),
+
+    // The interpreter only allows enums at the top level; members are bare
+    // word tokens, at least one required.
+    enum: ($) =>
+      seq(
+        "enum",
+        field("name", choice($.constant, $.identifier)),
+        repeat1(field("member", alias(choice($.constant, $.identifier), $.enum_member))),
         "end",
       ),
 
