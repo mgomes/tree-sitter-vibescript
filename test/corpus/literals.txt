@@ -25,6 +25,63 @@ Floats
   (float))
 
 ================
+Base-prefixed integers
+================
+
+0xFF
+0xDEAD_BEEF
+0b1010
+0b1_0_1
+0o755
+0d99
+123456789012345678901234567890
+
+---
+
+(program
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer))
+
+================
+Exponent floats
+================
+
+1e3
+1.5e-2
+1E6
+1e1_0
+2.5E+10
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+  (float))
+
+================
+Exponent float with modifier keyword suffix
+================
+
+x = 1e3 if ok
+
+---
+
+(program
+  (modifier
+    (assignment
+      (identifier)
+      (float))
+    (identifier)))
+
+================
 Strings
 ================
 

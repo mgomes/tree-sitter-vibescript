@@ -949,10 +949,21 @@ module.exports = grammar({
       /[A-Z][a-zA-Z0-9_]*/,
 
     integer: (_$) =>
-      /\d[\d_]*/,
+      token(choice(
+        /0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
+        /0[bB][01](_?[01])*/,
+        /0[oO][0-7](_?[0-7])*/,
+        /0[dD][0-9](_?[0-9])*/,
+        /\d(_?\d)*/,
+      )),
 
+    // An exponent marker makes the literal a float even without a decimal
+    // point (1e3 is 1000.0), matching the interpreter.
     float: (_$) =>
-      /\d[\d_]*\.\d[\d_]*/,
+      token(choice(
+        /\d(_?\d)*\.\d(_?\d)*([eE][+-]?\d(_?\d)*)?/,
+        /\d(_?\d)*[eE][+-]?\d(_?\d)*/,
+      )),
 
     string: ($) =>
       seq(
