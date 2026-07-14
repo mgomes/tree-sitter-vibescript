@@ -104,6 +104,12 @@
     "any" "array" "bool" "duration" "float" "function" "hash" "int"
     "money" "number" "object" "range" "string" "symbol" "time"))
 
+; Nullable builtin shorthand in shape values ({ name: string? }) aliases
+; to a leaf type_annotation node
+(hash_entry
+  value: (type_annotation) @type.builtin
+  (#match? @type.builtin "^[a-z]+\\?$"))
+
 ; Strings
 (string) @string
 (escape_sequence) @string.escape

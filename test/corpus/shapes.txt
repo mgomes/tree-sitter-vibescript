@@ -130,3 +130,22 @@ end
           (constant)
           (constant))))
     (identifier)))
+
+================
+Nullable builtin shorthand in shape values
+================
+
+opt = { x: string?, ok: valid? }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (hash
+      (hash_entry
+        key: (identifier)
+        value: (type_annotation))
+      (hash_entry
+        key: (identifier)
+        value: (identifier)))))

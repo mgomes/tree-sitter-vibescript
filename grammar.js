@@ -259,6 +259,10 @@ module.exports = grammar({
         $.type_annotation,
       ),
 
+    nullable_builtin_type: (_$) =>
+      token(prec(2,
+        /(any|int|float|number|string|bool|duration|time|money|symbol|function|range|array|hash|object)\?/)),
+
     return_type: ($) =>
       seq(
         alias($._signature_arrow, "->"),
@@ -1012,11 +1016,20 @@ module.exports = grammar({
         // value reads as a type annotation. The dynamic penalty keeps the
         // expression reading for groups that parse both ways ({ id: string }),
         // so this branch only wins where only type syntax parses
-        // (string | nil, array<int>, string?).
+        // (string | nil, array<int>).
         prec.dynamic(-1, seq(
           field("key", choice($.identifier, $.string, $.symbol)),
           ":",
           field("value", $.type_annotation),
+        )),
+        // Nullable builtin shorthand ({ name: string? }): a ?-suffixed
+        // builtin type name is always a shape field, mirroring the
+        // interpreter's builtin-leaf rule, while other ?-suffixed
+        // identifiers ({ ok: valid? }) keep the expression reading.
+        prec.dynamic(1, seq(
+          field("key", choice($.identifier, $.string, $.symbol)),
+          ":",
+          field("value", alias($.nullable_builtin_type, $.type_annotation)),
         )),
         // value omission: { name:, age: } takes the value from a local of the same name
         seq(

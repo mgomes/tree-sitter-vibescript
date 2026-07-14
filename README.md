@@ -39,6 +39,11 @@ differ from how the interpreter executes the code:
   identifier. `f [0] = 5` with a non-local callee is a parse error in the
   interpreter; the grammar keeps the intact command-with-assignment tree
   instead.
+- `total %w[0]` parses as a percent-array command argument even when
+  `total` and `w` are locals (the interpreter reads modulo of an indexed
+  local there). `total % w[0]` and `total %w [0]`-free spacings keep the
+  modulo reading, since the argument form requires the sigil, letter, and
+  delimiter to sit flush.
 
 Other approximations, all chosen so that the tree stays intact:
 

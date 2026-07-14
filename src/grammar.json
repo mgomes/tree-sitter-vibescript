@@ -862,6 +862,17 @@
         }
       ]
     },
+    "nullable_builtin_type": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "(any|int|float|number|string|bool|duration|time|money|symbol|function|range|array|hash|object)\\?"
+        }
+      }
+    },
     "return_type": {
       "type": "SEQ",
       "members": [
@@ -4704,6 +4715,53 @@
                 "content": {
                   "type": "SYMBOL",
                   "name": "type_annotation"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_DYNAMIC",
+          "value": 1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "key",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "symbol"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "STRING",
+                "value": ":"
+              },
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "nullable_builtin_type"
+                  },
+                  "named": true,
+                  "value": "type_annotation"
                 }
               }
             ]
