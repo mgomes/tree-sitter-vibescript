@@ -87,8 +87,22 @@ static int read_word(TSLexer *lexer, char *w, int cap) {
 // After a splat/block-pass sigil in command position, the argument must begin
 // immediately (Ruby's "space before, none after" rule).
 static bool starts_sigil_operand(int32_t c) {
-  return is_identifier_char(c) || c == '@' || c == '"' || c == '[' ||
-         c == '(' || c == ':';
+  return is_identifier_char(c) || c == '@' || c == '"' || c == '\'' ||
+         c == '[' || c == '(' || c == ':';
+}
+
+// A percent-array literal shape: %w/%W/%i/%I followed by an opening
+// delimiter. Consumes lookahead; call only past mark_end.
+static bool percent_array_follows(TSLexer *lexer) {
+  if (lexer->lookahead != '%') return false;
+  advance(lexer);
+  if (lexer->lookahead != 'w' && lexer->lookahead != 'W' &&
+      lexer->lookahead != 'i' && lexer->lookahead != 'I') {
+    return false;
+  }
+  advance(lexer);
+  return lexer->lookahead == '[' || lexer->lookahead == '(' ||
+         lexer->lookahead == '{' || lexer->lookahead == '<';
 }
 
 // Lookahead check for a `/.../` regex body starting at the cursor (which sits
@@ -321,11 +335,16 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       return false;
     }
-    // Splat arguments: `f *args`, `f **opts` (never `x *= 2`, `a * b`).
+    // Splat arguments: `f *args`, `f **opts`, `f *%w[a b]` (never
+    // `x *= 2`, `a * b`).
     if (c == '*') {
       advance(lexer);
       if (lexer->lookahead == '*') advance(lexer);
       if (starts_sigil_operand(lexer->lookahead) && lexer->lookahead != '(') {
+        lexer->result_symbol = COMMAND_START;
+        return true;
+      }
+      if (percent_array_follows(lexer)) {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
@@ -350,15 +369,9 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     // Percent-array argument: `puts %w[a b]` (never the modulo operator,
     // which lacks the sigil-and-delimiter shape).
     if (c == '%') {
-      advance(lexer);
-      if (lexer->lookahead == 'w' || lexer->lookahead == 'W' ||
-          lexer->lookahead == 'i' || lexer->lookahead == 'I') {
-        advance(lexer);
-        if (lexer->lookahead == '[' || lexer->lookahead == '(' ||
-            lexer->lookahead == '{' || lexer->lookahead == '<') {
-          lexer->result_symbol = COMMAND_START;
-          return true;
-        }
+      if (percent_array_follows(lexer)) {
+        lexer->result_symbol = COMMAND_START;
+        return true;
       }
       return false;
     }

@@ -685,16 +685,32 @@ module.exports = grammar({
         "end",
       ),
 
+    // For-loop variables are block-parameter-style bindings: identifiers,
+    // splats, and nested groups only. Member, index, and instance-variable
+    // targets are parse errors in the interpreter.
     for: ($) =>
       seq(
         "for",
-        field("variable", $._destructure_target),
-        repeat(seq(",", field("variable", $._destructure_target))),
+        field("variable", $._for_target),
+        repeat(seq(",", field("variable", $._for_target))),
         "in",
         field("iterable", $._expression),
         optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
+      ),
+
+    _for_target: ($) =>
+      choice(
+        $.identifier,
+        $.splat_target,
+        alias($._for_target_group, $.destructured_target),
+      ),
+
+    _for_target_group: ($) =>
+      choice(
+        seq("(", $._for_target, repeat1(seq(",", $._for_target)), ")"),
+        seq("[", $._for_target, repeat1(seq(",", $._for_target)), "]"),
       ),
 
     // else only has meaning after at least one rescue clause; the

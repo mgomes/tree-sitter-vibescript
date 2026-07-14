@@ -4104,10 +4104,6 @@
         "required": true,
         "types": [
           {
-            "type": "class_variable",
-            "named": true
-          },
-          {
             "type": "destructured_target",
             "named": true
           },
@@ -4116,19 +4112,7 @@
             "named": true
           },
           {
-            "type": "instance_variable",
-            "named": true
-          },
-          {
-            "type": "member_access",
-            "named": true
-          },
-          {
             "type": "splat_target",
-            "named": true
-          },
-          {
-            "type": "subscript",
             "named": true
           }
         ]

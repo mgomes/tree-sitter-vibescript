@@ -2924,7 +2924,7 @@
           "name": "variable",
           "content": {
             "type": "SYMBOL",
-            "name": "_destructure_target"
+            "name": "_for_target"
           }
         },
         {
@@ -2941,7 +2941,7 @@
                 "name": "variable",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_destructure_target"
+                  "name": "_for_target"
                 }
               }
             ]
@@ -2991,6 +2991,99 @@
         {
           "type": "STRING",
           "value": "end"
+        }
+      ]
+    },
+    "_for_target": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "splat_target"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_for_target_group"
+          },
+          "named": true,
+          "value": "destructured_target"
+        }
+      ]
+    },
+    "_for_target_group": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_for_target"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_for_target"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_for_target"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_for_target"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
         }
       ]
     },

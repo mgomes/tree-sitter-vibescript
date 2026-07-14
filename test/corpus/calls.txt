@@ -338,3 +338,18 @@ f [0] = 5
         (array
           (integer))
         (integer)))))
+
+================
+Splatted percent-array command arguments
+================
+
+puts *%w[a b]
+
+---
+
+(program
+  (command_call
+    method: (identifier)
+    arguments: (command_arguments
+      (splat_argument
+        (percent_array)))))
