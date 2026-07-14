@@ -64,6 +64,7 @@ module.exports = grammar({
     [$.qualified_type_name, $._primary],
     [$.type_shape_field, $.hash_entry],
     [$.type_shape_field, $._primary],
+    [$._assignable_member_access, $.member_access],
     [$._destructure_target, $._primary],
     [$._destructure_target, $._expression],
     [$.simple_parameter, $._destructure_target],
@@ -101,8 +102,7 @@ module.exports = grammar({
         optional($.parameters),
         optional($.return_type),
         optional($._body),
-        repeat($.rescue),
-        optional($.else),
+        optional(seq(repeat1($.rescue), optional($.else))),
         optional($.ensure),
         "end",
       ),
@@ -517,16 +517,26 @@ module.exports = grammar({
         )),
       )),
 
+    // Safe navigation is read-only, so targets take a dot-only member
+    // access; `user&.name, rest = pair` is a parse error in the
+    // interpreter.
     _destructure_target: ($) =>
       choice(
         $.identifier,
         $.instance_variable,
         $.class_variable,
-        $.member_access,
+        alias($._assignable_member_access, $.member_access),
         $.subscript,
         $.splat_target,
         $.destructured_target,
       ),
+
+    _assignable_member_access: ($) =>
+      prec.left(PREC.CALL - 1, seq(
+        $._expression,
+        ".",
+        $.identifier,
+      )),
 
     // Nested destructuring groups: x, (y, z) = [1, [2, 3]] and the
     // bracket spelling x, [y, z] = ... Two elements minimum keeps a
@@ -687,12 +697,13 @@ module.exports = grammar({
         "end",
       ),
 
+    // else only has meaning after at least one rescue clause; the
+    // interpreter rejects a bare begin/else.
     begin: ($) =>
       seq(
         "begin",
         optional($._body),
-        repeat($.rescue),
-        optional($.else),
+        optional(seq(repeat1($.rescue), optional($.else))),
         optional($.ensure),
         "end",
       ),

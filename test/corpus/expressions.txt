@@ -141,3 +141,20 @@ values[1], *rest = values
     left: (class_variable)
     right: (integer)
     right: (integer)))
+
+================
+Safe navigation is not a destructuring target
+================
+
+a.b, c = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (member_access
+      (identifier)
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer)))
