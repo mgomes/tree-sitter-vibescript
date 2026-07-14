@@ -220,3 +220,51 @@ end
       (argument_list
         (integer)
         (integer)))))
+
+================
+Targetless case
+================
+
+result = case
+when flag then "yes"
+else "no"
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (case
+      (when
+        (identifier)
+        (string
+          (string_content)))
+      (else
+        (string
+          (string_content))))))
+
+================
+Splat when patterns
+================
+
+case n
+when *allowed then "ok"
+when 1, 2 then "small"
+end
+
+---
+
+(program
+  (case
+    subject: (identifier)
+    (when
+      (splat_argument
+        (identifier))
+      (string
+        (string_content)))
+    (when
+      (integer)
+      (integer)
+      (string
+        (string_content)))))

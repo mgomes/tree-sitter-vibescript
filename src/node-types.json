@@ -1414,6 +1414,10 @@
       "required": true,
       "types": [
         {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1725,7 +1729,7 @@
     "fields": {
       "subject": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array",
@@ -2595,6 +2599,72 @@
     }
   },
   {
+    "type": "destructured_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "splat_target",
+          "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "destructured_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "destructured_target",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "splat_target",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "destructuring_assignment",
     "named": true,
     "fields": {
@@ -2607,6 +2677,14 @@
             "named": false
           },
           {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "destructured_target",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -2615,7 +2693,15 @@
             "named": true
           },
           {
+            "type": "member_access",
+            "named": true
+          },
+          {
             "type": "splat_target",
+            "named": true
+          },
+          {
+            "type": "subscript",
             "named": true
           }
         ]
@@ -4018,11 +4104,35 @@
         ]
       },
       "variable": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "destructured_target",
+            "named": true
+          },
+          {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "splat_target",
+            "named": true
+          },
+          {
+            "type": "subscript",
             "named": true
           }
         ]
@@ -9957,6 +10067,10 @@
           "named": true
         },
         {
+          "type": "splat_argument",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -10695,6 +10809,10 @@
   },
   {
     "type": "nil",
+    "named": false
+  },
+  {
+    "type": "not",
     "named": false
   },
   {

@@ -205,3 +205,23 @@ end
     (member_access
       (identifier)
       (identifier))))
+
+================
+Word not operator
+================
+
+ok = not ready
+puts not ok
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (unary
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (unary
+        (identifier)))))

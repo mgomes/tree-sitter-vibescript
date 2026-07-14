@@ -98,3 +98,46 @@ end
       (splat_target
         (identifier))
       (identifier))))
+
+================
+Nested destructuring groups
+================
+
+x, (y, z) = [1, [2, 3]]
+
+---
+
+(program
+  (destructuring_assignment
+    left: (identifier)
+    left: (destructured_target
+      (identifier)
+      (identifier))
+    right: (array
+      (integer)
+      (array
+        (integer)
+        (integer)))))
+
+================
+Member and subscript destructuring targets
+================
+
+values[1], *rest = values
+@a, @@b = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (subscript
+      (identifier)
+      (integer))
+    left: (splat_target
+      (identifier))
+    right: (identifier))
+  (destructuring_assignment
+    left: (instance_variable)
+    left: (class_variable)
+    right: (integer)
+    right: (integer)))

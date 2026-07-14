@@ -49,9 +49,11 @@ static bool word_equals(const char *w, int len, const char *k) {
 // paren-less call must not swallow them: `foo do ... end`, `foo if bar`,
 // `x and y`. Without this, `call do |x|` would be read as `call(do ...)`.
 static bool word_is_trailing_keyword(const char *w, int len) {
+  // `not` is absent: it is a prefix operator, so `puts not x` is a command
+  // call with a negated argument, matching the interpreter.
   const char *kw[] = {"do", "end", "then", "else", "elsif", "when", "rescue",
                       "ensure", "if", "unless", "while", "until", "and", "or",
-                      "in", "not"};
+                      "in"};
   for (unsigned i = 0; i < sizeof(kw) / sizeof(kw[0]); i++) {
     if (word_equals(w, len, kw[i])) return true;
   }

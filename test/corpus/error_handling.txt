@@ -229,3 +229,24 @@ raise
     (string
       (string_content)))
   (raise))
+
+================
+Union rescue types
+================
+
+begin
+  risky
+rescue AssertionError | RuntimeError => err
+  err
+end
+
+---
+
+(program
+  (begin
+    (identifier)
+    (rescue
+      (constant)
+      (constant)
+      binding: (identifier)
+      (identifier))))

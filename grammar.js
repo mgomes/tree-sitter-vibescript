@@ -63,6 +63,11 @@ module.exports = grammar({
     [$.raise, $._expression_or_closed_range],
     [$.qualified_type_name, $._primary],
     [$.type_shape_field, $.hash_entry],
+    [$._destructure_target, $._primary],
+    [$._destructure_target, $._expression],
+    [$.simple_parameter, $._destructure_target],
+    [$.ivar_parameter, $._destructure_target],
+    [$.splat_parameter, $.splat_target],
   ],
 
   rules: {
@@ -504,7 +509,20 @@ module.exports = grammar({
       choice(
         $.identifier,
         $.instance_variable,
+        $.class_variable,
+        $.member_access,
+        $.subscript,
         $.splat_target,
+        $.destructured_target,
+      ),
+
+    // Nested destructuring groups: x, (y, z) = [1, [2, 3]] and the
+    // bracket spelling x, [y, z] = ... Two elements minimum keeps a
+    // parenthesized expression unambiguous.
+    destructured_target: ($) =>
+      choice(
+        seq("(", $._destructure_target, repeat1(seq(",", $._destructure_target)), ")"),
+        seq("[", $._destructure_target, repeat1(seq(",", $._destructure_target)), "]"),
       ),
 
     splat_target: ($) =>
@@ -606,7 +624,7 @@ module.exports = grammar({
     case: ($) =>
       seq(
         "case",
-        field("subject", $._expression),
+        optional(field("subject", $._expression)),
         repeat1($.when),
         optional($.else),
         "end",
@@ -615,11 +633,14 @@ module.exports = grammar({
     when: ($) =>
       seq(
         "when",
-        $._range_or_expression,
-        repeat(seq(",", $._range_or_expression)),
+        $._when_pattern,
+        repeat(seq(",", $._when_pattern)),
         optional("then"),
         optional($._body),
       ),
+
+    _when_pattern: ($) =>
+      choice($._range_or_expression, $.splat_argument),
 
     // The loop separator `do` is an external token so that in `while f do`
     // the `do` closes the loop header instead of opening a block on the
@@ -645,7 +666,8 @@ module.exports = grammar({
     for: ($) =>
       seq(
         "for",
-        field("variable", $.identifier),
+        field("variable", $._destructure_target),
+        repeat(seq(",", field("variable", $._destructure_target))),
         "in",
         field("iterable", $._expression),
         optional(alias($._loop_do, "do")),
@@ -675,7 +697,10 @@ module.exports = grammar({
       ),
 
     _rescue_type: ($) =>
-      choice($.constant, $.scoped_constant),
+      seq(
+        choice($.constant, $.scoped_constant),
+        repeat(seq("|", choice($.constant, $.scoped_constant))),
+      ),
 
     ensure: ($) =>
       seq(
@@ -765,7 +790,7 @@ module.exports = grammar({
 
     unary: ($) =>
       prec(PREC.UNARY, seq(
-        choice("-", "+", "!"),
+        choice("-", "+", "!", "not"),
         $._expression,
       )),
 
@@ -863,6 +888,23 @@ module.exports = grammar({
       choice(
         $.identifier,
         $.typed_parameter,
+        $.destructured_parameter,
+      ),
+
+    // Destructured block parameters: do |(head, *)| ... end. Splats live
+    // only inside groups, matching the interpreter.
+    destructured_parameter: ($) =>
+      choice(
+        seq("(", $._destructured_parameter_element, repeat(seq(",", $._destructured_parameter_element)), ")"),
+        seq("[", $._destructured_parameter_element, repeat(seq(",", $._destructured_parameter_element)), "]"),
+      ),
+
+    _destructured_parameter_element: ($) =>
+      choice(
+        $.identifier,
+        $.typed_parameter,
+        $.splat_target,
+        $.destructured_parameter,
       ),
 
     argument_list: ($) =>
