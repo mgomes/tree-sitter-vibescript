@@ -36,7 +36,17 @@ static bool is_identifier_char(int32_t c) {
 }
 
 static bool is_argument_start(int32_t c) {
-  return is_identifier_char(c) || c == '"' || c == '@';
+  return is_identifier_char(c) || c == '"' || c == '\'' || c == '@';
+}
+
+// Characters that may open a symbol body after its colon: word symbols
+// (:name), quoted symbols (:"..." / :'...'), and operator symbols such as
+// :+, :<=>, and :[]=.
+static bool is_symbol_body_start(int32_t c) {
+  return is_identifier_start(c) || c == '"' || c == '\'' || c == '+' ||
+         c == '-' || c == '*' || c == '/' || c == '%' || c == '<' ||
+         c == '>' || c == '=' || c == '!' || c == '&' || c == '|' ||
+         c == '[';
 }
 
 static bool word_equals(const char *w, int len, const char *k) {
@@ -49,9 +59,11 @@ static bool word_equals(const char *w, int len, const char *k) {
 // paren-less call must not swallow them: `foo do ... end`, `foo if bar`,
 // `x and y`. Without this, `call do |x|` would be read as `call(do ...)`.
 static bool word_is_trailing_keyword(const char *w, int len) {
+  // `not` is absent: it is a prefix operator, so `puts not x` is a command
+  // call with a negated argument, matching the interpreter.
   const char *kw[] = {"do", "end", "then", "else", "elsif", "when", "rescue",
                       "ensure", "if", "unless", "while", "until", "and", "or",
-                      "in", "not"};
+                      "in"};
   for (unsigned i = 0; i < sizeof(kw) / sizeof(kw[0]); i++) {
     if (word_equals(w, len, kw[i])) return true;
   }
@@ -75,8 +87,22 @@ static int read_word(TSLexer *lexer, char *w, int cap) {
 // After a splat/block-pass sigil in command position, the argument must begin
 // immediately (Ruby's "space before, none after" rule).
 static bool starts_sigil_operand(int32_t c) {
-  return is_identifier_char(c) || c == '@' || c == '"' || c == '[' ||
-         c == '(' || c == ':';
+  return is_identifier_char(c) || c == '@' || c == '"' || c == '\'' ||
+         c == '[' || c == '(' || c == ':';
+}
+
+// A percent-array literal shape: %w/%W/%i/%I followed by an opening
+// delimiter. Consumes lookahead; call only past mark_end.
+static bool percent_array_follows(TSLexer *lexer) {
+  if (lexer->lookahead != '%') return false;
+  advance(lexer);
+  if (lexer->lookahead != 'w' && lexer->lookahead != 'W' &&
+      lexer->lookahead != 'i' && lexer->lookahead != 'I') {
+    return false;
+  }
+  advance(lexer);
+  return lexer->lookahead == '[' || lexer->lookahead == '(' ||
+         lexer->lookahead == '{' || lexer->lookahead == '<';
 }
 
 // Lookahead check for a `/.../` regex body starting at the cursor (which sits
@@ -164,10 +190,11 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
       lexer->result_symbol = symbol;
       return true;
     }
-    // Retroactive form: `protected :name, :other`.
+    // Retroactive form: `protected :name, :other`, including operator
+    // symbols (`public :+`).
     if (next == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead) || lexer->lookahead == '"') {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = symbol;
         return true;
       }
@@ -196,7 +223,7 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
     }
     if (next == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead)) {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = ALIAS_KEYWORD;
         return true;
       }
@@ -287,10 +314,12 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       lexer->result_symbol = COMMAND_START;
       return true;
     }
-    // Symbol argument: `puts :name` (but never the `::` scope operator).
+    // Symbol argument: `puts :name`, `puts :"quoted"`, `puts :'quoted'`,
+    // and operator symbols like `puts :+` or `puts :<=>` (but never the
+    // `::` scope operator).
     if (c == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead) || lexer->lookahead == '"') {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
@@ -306,11 +335,16 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       return false;
     }
-    // Splat arguments: `f *args`, `f **opts` (never `x *= 2`, `a * b`).
+    // Splat arguments: `f *args`, `f **opts`, `f *%w[a b]` (never
+    // `x *= 2`, `a * b`).
     if (c == '*') {
       advance(lexer);
       if (lexer->lookahead == '*') advance(lexer);
       if (starts_sigil_operand(lexer->lookahead) && lexer->lookahead != '(') {
+        lexer->result_symbol = COMMAND_START;
+        return true;
+      }
+      if (percent_array_follows(lexer)) {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
@@ -327,6 +361,15 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     if (c == '.') {
       advance(lexer);
       if (lexer->lookahead == '.') {
+        lexer->result_symbol = COMMAND_START;
+        return true;
+      }
+      return false;
+    }
+    // Percent-array argument: `puts %w[a b]` (never the modulo operator,
+    // which lacks the sigil-and-delimiter shape).
+    if (c == '%') {
+      if (percent_array_follows(lexer)) {
         lexer->result_symbol = COMMAND_START;
         return true;
       }

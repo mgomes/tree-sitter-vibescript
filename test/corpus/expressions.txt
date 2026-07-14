@@ -98,3 +98,93 @@ end
       (splat_target
         (identifier))
       (identifier))))
+
+================
+Nested destructuring groups
+================
+
+x, (y, z) = [1, [2, 3]]
+
+---
+
+(program
+  (destructuring_assignment
+    left: (identifier)
+    left: (destructured_target
+      (identifier)
+      (identifier))
+    right: (array
+      (integer)
+      (array
+        (integer)
+        (integer)))))
+
+================
+Member and subscript destructuring targets
+================
+
+values[1], *rest = values
+@a, @@b = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (subscript
+      (identifier)
+      (integer))
+    left: (splat_target
+      (identifier))
+    right: (identifier))
+  (destructuring_assignment
+    left: (instance_variable)
+    left: (class_variable)
+    right: (integer)
+    right: (integer)))
+
+================
+Safe navigation is not a destructuring target
+================
+
+a.b, c = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (member_access
+      (identifier)
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer)))
+
+================
+Chained and call-receiver destructuring targets
+================
+
+a.b.c, d = 1, 2
+f(x).y, z = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (member_access
+      (member_access
+        (identifier)
+        (identifier))
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer))
+  (destructuring_assignment
+    left: (member_access
+      (call
+        method: (identifier)
+        (argument_list
+          (identifier)))
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer)))

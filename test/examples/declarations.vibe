@@ -1,0 +1,91 @@
+# A tour of declaration-level syntax through v1.0.0-rc5.
+
+enum Status
+  Draft
+  Published
+  Archived
+end
+
+module Billing
+  LIMIT = 5
+
+  def self.code
+    "ok"
+  end
+end
+
+class Money2
+  property amount: int
+
+  def initialize(@amount: int)
+  end
+
+  def +(other)
+    Money2.new(@amount + other.amount)
+  end
+
+  def <=>(other)
+    @amount <=> other.amount
+  end
+
+  def [](key)
+    @amount
+  end
+
+  def []=(key, value)
+    @amount = value
+  end
+
+  def balance=(value)
+    @amount = value
+  end
+
+  def to_label -> string
+    "#{@amount}"
+  end
+end
+
+class Greeter
+  def hello
+    "hi"
+  end
+
+  alias hi hello
+  alias_method :howdy, :hello
+
+  private
+
+  def hidden
+    "secret"
+  end
+end
+
+def connect(host:, port: 8080, scheme: "https", timeout: port * 2)
+  "#{scheme}://#{host}:#{port} #{timeout}"
+end
+
+def publish(status: Status) -> Status
+  status
+end
+
+def tally(*values, **opts, &blk)
+  values.size
+end
+
+def describe(payload: { id: string, tags: array<int> }) -> string
+  payload[:id]
+end
+
+puts Billing.code
+puts Billing::LIMIT
+puts Status::Draft.name
+puts connect(host: "example.com")
+puts publish(status: Status::Published).name
+m = Money2.new(3)
+m.balance = 9
+puts m.to_label
+g = Greeter.new
+puts g.hi
+puts g.howdy
+puts tally(1, 2, 3)
+puts describe(payload: { id: "a", tags: [1] })

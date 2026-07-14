@@ -86,3 +86,35 @@ end
     (if
       condition: (identifier)
       (next))))
+
+================
+For loops over destructured targets
+================
+
+for k, v in h
+  puts k
+end
+
+for head, * in rows
+  puts head
+end
+
+---
+
+(program
+  (for
+    variable: (identifier)
+    variable: (identifier)
+    iterable: (identifier)
+    (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (identifier))))
+  (for
+    variable: (identifier)
+    variable: (splat_target)
+    iterable: (identifier)
+    (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (identifier)))))

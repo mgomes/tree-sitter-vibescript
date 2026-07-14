@@ -39,6 +39,11 @@ differ from how the interpreter executes the code:
   identifier. `f [0] = 5` with a non-local callee is a parse error in the
   interpreter; the grammar keeps the intact command-with-assignment tree
   instead.
+- `total %w[0]` parses as a percent-array command argument even when
+  `total` and `w` are locals (the interpreter reads modulo of an indexed
+  local there). `total % w[0]` and `total %w [0]`-free spacings keep the
+  modulo reading, since the argument form requires the sigil, letter, and
+  delimiter to sit flush.
 
 Other approximations, all chosen so that the tree stays intact:
 
@@ -59,6 +64,24 @@ Other approximations, all chosen so that the tree stays intact:
   error instead.
 - `def f(a: nil)` parses the `nil` as a type annotation; the interpreter
   reads it as a keyword default unless a union pipe follows.
+- A hash entry whose value only parses as type syntax
+  (`{ note: string | nil }`, `{ tags: array<int> }`) carries a
+  `type_annotation` value, mirroring rc4 expression-position shape
+  literals. An entry that parses both ways (`{ id: string }`) keeps the
+  expression reading, exactly like the interpreter's dual-reading
+  default, so a pure schema literal can mix expression-valued and
+  type-valued entries in one hash node.
+- Interpolations inside `%W[...]` / `%I[...]` percent arrays are not
+  structured; the whole literal stays a single token, so `#{...}`
+  segments inside them are not highlighted as code.
+- Nested destructuring groups (`x, (y, z) = ...`) need at least two
+  elements; a single-element group parses as a parenthesized
+  expression.
+- Malformed abutted literals such as `1e3foo` or `123abc` parse as a
+  number followed by an identifier instead of surfacing the
+  interpreter's parse error. Rejecting them needs negative lookahead
+  the token grammar cannot express, and lenient trees highlight better
+  mid-edit; keyword suffixes (`1e3if cond`) parse identically in both.
 
 Contextual words are handled precisely, matching the interpreter:
 `module = 5`, `public = 1`, `protected = 2`, `include = 3`, `extend = 4`,

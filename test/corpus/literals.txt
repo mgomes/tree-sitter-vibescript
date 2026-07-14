@@ -25,6 +25,63 @@ Floats
   (float))
 
 ================
+Base-prefixed integers
+================
+
+0xFF
+0xDEAD_BEEF
+0b1010
+0b1_0_1
+0o755
+0d99
+123456789012345678901234567890
+
+---
+
+(program
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer)
+  (integer))
+
+================
+Exponent floats
+================
+
+1e3
+1.5e-2
+1E6
+1e1_0
+2.5E+10
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+  (float))
+
+================
+Exponent float with modifier keyword suffix
+================
+
+x = 1e3 if ok
+
+---
+
+(program
+  (modifier
+    (assignment
+      (identifier)
+      (float))
+    (identifier)))
+
+================
 Strings
 ================
 
@@ -53,6 +110,86 @@ Symbols
 (program
   (symbol)
   (symbol))
+
+================
+Single-quoted strings
+================
+
+'hello'
+'don\'t \\ stop'
+'no #{interp} or \n escapes'
+
+---
+
+(program
+  (string
+    (string_content))
+  (string
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content))
+  (string
+    (string_content)
+    (string_content)
+    (string_content)))
+
+================
+Operator and suffixed symbols
+================
+
+:<=>
+:[]=
+:name?
+:save!
+
+---
+
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
+
+================
+Quoted symbols in both quote styles
+================
+
+:"multi word"
+:'foo bar'
+:""
+:'don\'t'
+:"say \"hi\""
+
+---
+
+(program
+  (quoted_symbol)
+  (quoted_symbol)
+  (quoted_symbol)
+  (quoted_symbol)
+  (quoted_symbol))
+
+================
+Quoted literals as command arguments
+================
+
+puts 'hi'
+puts %w[a b]
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (string
+        (string_content))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (percent_array))))
 
 ================
 Booleans
@@ -111,6 +248,33 @@ Hashes
       value: (true))))
 
 ================
+Hash rockets for runtime keys
+================
+
+player = { current_key => "dynamic", 1 => "one", [2, 3] => "pair" }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (hash
+      (hash_entry
+        key: (identifier)
+        value: (string
+          (string_content)))
+      (hash_entry
+        key: (integer)
+        value: (string
+          (string_content)))
+      (hash_entry
+        key: (array
+          (integer)
+          (integer))
+        value: (string
+          (string_content))))))
+
+================
 Hex and unicode string escapes
 ================
 
@@ -142,3 +306,22 @@ x = arr[1, 2]
       (identifier)
       (integer)
       (integer))))
+
+================
+Operator symbols as command arguments
+================
+
+puts :+
+puts :<=>
+
+---
+
+(program
+  (command_call
+    method: (identifier)
+    arguments: (command_arguments
+      (symbol)))
+  (command_call
+    method: (identifier)
+    arguments: (command_arguments
+      (symbol))))

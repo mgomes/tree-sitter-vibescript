@@ -4,6 +4,7 @@
   "end"
   "class"
   "module"
+  "enum"
   "if"
   "elsif"
   "else"
@@ -35,6 +36,7 @@
   "export"
   "and"
   "or"
+  "not"
 ] @keyword
 
 ; Break, next, and retry are named nodes
@@ -48,13 +50,20 @@
 (method
   name: (self_method_name) @function.method)
 (method
+  name: (setter_name) @function.method)
+(method
   name: (operator_name) @function.method)
 
-; Class and module definitions
+; Class, module, and enum definitions
 (class
   name: (constant) @type)
 (module
   name: (constant) @type)
+(enum
+  name: (constant) @type)
+(enum
+  name: (identifier) @type)
+(enum_member) @constant
 
 ; Function calls
 (call
@@ -62,21 +71,54 @@
 (command_call
   method: (identifier) @function.call)
 
-; Callable constructors
+; Built-in kernel functions
 ((call
   method: (identifier) @function.builtin)
-  (#any-of? @function.builtin "proc" "lambda"))
+  (#any-of? @function.builtin
+    "assert" "format" "lambda" "loop" "money" "money_cents" "now" "p"
+    "print" "proc" "puts" "rand" "random_id" "sleep" "sprintf" "srand"
+    "to_float" "to_int" "uuid" "warn"))
+((command_call
+  method: (identifier) @function.builtin)
+  (#any-of? @function.builtin
+    "assert" "format" "lambda" "loop" "money" "money_cents" "now" "p"
+    "print" "proc" "puts" "rand" "random_id" "sleep" "sprintf" "srand"
+    "to_float" "to_int" "uuid" "warn"))
 
 ; Type annotations
 (type_name
   (identifier) @type)
+(qualified_type_name
+  (identifier) @type)
+(qualified_type_name
+  (constant) @type)
 (type_shape_field
   name: (identifier) @property)
+(type_shape_field
+  name: (symbol) @property)
+
+; Built-in type names
+((type_name
+  (identifier) @type.builtin)
+  (#any-of? @type.builtin
+    "any" "array" "bool" "duration" "float" "function" "hash" "int"
+    "money" "number" "object" "range" "string" "symbol" "time"))
+
+; Nullable builtin shorthand in shape values ({ name: string? }) aliases
+; to a leaf type_annotation node
+(hash_entry
+  value: (type_annotation) @type.builtin
+  (#match? @type.builtin "^[a-z]+\\?$"))
 
 ; Strings
 (string) @string
 (escape_sequence) @string.escape
 (string_content) @string
+
+; Interpolation delimiters
+(interpolation
+  "#{" @punctuation.special
+  "}" @punctuation.special)
 
 ; Numbers
 (integer) @number
@@ -123,9 +165,20 @@
   (identifier) @variable.parameter)
 (lambda_parameters
   (identifier) @variable.parameter)
+(destructured_parameter
+  (identifier) @variable.parameter)
+
+; Rescue bindings
+(rescue
+  binding: (identifier) @variable)
 
 ; Constants
 (constant) @type
+
+; Built-in namespaces
+((constant) @module.builtin
+  (#any-of? @module.builtin
+    "JSON" "Regexp" "Regex" "Math" "Time" "Duration" "Hash" "Proc" "Tasks"))
 
 ; Comments
 (comment) @comment
@@ -161,6 +214,7 @@
   "?"
   "->"
   "!"
+  "=>"
   "+="
   "-="
   "*="

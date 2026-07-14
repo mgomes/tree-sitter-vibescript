@@ -61,11 +61,24 @@ module.exports = grammar({
     [$.scoped_constant, $._primary],
     [$._rescue_type, $._primary],
     [$.raise, $._expression_or_closed_range],
+    [$.qualified_type_name, $._primary],
+    [$.type_shape_field, $.hash_entry],
+    [$.type_shape_field, $._primary],
+    [$._assignable_receiver, $._primary],
+    [$._assignable_receiver, $._expression],
+    [$._assignable_receiver, $._rescue_type, $._primary],
+    [$._destructure_target, $._primary],
+    [$.simple_parameter, $._destructure_target],
+    [$.ivar_parameter, $._destructure_target],
+    [$.splat_parameter, $.splat_target],
   ],
 
   rules: {
+    // Enums join the choice here rather than in _declaration: the
+    // interpreter rejects them anywhere but the program top level,
+    // including module and method bodies.
     program: ($) =>
-      repeat(choice($._statement, $._declaration)),
+      repeat(choice($._statement, $._declaration, $.enum)),
 
     // --- Declarations ---
 
@@ -81,14 +94,24 @@ module.exports = grammar({
       seq(
         optional(field("visibility", $._visibility_modifier)),
         "def",
-        field("name", choice($.identifier, $.self_method_name, $.operator_name)),
+        field("name", choice(
+          $.identifier,
+          $.setter_name,
+          $.self_method_name,
+          $.operator_name,
+        )),
         optional($.parameters),
         optional($.return_type),
         optional($._body),
-        repeat($.rescue),
+        optional(seq(repeat1($.rescue), optional($.else))),
         optional($.ensure),
         "end",
       ),
+
+    // `def name=(value)` declares a setter; the `=` must sit flush against
+    // the name so `def foo` followed by an assignment body stays separate.
+    setter_name: ($) =>
+      seq($.identifier, token.immediate("=")),
 
     _visibility_modifier: ($) =>
       choice(
@@ -105,7 +128,7 @@ module.exports = grammar({
       ),
 
     self_method_name: ($) =>
-      seq("self", ".", $.identifier),
+      seq("self", ".", $.identifier, optional(token.immediate("="))),
 
     export_method: ($) =>
       seq(
@@ -185,7 +208,20 @@ module.exports = grammar({
     _type: ($) =>
       choice(
         $.type_name,
+        $.qualified_type_name,
         $.type_shape,
+      ),
+
+    // Enum types exported by a required module: `status_mod.Status`. The
+    // member must be CamelCase (uppercase with a later lowercase letter),
+    // matching the interpreter's dotted-type rule, so ALL-CAPS members
+    // like `pi: Math.PI` keep reading as keyword-default expressions.
+    qualified_type_name: ($) =>
+      seq(
+        field("module", choice($.identifier, $.constant)),
+        ".",
+        alias(token(prec(1, /[A-Z][A-Z0-9_]*[a-z][a-zA-Z0-9_]*/)), $.constant),
+        optional("?"),
       ),
 
     type_name: ($) =>
@@ -218,12 +254,18 @@ module.exports = grammar({
         "}",
       ),
 
+    // Fields separate with a label colon or a hash rocket
+    // ({ "user-id" => string }), matching the interpreter's shape grammar.
     type_shape_field: ($) =>
       seq(
-        field("name", $.identifier),
-        ":",
+        field("name", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
+        choice(":", "=>"),
         $.type_annotation,
       ),
+
+    nullable_builtin_type: (_$) =>
+      token(prec(2,
+        /(any|int|float|number|string|bool|duration|time|money|symbol|function|range|array|hash|object)\?/)),
 
     return_type: ($) =>
       seq(
@@ -260,6 +302,15 @@ module.exports = grammar({
         alias($._module_keyword, "module"),
         field("name", $.constant),
         optional($._module_body),
+        "end",
+      ),
+
+    // Members are bare word tokens, at least one required.
+    enum: ($) =>
+      seq(
+        "enum",
+        field("name", choice($.constant, $.identifier)),
+        repeat1(field("member", alias(choice($.constant, $.identifier), $.enum_member))),
         "end",
       ),
 
@@ -306,7 +357,7 @@ module.exports = grammar({
     visibility_directive: ($) =>
       prec.dynamic(-10, prec.right(seq(
         $._visibility_modifier,
-        optional(seq($.symbol, repeat(seq(",", $.symbol)))),
+        optional(seq($._symbol_name, repeat(seq(",", $._symbol_name)))),
       ))),
 
     alias: ($) =>
@@ -317,16 +368,19 @@ module.exports = grammar({
       ),
 
     _alias_name: ($) =>
-      choice($.identifier, $.symbol),
+      choice($.identifier, $.symbol, $.quoted_symbol),
 
     alias_method: ($) =>
       seq(
         "alias_method",
         choice(
-          seq("(", field("name", $.symbol), ",", field("target", $.symbol), ")"),
-          seq(field("name", $.symbol), ",", field("target", $.symbol)),
+          seq("(", field("name", $._symbol_name), ",", field("target", $._symbol_name), ")"),
+          seq(field("name", $._symbol_name), ",", field("target", $._symbol_name)),
         ),
       ),
+
+    _symbol_name: ($) =>
+      choice($.symbol, $.quoted_symbol),
 
     accessor_name: ($) =>
       seq(
@@ -464,11 +518,57 @@ module.exports = grammar({
         )),
       )),
 
+    // Safe navigation is read-only and rejected anywhere in an assignment
+    // target, so member and index targets build on dot-only receiver
+    // chains: `user&.name`, `user&.profile.name`, and `user&.items[0]` all
+    // error as in the interpreter.
     _destructure_target: ($) =>
       choice(
         $.identifier,
         $.instance_variable,
+        $.class_variable,
+        alias($._assignable_member_access, $.member_access),
+        alias($._assignable_subscript, $.subscript),
         $.splat_target,
+        $.destructured_target,
+      ),
+
+    _assignable_member_access: ($) =>
+      prec.left(PREC.CALL - 1, seq(
+        $._assignable_receiver,
+        ".",
+        $.identifier,
+      )),
+
+    _assignable_subscript: ($) =>
+      prec(PREC.CALL, seq(
+        $._assignable_receiver,
+        "[",
+        $._expression_or_closed_range,
+        repeat(seq(",", $._expression_or_closed_range)),
+        "]",
+      )),
+
+    _assignable_receiver: ($) =>
+      choice(
+        $.identifier,
+        $.constant,
+        $.instance_variable,
+        $.class_variable,
+        $.self,
+        $.call,
+        $.parenthesized,
+        alias($._assignable_member_access, $.member_access),
+        alias($._assignable_subscript, $.subscript),
+      ),
+
+    // Nested destructuring groups: x, (y, z) = [1, [2, 3]] and the
+    // bracket spelling x, [y, z] = ... Two elements minimum keeps a
+    // parenthesized expression unambiguous.
+    destructured_target: ($) =>
+      choice(
+        seq("(", $._destructure_target, repeat1(seq(",", $._destructure_target)), ")"),
+        seq("[", $._destructure_target, repeat1(seq(",", $._destructure_target)), "]"),
       ),
 
     splat_target: ($) =>
@@ -570,7 +670,7 @@ module.exports = grammar({
     case: ($) =>
       seq(
         "case",
-        field("subject", $._expression),
+        optional(field("subject", $._expression)),
         repeat1($.when),
         optional($.else),
         "end",
@@ -579,11 +679,14 @@ module.exports = grammar({
     when: ($) =>
       seq(
         "when",
-        $._range_or_expression,
-        repeat(seq(",", $._range_or_expression)),
+        $._when_pattern,
+        repeat(seq(",", $._when_pattern)),
         optional("then"),
         optional($._body),
       ),
+
+    _when_pattern: ($) =>
+      choice($._range_or_expression, $.splat_argument),
 
     // The loop separator `do` is an external token so that in `while f do`
     // the `do` closes the loop header instead of opening a block on the
@@ -606,10 +709,14 @@ module.exports = grammar({
         "end",
       ),
 
+    // For-loop variables are block-parameter-style bindings: identifiers,
+    // splats, and nested groups only. Member, index, and instance-variable
+    // targets are parse errors in the interpreter.
     for: ($) =>
       seq(
         "for",
-        field("variable", $.identifier),
+        field("variable", $._for_target),
+        repeat(seq(",", field("variable", $._for_target))),
         "in",
         field("iterable", $._expression),
         optional(alias($._loop_do, "do")),
@@ -617,12 +724,26 @@ module.exports = grammar({
         "end",
       ),
 
+    _for_target: ($) =>
+      choice(
+        $.identifier,
+        $.splat_target,
+        alias($._for_target_group, $.destructured_target),
+      ),
+
+    _for_target_group: ($) =>
+      choice(
+        seq("(", $._for_target, repeat1(seq(",", $._for_target)), ")"),
+        seq("[", $._for_target, repeat1(seq(",", $._for_target)), "]"),
+      ),
+
+    // else only has meaning after at least one rescue clause; the
+    // interpreter rejects a bare begin/else.
     begin: ($) =>
       seq(
         "begin",
         optional($._body),
-        repeat($.rescue),
-        optional($.else),
+        optional(seq(repeat1($.rescue), optional($.else))),
         optional($.ensure),
         "end",
       ),
@@ -639,7 +760,10 @@ module.exports = grammar({
       ),
 
     _rescue_type: ($) =>
-      choice($.constant, $.scoped_constant),
+      seq(
+        choice($.constant, $.scoped_constant),
+        repeat(seq("|", choice($.constant, $.scoped_constant))),
+      ),
 
     ensure: ($) =>
       seq(
@@ -728,10 +852,19 @@ module.exports = grammar({
       )),
 
     unary: ($) =>
-      prec(PREC.UNARY, seq(
-        choice("-", "+", "!"),
-        $._expression,
-      )),
+      choice(
+        prec(PREC.UNARY, seq(
+          choice("-", "+", "!"),
+          $._expression,
+        )),
+        // Word not binds looser than every symbolic operator but tighter
+        // than and/or, matching Ruby: not a == b is not (a == b) while
+        // not x and y is (not x) and y.
+        prec.right(PREC.CONDITIONAL, seq(
+          "not",
+          $._expression,
+        )),
+      ),
 
     scope_resolution: ($) =>
       prec.left(PREC.CALL, seq(
@@ -761,7 +894,7 @@ module.exports = grammar({
       prec.left(PREC.CALL - 1, seq(
         $._expression,
         choice(".", "&."),
-        $.identifier,
+        choice($.identifier, $.constant),
         optional($.block),
       )),
 
@@ -797,6 +930,7 @@ module.exports = grammar({
       choice(
         $.typed_parameter,
         $.identifier,
+        $.destructured_parameter,
       ),
 
     block: ($) =>
@@ -827,6 +961,23 @@ module.exports = grammar({
       choice(
         $.identifier,
         $.typed_parameter,
+        $.destructured_parameter,
+      ),
+
+    // Destructured block parameters: do |(head, *)| ... end. Splats live
+    // only inside groups, matching the interpreter.
+    destructured_parameter: ($) =>
+      choice(
+        seq("(", $._destructured_parameter_element, repeat(seq(",", $._destructured_parameter_element)), ")"),
+        seq("[", $._destructured_parameter_element, repeat(seq(",", $._destructured_parameter_element)), "]"),
+      ),
+
+    _destructured_parameter_element: ($) =>
+      choice(
+        $.identifier,
+        $.typed_parameter,
+        $.splat_target,
+        $.destructured_parameter,
       ),
 
     argument_list: ($) =>
@@ -928,10 +1079,35 @@ module.exports = grammar({
           ":",
           field("value", $._expression_or_closed_range),
         ),
+        // Expression-position shape literals (JSON.parse_as schemas): the
+        // value reads as a type annotation. The dynamic penalty keeps the
+        // expression reading for groups that parse both ways ({ id: string }),
+        // so this branch only wins where only type syntax parses
+        // (string | nil, array<int>).
+        prec.dynamic(-1, seq(
+          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
+          ":",
+          field("value", $.type_annotation),
+        )),
+        // Nullable builtin shorthand ({ name: string? }): a ?-suffixed
+        // builtin type name is always a shape field, mirroring the
+        // interpreter's builtin-leaf rule, while other ?-suffixed
+        // identifiers ({ ok: valid? }) keep the expression reading.
+        prec.dynamic(1, seq(
+          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
+          ":",
+          field("value", alias($.nullable_builtin_type, $.type_annotation)),
+        )),
         // value omission: { name:, age: } takes the value from a local of the same name
         seq(
           field("key", $.identifier),
           ":",
+        ),
+        // hash rocket for runtime key expressions: { current_key => "x" }
+        seq(
+          field("key", $._expression),
+          "=>",
+          field("value", $._expression_or_closed_range),
         ),
       ),
 
@@ -949,29 +1125,82 @@ module.exports = grammar({
       /[A-Z][a-zA-Z0-9_]*/,
 
     integer: (_$) =>
-      /\d[\d_]*/,
+      token(choice(
+        /0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
+        /0[bB][01](_?[01])*/,
+        /0[oO][0-7](_?[0-7])*/,
+        /0[dD][0-9](_?[0-9])*/,
+        /\d(_?\d)*/,
+      )),
 
+    // An exponent marker makes the literal a float even without a decimal
+    // point (1e3 is 1000.0), matching the interpreter.
     float: (_$) =>
-      /\d[\d_]*\.\d[\d_]*/,
+      token(choice(
+        /\d(_?\d)*\.\d(_?\d)*([eE][+-]?\d(_?\d)*)?/,
+        /\d(_?\d)*[eE][+-]?\d(_?\d)*/,
+      )),
 
+    // Every intra-string token is immediate so the whitespace/comment extras
+    // can never fire between the quote and its contents.
     string: ($) =>
-      seq(
-        '"',
-        repeat(choice($.escape_sequence, $.string_content)),
-        '"',
+      choice(
+        seq(
+          '"',
+          repeat(choice(
+            $.string_content,
+            // A '#' not opening an interpolation is plain text; '#{' wins
+            // over this single-character token by longest match.
+            alias(token.immediate(prec(1, '#')), $.string_content),
+            $.escape_sequence,
+            $.interpolation,
+          )),
+          token.immediate('"'),
+        ),
+        // Single-quoted strings only recognize \' and \\; every other
+        // backslash (and any #{...}) is literal text, matching the
+        // interpreter.
+        seq(
+          "'",
+          repeat(choice(
+            alias(token.immediate(prec(1, /[^'\\]+/)), $.string_content),
+            alias(token.immediate(/\\['\\]/), $.escape_sequence),
+            alias(token.immediate('\\'), $.string_content),
+          )),
+          token.immediate("'"),
+        ),
       ),
 
     string_content: (_$) =>
-      /[^"\\]+/,
+      token.immediate(prec(1, /[^"\\#]+/)),
 
     escape_sequence: (_$) =>
-      /\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/,
+      token.immediate(/\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/),
 
+    // The body re-enters the full expression grammar, so nested strings and
+    // nested interpolations come along for free. Value-producing control
+    // flow ("#{if flag then "yes" else "no" end}") is admitted the same way
+    // as on assignment right-hand sides.
+    interpolation: ($) =>
+      seq(token.immediate(prec(2, '#{')), field('body', $._rhs_expression), '}'),
+
+    // Symbols may name operators (used by alias_method, retroactive
+    // visibility, and block-pass shorthand).
     symbol: (_$) =>
-      /:[a-zA-Z_][a-zA-Z0-9_]*/,
+      token(seq(':', choice(
+        /[a-zA-Z_][a-zA-Z0-9_]*[?!]?/,
+        '[]=', '[]', '===', '<=>', '**', '<<', '<=', '>=', '==', '!=',
+        '&&', '||',
+        /[+\-*\/%<>&|!]/,
+      ))),
 
+    // Quoted symbols use the matching string quote's escapes, so an
+    // escaped quote stays inside the symbol (:'don\'t').
     quoted_symbol: (_$) =>
-      token(seq(':', '"', /[^"]*/, '"')),
+      token(seq(':', choice(
+        seq('"', /([^"\\]|\\.)*/, '"'),
+        seq("'", /([^'\\]|\\.)*/, "'"),
+      ))),
 
     percent_array: (_$) =>
       token(seq(

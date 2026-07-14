@@ -1,0 +1,74 @@
+================
+Enum declaration
+================
+
+enum Status
+  Draft
+  Published
+  Archived
+end
+
+---
+
+(program
+  (enum
+    name: (constant)
+    member: (enum_member)
+    member: (enum_member)
+    member: (enum_member)))
+
+================
+Enum member access and annotations
+================
+
+enum Status
+  Draft
+end
+
+def publish(status: Status) -> Status
+  Status::Draft
+end
+
+---
+
+(program
+  (enum
+    name: (constant)
+    member: (enum_member))
+  (method
+    name: (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (constant)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (constant))))
+    (scope_resolution
+      (constant)
+      (constant))))
+
+================
+Enums outside the top level are not declarations
+================
+
+def f
+  enum E
+    A
+  end
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (constant)))
+    (constant))
+  (identifier))

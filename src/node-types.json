@@ -31,6 +31,10 @@
             "named": true
           },
           {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           }
@@ -42,6 +46,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
             "named": true
           },
           {
@@ -61,6 +69,10 @@
         "required": true,
         "types": [
           {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           }
@@ -70,6 +82,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
           {
             "type": "symbol",
             "named": true
@@ -1406,6 +1422,10 @@
       "required": true,
       "types": [
         {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1717,7 +1737,7 @@
     "fields": {
       "subject": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array",
@@ -2587,6 +2607,72 @@
     }
   },
   {
+    "type": "destructured_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "splat_target",
+          "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "destructured_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "destructured_target",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "splat_target",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "destructuring_assignment",
     "named": true,
     "fields": {
@@ -2599,6 +2685,14 @@
             "named": false
           },
           {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "destructured_target",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
@@ -2607,7 +2701,15 @@
             "named": true
           },
           {
+            "type": "member_access",
+            "named": true
+          },
+          {
             "type": "splat_target",
+            "named": true
+          },
+          {
+            "type": "subscript",
             "named": true
           }
         ]
@@ -3823,6 +3925,36 @@
     }
   },
   {
+    "type": "enum",
+    "named": true,
+    "fields": {
+      "member": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "enum_member",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "export_method",
     "named": true,
     "fields": {},
@@ -3968,11 +4100,19 @@
         ]
       },
       "variable": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
+            "type": "destructured_target",
+            "named": true
+          },
+          {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "splat_target",
             "named": true
           }
         ]
@@ -4255,11 +4395,123 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
@@ -4386,6 +4638,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_annotation",
             "named": true
           },
           {
@@ -4755,6 +5011,170 @@
     }
   },
   {
+    "type": "interpolation",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "begin",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "endless_range",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "unless",
+            "named": true
+          },
+          {
+            "type": "until",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "ivar_parameter",
     "named": true,
     "fields": {},
@@ -5096,6 +5516,10 @@
       "required": false,
       "types": [
         {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -5260,6 +5684,10 @@
           {
             "type": "self_method_name",
             "named": true
+          },
+          {
+            "type": "setter_name",
+            "named": true
           }
         ]
       },
@@ -5348,6 +5776,10 @@
         },
         {
           "type": "directive_comment",
+          "named": true
+        },
+        {
+          "type": "else",
           "named": true
         },
         {
@@ -6498,6 +6930,10 @@
           "named": true
         },
         {
+          "type": "enum",
+          "named": true
+        },
+        {
           "type": "export_method",
           "named": true
         },
@@ -6677,6 +7113,36 @@
       "types": [
         {
           "type": "accessor_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_type_name",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
           "named": true
         }
       ]
@@ -7702,6 +8168,21 @@
     }
   },
   {
+    "type": "setter_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "simple_parameter",
     "named": true,
     "fields": {},
@@ -8006,6 +8487,10 @@
           "named": true
         },
         {
+          "type": "interpolation",
+          "named": true
+        },
+        {
           "type": "string_content",
           "named": true
         }
@@ -8284,8 +8769,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "qualified_type_name",
+          "named": true
+        },
         {
           "type": "type_name",
           "named": true
@@ -8305,6 +8794,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "qualified_type_name",
+          "named": true
+        },
         {
           "type": "type_name",
           "named": true
@@ -8364,6 +8857,18 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
             "named": true
           }
         ]
@@ -9359,6 +9864,10 @@
       "required": false,
       "types": [
         {
+          "type": "quoted_symbol",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         }
@@ -9547,6 +10056,10 @@
         },
         {
           "type": "self",
+          "named": true
+        },
+        {
+          "type": "splat_argument",
           "named": true
         },
         {
@@ -9974,6 +10487,10 @@
     "named": false
   },
   {
+    "type": "#{",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -9995,6 +10512,10 @@
   },
   {
     "type": "&.",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -10207,6 +10728,14 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "enum_member",
+    "named": true
+  },
+  {
     "type": "escape_sequence",
     "named": true
   },
@@ -10268,6 +10797,10 @@
   },
   {
     "type": "nil",
+    "named": false
+  },
+  {
+    "type": "not",
     "named": false
   },
   {
