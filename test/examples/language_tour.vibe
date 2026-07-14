@@ -1,0 +1,105 @@
+# A tour of expression-level syntax through v1.0.0-rc5.
+
+# Numeric literals
+hex = 0xDEAD_BEEF
+bin = 0b1010_0101
+oct = 0o755
+dec = 0d99
+big = 123456789012345678901234567890
+sci = 1.5e-2
+kilo = 1e3
+under = 1e1_0
+
+# Strings and interpolation
+name = "Ada"
+greeting = "hello #{name}"
+fallback = "#{name || "guest"} joined"
+nested = "x#{"inner #{name}"}z"
+raw = 'no #{interp} and a \' quote'
+plain = "just a # hash"
+escapes = "\x41A\t"
+
+# Symbols
+sym = :read
+quoted_sym = :"multi word"
+single_sym = :'also quoted'
+op_sym = :<=>
+
+# Percent arrays
+words = %w[alpha beta gamma]
+interp_words = %W[hello #{name}]
+syms = %i[draft published]
+
+# Ranges
+bounded = 1..5
+endless = 3..
+beginless = ..9
+sliced = [10, 20, 30, 40][1..]
+
+# Operators
+truthy = not false
+matched = "ID-12" =~ /id-([0-9]+)/i
+same = (1..3) === 2
+approx = 10 <=> 2
+
+# Hash rockets and shapes
+current_key = :nickname
+player = { name: "Ada", current_key => "dynamic", 1 => "one" }
+schema = { id: string, note: string | nil }
+body = JSON.parse_as("{\"id\":\"a\",\"note\":null}", schema)
+
+# Control flow as values
+verdict = if same then "yes" else "no" end
+grade = case 95
+when 100 then "perfect"
+when 90, 95 then "great"
+when 80..99 then "passing"
+else "ok"
+end
+label = case
+when truthy then "on"
+else "off"
+end
+
+# Rescue forms
+guarded = begin
+  raise RuntimeError, "boom"
+rescue AssertionError | RuntimeError => err
+  err.message
+else
+  "clean"
+ensure
+  cleanup = true
+end
+softened = JSON.parse("{") rescue "fallback"
+
+# Loops and destructuring
+total = 0
+for k, v in { a: 1, b: 2 }
+  total += v
+end
+for head, * in [[1, 2], [3, 4]]
+  total += head
+end
+first, *rest = [1, 2, 3]
+x, (y, z) = [1, [2, 3]]
+values = [1, 2, 3]
+values[1], *tail = values
+
+# Blocks and lambdas
+doubled = [1, 2, 3].map { it * 2 }
+summed = [1, 2, 3].reduce(0) do |acc, n|
+  acc + n
+end
+pairs = [[1, 9], [2, 8]].map do |(id, score)|
+  id + score
+end
+adder = ->(a, b) { a + b }
+named = [{ name: "a" }, { name: "b" }].map { it[:name] }
+
+# Command calls
+puts [3, 1, 2].sort
+puts 'single quoted'
+puts %w[x y]
+puts not false
+concat = [1] + [2]

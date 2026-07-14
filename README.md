@@ -59,6 +59,19 @@ Other approximations, all chosen so that the tree stays intact:
   error instead.
 - `def f(a: nil)` parses the `nil` as a type annotation; the interpreter
   reads it as a keyword default unless a union pipe follows.
+- A hash entry whose value only parses as type syntax
+  (`{ note: string | nil }`, `{ tags: array<int> }`) carries a
+  `type_annotation` value, mirroring rc4 expression-position shape
+  literals. An entry that parses both ways (`{ id: string }`) keeps the
+  expression reading, exactly like the interpreter's dual-reading
+  default, so a pure schema literal can mix expression-valued and
+  type-valued entries in one hash node.
+- Interpolations inside `%W[...]` / `%I[...]` percent arrays are not
+  structured; the whole literal stays a single token, so `#{...}`
+  segments inside them are not highlighted as code.
+- Nested destructuring groups (`x, (y, z) = ...`) need at least two
+  elements; a single-element group parses as a parenthesized
+  expression.
 
 Contextual words are handled precisely, matching the interpreter:
 `module = 5`, `public = 1`, `protected = 2`, `include = 3`, `extend = 4`,
