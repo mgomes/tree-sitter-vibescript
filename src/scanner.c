@@ -289,10 +289,16 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       lexer->result_symbol = COMMAND_START;
       return true;
     }
-    // Symbol argument: `puts :name` (but never the `::` scope operator).
+    // Symbol argument: `puts :name`, `puts :"quoted"`, `puts :'quoted'`,
+    // and operator symbols like `puts :+` or `puts :<=>` (but never the
+    // `::` scope operator).
     if (c == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead) || lexer->lookahead == '"') {
+      int32_t s = lexer->lookahead;
+      if (is_identifier_start(s) || s == '"' || s == '\'' || s == '+' ||
+          s == '-' || s == '*' || s == '/' || s == '%' || s == '<' ||
+          s == '>' || s == '=' || s == '!' || s == '&' || s == '|' ||
+          s == '[') {
         lexer->result_symbol = COMMAND_START;
         return true;
       }

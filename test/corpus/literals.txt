@@ -302,3 +302,22 @@ x = arr[1, 2]
       (identifier)
       (integer)
       (integer))))
+
+================
+Operator symbols as command arguments
+================
+
+puts :+
+puts :<=>
+
+---
+
+(program
+  (command_call
+    method: (identifier)
+    arguments: (command_arguments
+      (symbol)))
+  (command_call
+    method: (identifier)
+    arguments: (command_arguments
+      (symbol))))
