@@ -848,6 +848,10 @@
               {
                 "type": "SYMBOL",
                 "name": "symbol"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "quoted_symbol"
               }
             ]
           }
@@ -3706,38 +3710,56 @@
       }
     },
     "unary": {
-      "type": "PREC",
-      "value": 15,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 15,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "-"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "+"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "!"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 5,
+          "content": {
+            "type": "SEQ",
             "members": [
               {
                 "type": "STRING",
-                "value": "-"
-              },
-              {
-                "type": "STRING",
-                "value": "+"
-              },
-              {
-                "type": "STRING",
-                "value": "!"
-              },
-              {
-                "type": "STRING",
                 "value": "not"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
               }
             ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
           }
-        ]
-      }
+        }
+      ]
     },
     "scope_resolution": {
       "type": "PREC_LEFT",
@@ -4727,6 +4749,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "symbol"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "quoted_symbol"
                     }
                   ]
                 }
@@ -4769,6 +4795,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "symbol"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "quoted_symbol"
                     }
                   ]
                 }

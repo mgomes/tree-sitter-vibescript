@@ -225,3 +225,26 @@ puts not ok
     (command_arguments
       (unary
         (identifier)))))
+
+================
+Word not binds looser than symbolic operators
+================
+
+a = not false || true
+b = not x and y
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (unary
+      (binary
+        (false)
+        (true))))
+  (assignment
+    (identifier)
+    (binary
+      (unary
+        (identifier))
+      (identifier))))

@@ -8872,6 +8872,10 @@
             "named": true
           },
           {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },

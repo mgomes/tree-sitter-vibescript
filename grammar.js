@@ -257,7 +257,7 @@ module.exports = grammar({
     // ({ "user-id" => string }), matching the interpreter's shape grammar.
     type_shape_field: ($) =>
       seq(
-        field("name", choice($.identifier, $.string, $.symbol)),
+        field("name", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
         choice(":", "=>"),
         $.type_annotation,
       ),
@@ -801,10 +801,19 @@ module.exports = grammar({
       )),
 
     unary: ($) =>
-      prec(PREC.UNARY, seq(
-        choice("-", "+", "!", "not"),
-        $._expression,
-      )),
+      choice(
+        prec(PREC.UNARY, seq(
+          choice("-", "+", "!"),
+          $._expression,
+        )),
+        // Word not binds looser than every symbolic operator but tighter
+        // than and/or, matching Ruby: not a == b is not (a == b) while
+        // not x and y is (not x) and y.
+        prec.right(PREC.CONDITIONAL, seq(
+          "not",
+          $._expression,
+        )),
+      ),
 
     scope_resolution: ($) =>
       prec.left(PREC.CALL, seq(
@@ -1024,7 +1033,7 @@ module.exports = grammar({
         // so this branch only wins where only type syntax parses
         // (string | nil, array<int>).
         prec.dynamic(-1, seq(
-          field("key", choice($.identifier, $.string, $.symbol)),
+          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
           ":",
           field("value", $.type_annotation),
         )),
@@ -1033,7 +1042,7 @@ module.exports = grammar({
         // interpreter's builtin-leaf rule, while other ?-suffixed
         // identifiers ({ ok: valid? }) keep the expression reading.
         prec.dynamic(1, seq(
-          field("key", choice($.identifier, $.string, $.symbol)),
+          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
           ":",
           field("value", alias($.nullable_builtin_type, $.type_annotation)),
         )),
