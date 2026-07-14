@@ -328,3 +328,34 @@ puts Config::LIMIT
       (scope_resolution
         (constant)
         (constant)))))
+
+================
+Operator symbols in visibility and alias forms
+================
+
+class C
+  def +(other)
+    1
+  end
+
+  private :+
+
+  alias :[] :fetch
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (method
+      name: (operator_name)
+      (parameters
+        (simple_parameter
+          (identifier)))
+      (integer))
+    (visibility_directive
+      (symbol))
+    (alias
+      name: (symbol)
+      target: (symbol))))

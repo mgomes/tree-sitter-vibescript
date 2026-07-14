@@ -39,6 +39,16 @@ static bool is_argument_start(int32_t c) {
   return is_identifier_char(c) || c == '"' || c == '\'' || c == '@';
 }
 
+// Characters that may open a symbol body after its colon: word symbols
+// (:name), quoted symbols (:"..." / :'...'), and operator symbols such as
+// :+, :<=>, and :[]=.
+static bool is_symbol_body_start(int32_t c) {
+  return is_identifier_start(c) || c == '"' || c == '\'' || c == '+' ||
+         c == '-' || c == '*' || c == '/' || c == '%' || c == '<' ||
+         c == '>' || c == '=' || c == '!' || c == '&' || c == '|' ||
+         c == '[';
+}
+
 static bool word_equals(const char *w, int len, const char *k) {
   int j = 0;
   while (j < len && k[j] && k[j] == w[j]) j++;
@@ -166,10 +176,11 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
       lexer->result_symbol = symbol;
       return true;
     }
-    // Retroactive form: `protected :name, :other`.
+    // Retroactive form: `protected :name, :other`, including operator
+    // symbols (`public :+`).
     if (next == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead) || lexer->lookahead == '"') {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = symbol;
         return true;
       }
@@ -198,7 +209,7 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
     }
     if (next == ':') {
       advance(lexer);
-      if (is_identifier_start(lexer->lookahead)) {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = ALIAS_KEYWORD;
         return true;
       }
@@ -294,11 +305,7 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     // `::` scope operator).
     if (c == ':') {
       advance(lexer);
-      int32_t s = lexer->lookahead;
-      if (is_identifier_start(s) || s == '"' || s == '\'' || s == '+' ||
-          s == '-' || s == '*' || s == '/' || s == '%' || s == '<' ||
-          s == '>' || s == '=' || s == '!' || s == '&' || s == '|' ||
-          s == '[') {
+      if (is_symbol_body_start(lexer->lookahead)) {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
