@@ -112,6 +112,82 @@ Symbols
   (symbol))
 
 ================
+Single-quoted strings
+================
+
+'hello'
+'don\'t \\ stop'
+'no #{interp} or \n escapes'
+
+---
+
+(program
+  (string
+    (string_content))
+  (string
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content))
+  (string
+    (string_content)
+    (string_content)
+    (string_content)))
+
+================
+Operator and suffixed symbols
+================
+
+:<=>
+:[]=
+:name?
+:save!
+
+---
+
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
+
+================
+Quoted symbols in both quote styles
+================
+
+:"multi word"
+:'foo bar'
+:""
+
+---
+
+(program
+  (quoted_symbol)
+  (quoted_symbol)
+  (quoted_symbol))
+
+================
+Quoted literals as command arguments
+================
+
+puts 'hi'
+puts %w[a b]
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (string
+        (string_content))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (percent_array))))
+
+================
 Booleans
 ================
 

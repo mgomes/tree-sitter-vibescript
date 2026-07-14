@@ -36,7 +36,7 @@ static bool is_identifier_char(int32_t c) {
 }
 
 static bool is_argument_start(int32_t c) {
-  return is_identifier_char(c) || c == '"' || c == '@';
+  return is_identifier_char(c) || c == '"' || c == '\'' || c == '@';
 }
 
 static bool word_equals(const char *w, int len, const char *k) {
@@ -329,6 +329,21 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       if (lexer->lookahead == '.') {
         lexer->result_symbol = COMMAND_START;
         return true;
+      }
+      return false;
+    }
+    // Percent-array argument: `puts %w[a b]` (never the modulo operator,
+    // which lacks the sigil-and-delimiter shape).
+    if (c == '%') {
+      advance(lexer);
+      if (lexer->lookahead == 'w' || lexer->lookahead == 'W' ||
+          lexer->lookahead == 'i' || lexer->lookahead == 'I') {
+        advance(lexer);
+        if (lexer->lookahead == '[' || lexer->lookahead == '(' ||
+            lexer->lookahead == '{' || lexer->lookahead == '<') {
+          lexer->result_symbol = COMMAND_START;
+          return true;
+        }
       }
       return false;
     }

@@ -966,10 +966,23 @@ module.exports = grammar({
       )),
 
     string: ($) =>
-      seq(
-        '"',
-        repeat(choice($.escape_sequence, $.string_content)),
-        '"',
+      choice(
+        seq(
+          '"',
+          repeat(choice($.escape_sequence, $.string_content)),
+          '"',
+        ),
+        // Single-quoted strings only recognize \' and \\; every other
+        // backslash is literal text, matching the interpreter.
+        seq(
+          "'",
+          repeat(choice(
+            alias(token.immediate(prec(1, /[^'\\]+/)), $.string_content),
+            alias(token.immediate(/\\['\\]/), $.escape_sequence),
+            alias(token.immediate('\\'), $.string_content),
+          )),
+          token.immediate("'"),
+        ),
       ),
 
     string_content: (_$) =>
@@ -978,11 +991,21 @@ module.exports = grammar({
     escape_sequence: (_$) =>
       /\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/,
 
+    // Symbols may name operators (used by alias_method, retroactive
+    // visibility, and block-pass shorthand).
     symbol: (_$) =>
-      /:[a-zA-Z_][a-zA-Z0-9_]*/,
+      token(seq(':', choice(
+        /[a-zA-Z_][a-zA-Z0-9_]*[?!]?/,
+        '[]=', '[]', '===', '<=>', '**', '<<', '<=', '>=', '==', '!=',
+        '&&', '||',
+        /[+\-*\/%<>&|!]/,
+      ))),
 
     quoted_symbol: (_$) =>
-      token(seq(':', '"', /[^"]*/, '"')),
+      token(seq(':', choice(
+        seq('"', /[^"]*/, '"'),
+        seq("'", /[^']*/, "'"),
+      ))),
 
     percent_array: (_$) =>
       token(seq(
