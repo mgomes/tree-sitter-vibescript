@@ -102,3 +102,31 @@ end
           module: (identifier)
           (constant))))
     (identifier)))
+
+================
+Dotted constants stay expressions
+================
+
+x = Math.PI
+
+def f(pi: Math.PI)
+  pi
+end
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (member_access
+      (constant)
+      (constant)))
+  (method
+    name: (identifier)
+    (parameters
+      (keyword_parameter
+        name: (identifier)
+        default: (member_access
+          (constant)
+          (constant))))
+    (identifier)))

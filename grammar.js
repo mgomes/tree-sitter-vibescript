@@ -211,15 +211,16 @@ module.exports = grammar({
       ),
 
     // Enum types exported by a required module: `status_mod.Status`. The
-    // dynamic penalty keeps `pi: Math.PI` reading as a keyword default in
-    // parameter position, where an expression also parses.
+    // member must be CamelCase (uppercase with a later lowercase letter),
+    // matching the interpreter's dotted-type rule, so ALL-CAPS members
+    // like `pi: Math.PI` keep reading as keyword-default expressions.
     qualified_type_name: ($) =>
-      prec.dynamic(-15, seq(
+      seq(
         field("module", choice($.identifier, $.constant)),
         ".",
-        choice($.identifier, $.constant),
+        alias(token(prec(1, /[A-Z][A-Z0-9_]*[a-z][a-zA-Z0-9_]*/)), $.constant),
         optional("?"),
-      )),
+      ),
 
     type_name: ($) =>
       seq(
@@ -823,7 +824,7 @@ module.exports = grammar({
       prec.left(PREC.CALL - 1, seq(
         $._expression,
         choice(".", "&."),
-        $.identifier,
+        choice($.identifier, $.constant),
         optional($.block),
       )),
 
