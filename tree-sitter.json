@@ -6,7 +6,8 @@
       "scope": "source.vibescript",
       "path": ".",
       "file-types": ["vibe"],
-      "highlights": "queries/highlights.scm"
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm"
     }
   ],
   "metadata": {

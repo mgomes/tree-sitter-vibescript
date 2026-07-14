@@ -1,0 +1,17 @@
+[
+  (method)
+  (class)
+  (module)
+  (enum)
+  (if)
+  (unless)
+  (case)
+  (begin)
+  (while)
+  (until)
+  (for)
+  (block)
+  (lambda)
+  (array)
+  (hash)
+] @fold
