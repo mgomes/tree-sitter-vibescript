@@ -63,6 +63,7 @@ module.exports = grammar({
     [$.raise, $._expression_or_closed_range],
     [$.qualified_type_name, $._primary],
     [$.type_shape_field, $.hash_entry],
+    [$.type_shape_field, $._primary],
     [$._destructure_target, $._primary],
     [$._destructure_target, $._expression],
     [$.simple_parameter, $._destructure_target],
@@ -252,10 +253,12 @@ module.exports = grammar({
         "}",
       ),
 
+    // Fields separate with a label colon or a hash rocket
+    // ({ "user-id" => string }), matching the interpreter's shape grammar.
     type_shape_field: ($) =>
       seq(
         field("name", choice($.identifier, $.string, $.symbol)),
-        ":",
+        choice(":", "=>"),
         $.type_annotation,
       ),
 

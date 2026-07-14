@@ -149,3 +149,34 @@ opt = { x: string?, ok: valid? }
       (hash_entry
         key: (identifier)
         value: (identifier)))))
+
+================
+Hash-rocket separators in shape types
+================
+
+def accept(p: { "user-id" => string, :legacy => int })
+  p
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_shape
+            (type_shape_field
+              name: (string
+                (string_content))
+              (type_annotation
+                (type_name
+                  (identifier))))
+            (type_shape_field
+              name: (symbol)
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (identifier)))

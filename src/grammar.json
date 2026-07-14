@@ -853,8 +853,17 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ":"
+            },
+            {
+              "type": "STRING",
+              "value": "=>"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -5402,6 +5411,10 @@
     [
       "type_shape_field",
       "hash_entry"
+    ],
+    [
+      "type_shape_field",
+      "_primary"
     ],
     [
       "_destructure_target",

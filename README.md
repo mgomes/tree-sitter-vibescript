@@ -77,6 +77,11 @@ Other approximations, all chosen so that the tree stays intact:
 - Nested destructuring groups (`x, (y, z) = ...`) need at least two
   elements; a single-element group parses as a parenthesized
   expression.
+- Malformed abutted literals such as `1e3foo` or `123abc` parse as a
+  number followed by an identifier instead of surfacing the
+  interpreter's parse error. Rejecting them needs negative lookahead
+  the token grammar cannot express, and lenient trees highlight better
+  mid-edit; keyword suffixes (`1e3if cond`) parse identically in both.
 
 Contextual words are handled precisely, matching the interpreter:
 `module = 5`, `public = 1`, `protected = 2`, `include = 3`, `extend = 4`,
