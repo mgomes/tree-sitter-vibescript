@@ -31,6 +31,10 @@
             "named": true
           },
           {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           }
@@ -42,6 +46,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
             "named": true
           },
           {
@@ -61,6 +69,10 @@
         "required": true,
         "types": [
           {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           }
@@ -70,6 +82,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
           {
             "type": "symbol",
             "named": true
@@ -5027,6 +5043,10 @@
             "named": true
           },
           {
+            "type": "begin",
+            "named": true
+          },
+          {
             "type": "beginless_range",
             "named": true
           },
@@ -5036,6 +5056,10 @@
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
             "named": true
           },
           {
@@ -5051,6 +5075,10 @@
             "named": true
           },
           {
+            "type": "endless_range",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -5059,11 +5087,19 @@
             "named": true
           },
           {
+            "type": "for",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if",
             "named": true
           },
           {
@@ -5136,6 +5172,18 @@
           },
           {
             "type": "unary",
+            "named": true
+          },
+          {
+            "type": "unless",
+            "named": true
+          },
+          {
+            "type": "until",
+            "named": true
+          },
+          {
+            "type": "while",
             "named": true
           }
         ]
@@ -9823,6 +9871,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "quoted_symbol",
+          "named": true
+        },
         {
           "type": "symbol",
           "named": true

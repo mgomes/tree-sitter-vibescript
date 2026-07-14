@@ -359,3 +359,35 @@ end
     (alias
       name: (symbol)
       target: (symbol))))
+
+================
+Quoted symbols in alias and visibility forms
+================
+
+class G
+  def hello
+    "hi"
+  end
+
+  alias :"new-name" :hello
+  alias_method :"other-name", :hello
+  private :"new-name"
+end
+
+---
+
+(program
+  (class
+    name: (constant)
+    (method
+      name: (identifier)
+      (string
+        (string_content)))
+    (alias
+      name: (quoted_symbol)
+      target: (symbol))
+    (alias_method
+      name: (quoted_symbol)
+      target: (symbol))
+    (visibility_directive
+      (quoted_symbol))))

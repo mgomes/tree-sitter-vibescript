@@ -353,7 +353,7 @@ module.exports = grammar({
     visibility_directive: ($) =>
       prec.dynamic(-10, prec.right(seq(
         $._visibility_modifier,
-        optional(seq($.symbol, repeat(seq(",", $.symbol)))),
+        optional(seq($._symbol_name, repeat(seq(",", $._symbol_name)))),
       ))),
 
     alias: ($) =>
@@ -364,16 +364,19 @@ module.exports = grammar({
       ),
 
     _alias_name: ($) =>
-      choice($.identifier, $.symbol),
+      choice($.identifier, $.symbol, $.quoted_symbol),
 
     alias_method: ($) =>
       seq(
         "alias_method",
         choice(
-          seq("(", field("name", $.symbol), ",", field("target", $.symbol), ")"),
-          seq(field("name", $.symbol), ",", field("target", $.symbol)),
+          seq("(", field("name", $._symbol_name), ",", field("target", $._symbol_name), ")"),
+          seq(field("name", $._symbol_name), ",", field("target", $._symbol_name)),
         ),
       ),
+
+    _symbol_name: ($) =>
+      choice($.symbol, $.quoted_symbol),
 
     accessor_name: ($) =>
       seq(
@@ -1111,9 +1114,11 @@ module.exports = grammar({
       token.immediate(/\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/),
 
     // The body re-enters the full expression grammar, so nested strings and
-    // nested interpolations come along for free.
+    // nested interpolations come along for free. Value-producing control
+    // flow ("#{if flag then "yes" else "no" end}") is admitted the same way
+    // as on assignment right-hand sides.
     interpolation: ($) =>
-      seq(token.immediate(prec(2, '#{')), field('body', $._expression), '}'),
+      seq(token.immediate(prec(2, '#{')), field('body', $._rhs_expression), '}'),
 
     // Symbols may name operators (used by alias_method, retroactive
     // visibility, and block-pass shorthand).

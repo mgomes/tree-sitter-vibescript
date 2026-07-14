@@ -183,3 +183,24 @@ raw = 'no #{interp} here'
     (identifier)
     (string
       (string_content))))
+
+================
+Control flow inside interpolation
+================
+
+msg = "#{if flag then "yes" else "no" end}"
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (string
+      (interpolation
+        body: (if
+          condition: (identifier)
+          (string
+            (string_content))
+          (else
+            (string
+              (string_content))))))))

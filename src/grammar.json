@@ -1255,7 +1255,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "symbol"
+                      "name": "_symbol_name"
                     },
                     {
                       "type": "REPEAT",
@@ -1268,7 +1268,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "symbol"
+                            "name": "_symbol_name"
                           }
                         ]
                       }
@@ -1324,6 +1324,10 @@
         {
           "type": "SYMBOL",
           "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_symbol"
         }
       ]
     },
@@ -1349,7 +1353,7 @@
                   "name": "name",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "symbol"
+                    "name": "_symbol_name"
                   }
                 },
                 {
@@ -1361,7 +1365,7 @@
                   "name": "target",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "symbol"
+                    "name": "_symbol_name"
                   }
                 },
                 {
@@ -1378,7 +1382,7 @@
                   "name": "name",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "symbol"
+                    "name": "_symbol_name"
                   }
                 },
                 {
@@ -1390,12 +1394,25 @@
                   "name": "target",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "symbol"
+                    "name": "_symbol_name"
                   }
                 }
               ]
             }
           ]
+        }
+      ]
+    },
+    "_symbol_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_symbol"
         }
       ]
     },
@@ -5037,7 +5054,7 @@
           "name": "body",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_rhs_expression"
           }
         },
         {
