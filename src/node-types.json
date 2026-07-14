@@ -4309,11 +4309,123 @@
         "required": true,
         "types": [
           {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "beginless_range",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "compound_assignment",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "percent_array",
+            "named": true
+          },
+          {
+            "type": "quoted_symbol",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
+            "type": "scope_resolution",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
@@ -4440,6 +4552,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_annotation",
             "named": true
           },
           {
@@ -6889,6 +7005,40 @@
     }
   },
   {
+    "type": "qualified_type_name",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "raise",
     "named": true,
     "fields": {},
@@ -8516,6 +8666,10 @@
       "required": true,
       "types": [
         {
+          "type": "qualified_type_name",
+          "named": true
+        },
+        {
           "type": "type_name",
           "named": true
         },
@@ -8534,6 +8688,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "qualified_type_name",
+          "named": true
+        },
         {
           "type": "type_name",
           "named": true
@@ -8593,6 +8751,14 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
             "named": true
           }
         ]

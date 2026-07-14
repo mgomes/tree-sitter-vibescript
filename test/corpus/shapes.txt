@@ -1,0 +1,104 @@
+================
+Shape literal with a union field
+================
+
+schema = { id: string, note: string | nil }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (hash
+      (hash_entry
+        key: (identifier)
+        value: (identifier))
+      (hash_entry
+        key: (identifier)
+        value: (type_annotation
+          (type_name
+            (identifier))
+          (type_name))))))
+
+================
+Shape literal as a parse_as schema argument
+================
+
+body = JSON.parse_as(raw, { tags: array<int>, user: { name: string | nil } })
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (call
+      receiver: (constant)
+      method: (identifier)
+      (argument_list
+        (identifier)
+        (hash
+          (hash_entry
+            key: (identifier)
+            value: (type_annotation
+              (type_name
+                (identifier)
+                (type_arguments
+                  (type_name
+                    (identifier))))))
+          (hash_entry
+            key: (identifier)
+            value: (type_annotation
+              (type_shape
+                (type_shape_field
+                  name: (identifier)
+                  (type_annotation
+                    (type_name
+                      (identifier))
+                    (type_name)))))))))))
+
+================
+Plain hashes keep the expression reading
+================
+
+plain = { id: value, note: "text" }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (hash
+      (hash_entry
+        key: (identifier)
+        value: (identifier))
+      (hash_entry
+        key: (identifier)
+        value: (string
+          (string_content))))))
+
+================
+Qualified enum types in annotations
+================
+
+def lookup(status: status_mod.Status) -> types.Result
+  status
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (qualified_type_name
+            module: (identifier)
+            (constant)))))
+    (return_type
+      (type_annotation
+        (qualified_type_name
+          module: (identifier)
+          (constant))))
+    (identifier)))

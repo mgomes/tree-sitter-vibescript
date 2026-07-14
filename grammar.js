@@ -61,6 +61,8 @@ module.exports = grammar({
     [$.scoped_constant, $._primary],
     [$._rescue_type, $._primary],
     [$.raise, $._expression_or_closed_range],
+    [$.qualified_type_name, $._primary],
+    [$.type_shape_field, $.hash_entry],
   ],
 
   rules: {
@@ -197,8 +199,20 @@ module.exports = grammar({
     _type: ($) =>
       choice(
         $.type_name,
+        $.qualified_type_name,
         $.type_shape,
       ),
+
+    // Enum types exported by a required module: `status_mod.Status`. The
+    // dynamic penalty keeps `pi: Math.PI` reading as a keyword default in
+    // parameter position, where an expression also parses.
+    qualified_type_name: ($) =>
+      prec.dynamic(-15, seq(
+        field("module", choice($.identifier, $.constant)),
+        ".",
+        choice($.identifier, $.constant),
+        optional("?"),
+      )),
 
     type_name: ($) =>
       seq(
@@ -232,7 +246,7 @@ module.exports = grammar({
 
     type_shape_field: ($) =>
       seq(
-        field("name", $.identifier),
+        field("name", choice($.identifier, $.string, $.symbol)),
         ":",
         $.type_annotation,
       ),
@@ -950,10 +964,26 @@ module.exports = grammar({
           ":",
           field("value", $._expression_or_closed_range),
         ),
+        // Expression-position shape literals (JSON.parse_as schemas): the
+        // value reads as a type annotation. The dynamic penalty keeps the
+        // expression reading for groups that parse both ways ({ id: string }),
+        // so this branch only wins where only type syntax parses
+        // (string | nil, array<int>, string?).
+        prec.dynamic(-1, seq(
+          field("key", choice($.identifier, $.string, $.symbol)),
+          ":",
+          field("value", $.type_annotation),
+        )),
         // value omission: { name:, age: } takes the value from a local of the same name
         seq(
           field("key", $.identifier),
           ":",
+        ),
+        // hash rocket for runtime key expressions: { current_key => "x" }
+        seq(
+          field("key", $._expression),
+          "=>",
+          field("value", $._expression_or_closed_range),
         ),
       ),
 
