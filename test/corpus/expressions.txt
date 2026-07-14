@@ -158,3 +158,33 @@ a.b, c = 1, 2
     left: (identifier)
     right: (integer)
     right: (integer)))
+
+================
+Chained and call-receiver destructuring targets
+================
+
+a.b.c, d = 1, 2
+f(x).y, z = 1, 2
+
+---
+
+(program
+  (destructuring_assignment
+    left: (member_access
+      (member_access
+        (identifier)
+        (identifier))
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer))
+  (destructuring_assignment
+    left: (member_access
+      (call
+        method: (identifier)
+        (argument_list
+          (identifier)))
+      (identifier))
+    left: (identifier)
+    right: (integer)
+    right: (integer)))

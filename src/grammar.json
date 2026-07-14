@@ -2025,8 +2025,13 @@
           "value": "member_access"
         },
         {
-          "type": "SYMBOL",
-          "name": "subscript"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_assignable_subscript"
+          },
+          "named": true,
+          "value": "subscript"
         },
         {
           "type": "SYMBOL",
@@ -2046,7 +2051,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_assignable_receiver"
           },
           {
             "type": "STRING",
@@ -2058,6 +2063,98 @@
           }
         ]
       }
+    },
+    "_assignable_subscript": {
+      "type": "PREC",
+      "value": 17,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_assignable_receiver"
+          },
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression_or_closed_range"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression_or_closed_range"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          }
+        ]
+      }
+    },
+    "_assignable_receiver": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constant"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instance_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "self"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_assignable_member_access"
+          },
+          "named": true,
+          "value": "member_access"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_assignable_subscript"
+          },
+          "named": true,
+          "value": "subscript"
+        }
+      ]
     },
     "destructured_target": {
       "type": "CHOICE",
@@ -5592,16 +5689,21 @@
       "_primary"
     ],
     [
-      "_assignable_member_access",
-      "member_access"
+      "_assignable_receiver",
+      "_primary"
     ],
     [
-      "_destructure_target",
+      "_assignable_receiver",
+      "_expression"
+    ],
+    [
+      "_assignable_receiver",
+      "_rescue_type",
       "_primary"
     ],
     [
       "_destructure_target",
-      "_expression"
+      "_primary"
     ],
     [
       "simple_parameter",
