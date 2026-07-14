@@ -4349,6 +4349,10 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "destructured_parameter"
         }
       ]
     },

@@ -930,6 +930,7 @@ module.exports = grammar({
       choice(
         $.typed_parameter,
         $.identifier,
+        $.destructured_parameter,
       ),
 
     block: ($) =>

@@ -5516,6 +5516,10 @@
       "required": false,
       "types": [
         {
+          "type": "destructured_parameter",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },

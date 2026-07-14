@@ -184,3 +184,22 @@ puts proc + lambda
       (binary
         (identifier)
         (identifier)))))
+
+================
+Destructured lambda parameters
+================
+
+fn = ->((key, value)) { key }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (lambda
+      (lambda_parameters
+        (destructured_parameter
+          (identifier)
+          (identifier)))
+      body: (block
+        (identifier)))))
