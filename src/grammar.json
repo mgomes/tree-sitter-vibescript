@@ -15,6 +15,10 @@
           {
             "type": "SYMBOL",
             "name": "_declaration"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "enum"
           }
         ]
       }
@@ -33,10 +37,6 @@
         {
           "type": "SYMBOL",
           "name": "module"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enum"
         },
         {
           "type": "SYMBOL",

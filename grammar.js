@@ -71,8 +71,11 @@ module.exports = grammar({
   ],
 
   rules: {
+    // Enums join the choice here rather than in _declaration: the
+    // interpreter rejects them anywhere but the program top level,
+    // including module and method bodies.
     program: ($) =>
-      repeat(choice($._statement, $._declaration)),
+      repeat(choice($._statement, $._declaration, $.enum)),
 
     // --- Declarations ---
 
@@ -81,7 +84,6 @@ module.exports = grammar({
         $.method,
         $.class,
         $.module,
-        $.enum,
         $.export_method,
       ),
 
@@ -294,8 +296,7 @@ module.exports = grammar({
         "end",
       ),
 
-    // The interpreter only allows enums at the top level; members are bare
-    // word tokens, at least one required.
+    // Members are bare word tokens, at least one required.
     enum: ($) =>
       seq(
         "enum",

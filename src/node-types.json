@@ -608,10 +608,6 @@
           "named": true
         },
         {
-          "type": "enum",
-          "named": true
-        },
-        {
           "type": "export_method",
           "named": true
         },
@@ -1102,10 +1098,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -3062,10 +3054,6 @@
           "named": true
         },
         {
-          "type": "enum",
-          "named": true
-        },
-        {
           "type": "export_method",
           "named": true
         },
@@ -3413,10 +3401,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -3771,10 +3755,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -4204,10 +4184,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -4881,10 +4857,6 @@
         },
         {
           "type": "elsif",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -5776,10 +5748,6 @@
         },
         {
           "type": "ensure",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -7402,10 +7370,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -9355,10 +9319,6 @@
           "named": true
         },
         {
-          "type": "enum",
-          "named": true
-        },
-        {
           "type": "export_method",
           "named": true
         },
@@ -9709,10 +9669,6 @@
           "named": true
         },
         {
-          "type": "enum",
-          "named": true
-        },
-        {
           "type": "export_method",
           "named": true
         },
@@ -9952,10 +9908,6 @@
         },
         {
           "type": "endless_range",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -10310,10 +10262,6 @@
         },
         {
           "type": "directive_comment",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {

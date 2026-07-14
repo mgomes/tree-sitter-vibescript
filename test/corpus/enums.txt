@@ -50,3 +50,25 @@ end
     (scope_resolution
       (constant)
       (constant))))
+
+================
+Enums outside the top level are not declarations
+================
+
+def f
+  enum E
+    A
+  end
+end
+
+---
+
+(program
+  (method
+    name: (identifier)
+    (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (constant)))
+    (constant))
+  (identifier))
