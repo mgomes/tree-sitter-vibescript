@@ -63,7 +63,6 @@ module.exports = grammar({
     [$.raise, $._expression_or_closed_range],
     [$.qualified_type_name, $._primary],
     [$.type_shape_field, $.hash_entry],
-    [$.type_shape_field, $._primary],
     [$._assignable_receiver, $._primary],
     [$._assignable_receiver, $._expression],
     [$._assignable_receiver, $._rescue_type, $._primary],
@@ -254,12 +253,13 @@ module.exports = grammar({
         "}",
       ),
 
-    // Fields separate with a label colon or a hash rocket
-    // ({ "user-id" => string }), matching the interpreter's shape grammar.
+    // Field names may be labels, string literals, symbol literals, or
+    // quoted symbols ({ "user-id": string }), matching the interpreter's
+    // shape grammar; the separator is always a colon.
     type_shape_field: ($) =>
       seq(
         field("name", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
-        choice(":", "=>"),
+        ":",
         $.type_annotation,
       ),
 
@@ -1102,12 +1102,6 @@ module.exports = grammar({
         seq(
           field("key", $.identifier),
           ":",
-        ),
-        // hash rocket for runtime key expressions: { current_key => "x" }
-        seq(
-          field("key", $._expression),
-          "=>",
-          field("value", $._expression_or_closed_range),
         ),
       ),
 

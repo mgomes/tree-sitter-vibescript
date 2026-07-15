@@ -870,17 +870,8 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "STRING",
-              "value": "=>"
-            }
-          ]
+          "type": "STRING",
+          "value": ":"
         },
         {
           "type": "SYMBOL",
@@ -5085,31 +5076,6 @@
               "value": ":"
             }
           ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "key",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "=>"
-            },
-            {
-              "type": "FIELD",
-              "name": "value",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_expression_or_closed_range"
-              }
-            }
-          ]
         }
       ]
     },
@@ -5687,10 +5653,6 @@
     [
       "type_shape_field",
       "hash_entry"
-    ],
-    [
-      "type_shape_field",
-      "_primary"
     ],
     [
       "_assignable_receiver",

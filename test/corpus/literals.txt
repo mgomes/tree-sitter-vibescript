@@ -248,33 +248,6 @@ Hashes
       value: (true))))
 
 ================
-Hash rockets for runtime keys
-================
-
-player = { current_key => "dynamic", 1 => "one", [2, 3] => "pair" }
-
----
-
-(program
-  (assignment
-    (identifier)
-    (hash
-      (hash_entry
-        key: (identifier)
-        value: (string
-          (string_content)))
-      (hash_entry
-        key: (integer)
-        value: (string
-          (string_content)))
-      (hash_entry
-        key: (array
-          (integer)
-          (integer))
-        value: (string
-          (string_content))))))
-
-================
 Hex and unicode string escapes
 ================
 
