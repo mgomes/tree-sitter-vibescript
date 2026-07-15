@@ -188,3 +188,45 @@ f(x).y, z = 1, 2
     left: (identifier)
     right: (integer)
     right: (integer)))
+
+================
+Command calls as modifier bodies
+================
+
+puts x if ready
+puts [1, 2] unless done
+
+---
+
+(program
+  (modifier
+    body: (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (identifier)))
+    condition: (identifier))
+  (modifier
+    body: (command_call
+      method: (identifier)
+      arguments: (command_arguments
+        (array
+          (integer)
+          (integer))))
+    condition: (identifier)))
+
+================
+Constant command callees
+================
+
+Loader [1], [2]
+
+---
+
+(program
+  (command_call
+    method: (constant)
+    arguments: (command_arguments
+      (array
+        (integer))
+      (array
+        (integer)))))

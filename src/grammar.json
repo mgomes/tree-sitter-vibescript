@@ -1710,8 +1710,17 @@
             "type": "FIELD",
             "name": "method",
             "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "constant"
+                }
+              ]
             }
           },
           {
@@ -1790,6 +1799,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "command_call"
                 },
                 {
                   "type": "SYMBOL",
