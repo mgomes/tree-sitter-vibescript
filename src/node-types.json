@@ -2436,6 +2436,10 @@
         "required": true,
         "types": [
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -5913,6 +5917,10 @@
           },
           {
             "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "command_call",
             "named": true
           },
           {

@@ -447,9 +447,11 @@ module.exports = grammar({
 
     // prec.right: in `puts f 3, 4` the comma-separated list binds to the
     // innermost parenless call, matching Ruby's greedy command arguments.
+    // Callees may be identifiers or constants: `UNDEF_CONST [1], [2]`
+    // parses as one command call in the interpreter.
     command_call: ($) =>
       prec.right(seq(
-        field("method", $.identifier),
+        field("method", choice($.identifier, $.constant)),
         $._command_start,
         field("arguments", $.command_arguments),
       )),
@@ -471,6 +473,7 @@ module.exports = grammar({
       prec.left(seq(
         field("body", choice(
           $._expression,
+          $.command_call,
           $.return,
           $.break,
           $.next,
