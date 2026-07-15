@@ -42,9 +42,10 @@ matched = "ID-12" =~ /id-([0-9]+)/i
 same = (1..3) === 2
 approx = 10 <=> 2
 
-# Hash rockets and shapes
+# Hashes and shapes
 current_key = :nickname
-player = { name: "Ada", current_key => "dynamic", 1 => "one" }
+player = { name: "Ada", "display-name": "Lady Ada" }
+player[current_key] = "dynamic"
 schema = { id: string, note: string | nil }
 body = JSON.parse_as("{\"id\":\"a\",\"note\":null}", schema)
 

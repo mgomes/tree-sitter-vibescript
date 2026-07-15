@@ -151,41 +151,10 @@ opt = { x: string?, ok: valid? }
         value: (identifier)))))
 
 ================
-Hash-rocket separators in shape types
+Quoted symbol, string, and symbol shape keys
 ================
 
-def accept(p: { "user-id" => string, :legacy => int })
-  p
-end
-
----
-
-(program
-  (method
-    name: (identifier)
-    (parameters
-      (typed_parameter
-        (identifier)
-        (type_annotation
-          (type_shape
-            (type_shape_field
-              name: (string
-                (string_content))
-              (type_annotation
-                (type_name
-                  (identifier))))
-            (type_shape_field
-              name: (symbol)
-              (type_annotation
-                (type_name
-                  (identifier))))))))
-    (identifier)))
-
-================
-Quoted symbol shape keys
-================
-
-def f(p: { :"user-id" => string })
+def f(p: { :"user-id": string, "email": string, :legacy: int })
   p
 end
 
@@ -201,6 +170,17 @@ end
           (type_shape
             (type_shape_field
               name: (quoted_symbol)
+              (type_annotation
+                (type_name
+                  (identifier))))
+            (type_shape_field
+              name: (string
+                (string_content))
+              (type_annotation
+                (type_name
+                  (identifier))))
+            (type_shape_field
+              name: (symbol)
               (type_annotation
                 (type_name
                   (identifier))))))))
