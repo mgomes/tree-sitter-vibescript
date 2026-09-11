@@ -6,3 +6,4 @@ build/
 *.dylib
 *.wasm
 .build/
+target/

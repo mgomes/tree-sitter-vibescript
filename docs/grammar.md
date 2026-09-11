@@ -1,0 +1,90 @@
+# Grammar notes
+
+### Known divergences from the interpreter
+
+The interpreter disambiguates several prefix sigils (`*`, `/`, `[`)
+by consulting its local-variable table: a slash, star, or bracket after a
+*known local* is an operator or index, while after a non-local callee it
+opens a parenless argument. Tree-sitter has no symbol table, so this
+grammar approximates the
+rule with spacing alone (space before the sigil, none after it). Both
+readings keep the tree free of `ERROR` nodes; only which nodes appear can
+differ from how the interpreter executes the code:
+
+- `x *n` at statement level parses as a parenless splat command even
+  when `x` is a local variable (the interpreter multiplies for locals). `x * n` and `x*n` always stay
+  binary operators, and `x *= 2` stays a compound assignment.
+- `total /2` parses as division because the slash never closes on its
+  line. With a closing slash, `f /2 + g/i` parses as a regex command
+  argument even when `f` is a local (the interpreter keeps dividing for
+  locals, including the implicit `it` parameter and enclosing class
+  constants).
+- `a [0]` (spaced bracket) parses as an array command argument even when
+  `a` is a local, and `a [0] = 1` becomes a command whose argument is an
+  assignment to an array literal (the interpreter indexes locals in every
+  spacing). Flush brackets (`a[0]`, `puts[1]`) always stay indexing, and
+  `self [0]` stays indexing because a command callee must be an
+  identifier. `f [0] = 5` with a non-local callee is a parse error in the
+  interpreter; the grammar keeps the intact command-with-assignment tree
+  instead.
+- `total %w[0]` parses as a percent-array command argument even when
+  `total` and `w` are locals (the interpreter reads modulo of an indexed
+  local there). `total % w[0]` and `total %w [0]`-free spacings keep the
+  modulo reading, since the argument form requires the sigil, letter, and
+  delimiter to sit flush.
+
+Other approximations, all chosen so that the tree stays intact:
+
+- Removed builtins and directives can still form ordinary identifier or call
+  nodes, including `proc(...)`, `include M`, and module accessors. They no
+  longer receive dedicated syntax nodes or builtin highlighting. Likewise,
+  `f &blk` reads as binary intersection because the grammar cannot distinguish
+  a local operand from a callee. The interpreter reports unsupported uses.
+- Runtime rules such as string-only hash keys, collection value semantics,
+  nonescaping blocks, and unavailable methods are checked by Vibescript; an
+  error-free syntax tree does not validate execution.
+
+- A visibility word on its own line followed by a definition
+  (`private` then `def x`) produces the same tokens as the inline form
+  (`private def x`), so the grammar attaches the modifier to that first
+  definition instead of emitting a bare section directive. A visibility
+  word before a non-definition member (or before `end`) still parses as a
+  `visibility_directive` section, and `private :a, :b` parses as the
+  retroactive symbol form.
+- A bare `rescue` whose body's first statement begins with a constant on
+  the next line reads that constant as the rescue's error type.
+- `return`, `break`, `next`, and `yield` values must sit on the keyword's
+  line; a bare keyword followed by an expression statement on the next
+  line parses as the keyword consuming that expression.
+- `module foo` (lowercase name) parses as a command call; the interpreter
+  reports a targeted "module name must start with an uppercase letter"
+  error instead.
+- `def f(a: nil)` parses the `nil` as a type annotation; the interpreter
+  reads it as a keyword default unless a union pipe follows.
+- A hash entry whose value only parses as type syntax
+  (`{ note: string | nil }`, `{ tags: array<int> }`) carries a
+  `type_annotation` value, mirroring expression-position shape
+  literals. An entry that parses both ways (`{ id: string }`) keeps the
+  expression reading, exactly like the interpreter's dual-reading
+  default, so a pure schema literal can mix expression-valued and
+  type-valued entries in one hash node.
+- Interpolations inside `%W[...]` / `%I[...]` percent arrays are not
+  structured; the whole literal stays a single token, so `#{...}`
+  segments inside them are not highlighted as code.
+- Nested destructuring groups (`x, (y, z) = ...`) need at least two
+  elements; a single-element group parses as a parenthesized
+  expression.
+- Malformed abutted literals such as `1e3foo` or `123abc` parse as a
+  number followed by an identifier instead of surfacing the
+  interpreter's parse error. Rejecting them needs negative lookahead
+  the token grammar cannot express, and lenient trees highlight better
+  mid-edit; keyword suffixes (`1e3if cond`) parse identically in both.
+
+Contextual words such as `module`, `public`, `protected`, and `alias`
+remain identifiers outside their declaration and directive forms. Former
+operators `and`, `or`, and `not`, and former mixin words `include` and
+`extend`, are ordinary identifiers. The
+statement-level newline that ends an endless range (`x = 5..`), the
+signature-line-only `-> Type` return annotation, the same-line `rescue`
+modifier, and the loop-header `do` are recognized by the external scanner
+(`src/scanner.c`).
