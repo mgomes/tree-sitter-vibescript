@@ -171,8 +171,8 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
       (valid_symbols[PROTECTED_KEYWORD] &&
        word_equals(word, len, "protected"))) {
     enum TokenType symbol = word[1] == 'u' ? PUBLIC_KEYWORD : PROTECTED_KEYWORD;
-    // Section form: bare word ending its line.
-    if (next == '\n' || next == '\r' || next == 0 || next == '#') {
+    // Section form: bare word ending its statement.
+    if (next == '\n' || next == '\r' || next == ';' || next == 0 || next == '#') {
       lexer->result_symbol = symbol;
       return true;
     }
@@ -238,12 +238,10 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
 //                       `x = 5..` ends at the line break while grouped forms
 //                       `(3..\n9)` (where this token is not valid) continue.
 //   SIGNATURE_ARROW   - the `->` of a `def` return annotation, valid only on
-//                       the signature line; a `->` opening the next line falls
-//                       back to the internal token and parses as a lambda.
+//                       the signature line; a `->` opening the next line is
+//                       invalid.
 //   MODULE_KEYWORD    - contextual `module`, only before an uppercase name on
 //                       the same line (`module = 5` stays an identifier).
-//   INCLUDE/EXTEND    - contextual mixin directives before a module name or
-//                       paren (`include = 2` stays an identifier).
 //   PUBLIC/PROTECTED  - contextual visibility words in section, retroactive
 //                       symbol, and inline-definition forms (`public = 1`
 //                       stays an identifier).

@@ -334,3 +334,30 @@ end
       target: (symbol))
     (visibility_directive
       (quoted_symbol))))
+================
+Semicolon visibility sections
+================
+
+class C; protected; def hidden; 1; end; public; def shown; 2; end; end
+module M; public; def self.code; 1; end; end
+
+---
+
+(program
+  (class
+    (constant)
+    (visibility_directive)
+    (method
+      (identifier)
+      (integer))
+    (visibility_directive)
+    (method
+      (identifier)
+      (integer)))
+  (module
+    (constant)
+    (visibility_directive)
+    (method
+      (self_method_name
+        (identifier))
+      (integer))))
