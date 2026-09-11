@@ -21,7 +21,7 @@ const PREC = {
 module.exports = grammar({
   name: "vibescript",
 
-  extras: ($) => [/[\s;]/, $.comment],
+  extras: ($) => [/\s/, $.comment],
 
   word: ($) => $.identifier,
 
@@ -73,7 +73,7 @@ module.exports = grammar({
     // interpreter rejects them anywhere but the program top level,
     // including module and method bodies.
     program: ($) =>
-      repeat(choice($._statement, $._declaration, $.enum)),
+      repeat(choice($._statement, $._declaration, $.enum, ";")),
 
     // --- Declarations ---
 
@@ -268,6 +268,7 @@ module.exports = grammar({
     _class_body: ($) =>
       repeat1(
         choice(
+          ";",
           $.property_declaration,
           $.getter_declaration,
           $.setter_declaration,
@@ -293,13 +294,18 @@ module.exports = grammar({
       seq(
         "enum",
         field("name", choice($.constant, $.identifier)),
-        repeat1(field("member", alias(choice($.constant, $.identifier), $.enum_member))),
+        repeat(";"),
+        repeat1(seq(
+          field("member", alias(choice($.constant, $.identifier), $.enum_member)),
+          repeat(";"),
+        )),
         "end",
       ),
 
     _module_body: ($) =>
       repeat1(
         choice(
+          ";",
           alias($._module_method, $.method),
           $.visibility_directive,
           $.module,
@@ -632,6 +638,7 @@ module.exports = grammar({
       seq(
         "case",
         optional(field("subject", $._expression)),
+        repeat(";"),
         repeat1($.when),
         optional($.else),
         "end",
@@ -1027,7 +1034,7 @@ module.exports = grammar({
     // --- Body ---
 
     _body: ($) =>
-      repeat1(choice($._statement, $._declaration)),
+      repeat1(choice($._statement, $._declaration, ";")),
 
     // --- Terminals ---
 

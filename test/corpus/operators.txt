@@ -316,3 +316,44 @@ def run; a = 1; b = 2; a + b; end
     (binary
       (identifier)
       (identifier))))
+
+================
+Semicolons end expressions before unary operators
+================
+
+def run; n = 1; +2; n; end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (integer))
+    (unary
+      (integer))
+    (identifier)))
+
+================
+Semicolons end parenless calls
+================
+
+puts; 1
+
+---
+
+(program
+  (identifier)
+  (integer))
+
+================
+Semicolons end method signatures
+:error
+================
+
+def foo; -> int
+  1
+end
+
+---
