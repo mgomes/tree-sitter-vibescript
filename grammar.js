@@ -3,8 +3,6 @@
 const PREC = {
   ASSIGNMENT: 1,
   RESCUE: 2,
-  WORD_OR: 3,
-  WORD_AND: 4,
   CONDITIONAL: 5,
   OR: 6,
   AND: 7,
@@ -23,7 +21,7 @@ const PREC = {
 module.exports = grammar({
   name: "vibescript",
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [/[\s;]/, $.comment],
 
   word: ($) => $.identifier,
 
@@ -34,8 +32,6 @@ module.exports = grammar({
     $._endless_marker,
     $._signature_arrow,
     $._module_keyword,
-    $._include_keyword,
-    $._extend_keyword,
     $._public_keyword,
     $._protected_keyword,
     $._alias_keyword,
@@ -56,7 +52,7 @@ module.exports = grammar({
     [$.type_shape, $.hash],
     [$.type_name, $._primary],
     [$.type_name, $.nil],
-    [$._statement, $.modifier],
+    [$._non_alias_statement, $.modifier],
     [$.binary, $.beginless_range],
     [$.scoped_constant, $._primary],
     [$._rescue_type, $._primary],
@@ -90,22 +86,14 @@ module.exports = grammar({
       ),
 
     method: ($) =>
-      seq(
-        optional(field("visibility", $._visibility_modifier)),
-        "def",
-        field("name", choice(
-          $.identifier,
-          $.setter_name,
-          $.self_method_name,
-          $.operator_name,
-        )),
-        optional($.parameters),
-        optional($.return_type),
-        optional($._body),
-        optional(seq(repeat1($.rescue), optional($.else))),
-        optional($.ensure),
-        "end",
-      ),
+      method($, choice(
+        $.identifier,
+        $.setter_name,
+        $.self_method_name,
+        $.operator_name,
+      )),
+
+    _module_method: ($) => method($, $.self_method_name),
 
     // `def name=(value)` declares a setter; the `=` must sit flush against
     // the name so `def foo` followed by an assignment body stays separate.
@@ -155,7 +143,6 @@ module.exports = grammar({
         $.ivar_parameter,
         $.splat_parameter,
         $.double_splat_parameter,
-        $.block_parameter,
         $.simple_parameter,
       ),
 
@@ -194,9 +181,6 @@ module.exports = grammar({
 
     double_splat_parameter: ($) =>
       seq("**", $.identifier),
-
-    block_parameter: ($) =>
-      seq("&", $.identifier),
 
     type_annotation: ($) =>
       seq(
@@ -265,7 +249,7 @@ module.exports = grammar({
 
     nullable_builtin_type: (_$) =>
       token(prec(2,
-        /(any|int|float|number|string|bool|duration|time|money|symbol|function|range|array|hash|object)\?/)),
+        /(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|object)\?/)),
 
     return_type: ($) =>
       seq(
@@ -289,7 +273,6 @@ module.exports = grammar({
           $.setter_declaration,
           $.class_variable_assignment,
           $.method,
-          $.mixin,
           $.visibility_directive,
           $.alias_method,
           $.class,
@@ -317,39 +300,12 @@ module.exports = grammar({
     _module_body: ($) =>
       repeat1(
         choice(
-          $.property_declaration,
-          $.getter_declaration,
-          $.setter_declaration,
-          $.class_variable_assignment,
-          $.method,
-          $.mixin,
+          alias($._module_method, $.method),
           $.visibility_directive,
-          $.alias_method,
           $.module,
-          $._statement,
+          $._non_alias_statement,
         ),
       ),
-
-    mixin: ($) =>
-      seq(
-        field("keyword", choice(
-          alias($._include_keyword, "include"),
-          alias($._extend_keyword, "extend"),
-        )),
-        choice(
-          seq("(", $._mixin_list, ")"),
-          $._mixin_list,
-        ),
-      ),
-
-    _mixin_list: ($) =>
-      seq(
-        $._mixin_name,
-        repeat(seq(",", $._mixin_name)),
-      ),
-
-    _mixin_name: ($) =>
-      choice($.constant, $.scoped_constant),
 
     scoped_constant: ($) =>
       seq($.constant, repeat1(seq("::", $.constant))),
@@ -422,6 +378,9 @@ module.exports = grammar({
     // --- Statements ---
 
     _statement: ($) =>
+      choice($.alias, $._non_alias_statement),
+
+    _non_alias_statement: ($) =>
       choice(
         $.if,
         $.unless,
@@ -437,7 +396,6 @@ module.exports = grammar({
         $.raise,
         $.yield,
         $.require,
-        $.alias,
         $.modifier,
         $.destructuring_assignment,
         $.command_call,
@@ -794,8 +752,6 @@ module.exports = grammar({
 
     binary: ($) =>
       choice(
-        prec.left(PREC.WORD_OR, seq($._expression, "or", $._expression)),
-        prec.left(PREC.WORD_AND, seq($._expression, "and", $._expression)),
         prec.left(PREC.OR, seq($._expression, "||", $._expression)),
         prec.left(PREC.AND, seq($._expression, "&&", $._expression)),
         prec.left(PREC.EQUALITY, seq($._expression, choice("==", "===", "!=", "=~", "!~"), $._expression)),
@@ -855,19 +811,10 @@ module.exports = grammar({
       )),
 
     unary: ($) =>
-      choice(
-        prec(PREC.UNARY, seq(
-          choice("-", "+", "!"),
-          $._expression,
-        )),
-        // Word not binds looser than every symbolic operator but tighter
-        // than and/or, matching Ruby: not a == b is not (a == b) while
-        // not x and y is (not x) and y.
-        prec.right(PREC.CONDITIONAL, seq(
-          "not",
-          $._expression,
-        )),
-      ),
+      prec(PREC.UNARY, seq(
+        choice("-", "+", "!"),
+        $._expression,
+      )),
 
     scope_resolution: ($) =>
       prec.left(PREC.CALL, seq(
@@ -909,32 +856,6 @@ module.exports = grammar({
         repeat(seq(",", $._expression_or_closed_range)),
         "]",
       )),
-
-    lambda: ($) =>
-      seq(
-        "->",
-        optional($.lambda_parameters),
-        field("body", $.block),
-      ),
-
-    lambda_parameters: ($) =>
-      seq(
-        "(",
-        optional(
-          seq(
-            $._lambda_parameter,
-            repeat(seq(",", $._lambda_parameter)),
-          ),
-        ),
-        ")",
-      ),
-
-    _lambda_parameter: ($) =>
-      choice(
-        $.typed_parameter,
-        $.identifier,
-        $.destructured_parameter,
-      ),
 
     block: ($) =>
       choice(
@@ -1001,25 +922,21 @@ module.exports = grammar({
         $.keyword_argument,
         $.splat_argument,
         $.double_splat_argument,
-        $.block_argument,
         $._expression,
       ),
 
     keyword_argument: ($) =>
-      seq(
+      prec.right(seq(
         field("key", $.identifier),
         ":",
-        field("value", $._expression_or_closed_range),
-      ),
+        optional(field("value", $._expression_or_closed_range)),
+      )),
 
     splat_argument: ($) =>
       seq("*", $._expression),
 
     double_splat_argument: ($) =>
       seq("**", $._expression),
-
-    block_argument: ($) =>
-      seq("&", $._expression),
 
     // --- Primaries ---
 
@@ -1034,7 +951,6 @@ module.exports = grammar({
         $.quoted_symbol,
         $.percent_array,
         $.regex,
-        $.lambda,
         $.true,
         $.false,
         $.nil,
@@ -1181,8 +1097,7 @@ module.exports = grammar({
     interpolation: ($) =>
       seq(token.immediate(prec(2, '#{')), field('body', $._rhs_expression), '}'),
 
-    // Symbols may name operators (used by alias_method, retroactive
-    // visibility, and block-pass shorthand).
+    // Symbols may name operators for aliases and retroactive visibility.
     symbol: (_$) =>
       token(seq(':', choice(
         /[a-zA-Z_][a-zA-Z0-9_]*[?!]?/,
@@ -1232,3 +1147,17 @@ module.exports = grammar({
       ),
   },
 });
+
+function method($, name) {
+  return seq(
+    optional(field("visibility", $._visibility_modifier)),
+    "def",
+    field("name", name),
+    optional($.parameters),
+    optional($.return_type),
+    optional($._body),
+    optional(seq(repeat1($.rescue), optional($.else))),
+    optional($.ensure),
+    "end",
+  );
+}

@@ -207,11 +207,11 @@ end
       (identifier))))
 
 ================
-Word not operator
+Symbolic negation
 ================
 
-ok = not ready
-puts not ok
+ok = !ready
+puts !ok
 
 ---
 
@@ -227,24 +227,92 @@ puts not ok
         (identifier)))))
 
 ================
-Word not binds looser than symbolic operators
+Symbolic boolean precedence
 ================
 
-a = not false || true
-b = not x and y
+a = !false || true
+b = !x && y
 
 ---
 
 (program
   (assignment
     (identifier)
-    (unary
-      (binary
-        (false)
-        (true))))
+    (binary
+      (unary
+        (false))
+      (true)))
   (assignment
     (identifier)
     (binary
       (unary
         (identifier))
+      (identifier))))
+
+================
+Former boolean operators are ordinary names
+================
+
+def names(and, or, not)
+  [and, or, not]
+end
+and = 1
+or = 2
+not = 3
+takes(and:, or:, not:)
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (simple_parameter
+        (identifier))
+      (simple_parameter
+        (identifier))
+      (simple_parameter
+        (identifier)))
+    (array
+      (identifier)
+      (identifier)
+      (identifier)))
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (call
+    (identifier)
+    (argument_list
+      (keyword_argument
+        (identifier))
+      (keyword_argument
+        (identifier))
+      (keyword_argument
+        (identifier)))))
+
+================
+Semicolon statement separators
+================
+
+def run; a = 1; b = 2; a + b; end
+
+---
+
+(program
+  (method
+    (identifier)
+    (assignment
+      (identifier)
+      (integer))
+    (assignment
+      (identifier)
+      (integer))
+    (binary
+      (identifier)
       (identifier))))

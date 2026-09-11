@@ -11,7 +11,6 @@
   (until)
   (for)
   (block)
-  (lambda)
   (array)
   (hash)
 ] @fold

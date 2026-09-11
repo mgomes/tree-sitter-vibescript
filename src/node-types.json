@@ -119,10 +119,6 @@
           "named": true
         },
         {
-          "type": "block_argument",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
@@ -172,10 +168,6 @@
         },
         {
           "type": "keyword_argument",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -311,10 +303,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -462,10 +450,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -660,10 +644,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -843,10 +823,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -971,10 +947,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -1153,10 +1125,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -1268,152 +1236,6 @@
     }
   },
   {
-    "type": "block_argument",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "beginless_range",
-          "named": true
-        },
-        {
-          "type": "binary",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "class_variable",
-          "named": true
-        },
-        {
-          "type": "compound_assignment",
-          "named": true
-        },
-        {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "hash",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "instance_variable",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "member_access",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "parenthesized",
-          "named": true
-        },
-        {
-          "type": "percent_array",
-          "named": true
-        },
-        {
-          "type": "quoted_symbol",
-          "named": true
-        },
-        {
-          "type": "regex",
-          "named": true
-        },
-        {
-          "type": "rescue_modifier",
-          "named": true
-        },
-        {
-          "type": "scope_resolution",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "ternary",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "block_parameter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "block_parameters",
     "named": true,
     "fields": {},
@@ -1498,10 +1320,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -1650,10 +1468,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -1793,10 +1607,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -2005,19 +1815,11 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
         {
           "type": "method",
-          "named": true
-        },
-        {
-          "type": "mixin",
           "named": true
         },
         {
@@ -2196,10 +1998,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -2287,10 +2085,6 @@
           "named": true
         },
         {
-          "type": "block_argument",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
@@ -2344,10 +2138,6 @@
         },
         {
           "type": "keyword_argument",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -2529,10 +2319,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -2783,10 +2569,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -2917,10 +2699,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -3110,10 +2888,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -3289,10 +3063,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -3457,10 +3227,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -3639,10 +3405,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -3811,10 +3573,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -4038,10 +3796,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -4224,10 +3978,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -4481,10 +4231,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -4614,10 +4360,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -4793,10 +4535,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -4995,10 +4733,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -5109,7 +4843,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array",
@@ -5169,10 +4903,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -5304,10 +5034,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -5382,55 +5108,6 @@
     }
   },
   {
-    "type": "lambda",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "block",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "lambda_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lambda_parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "destructured_parameter",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "typed_parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "member_access",
     "named": true,
     "fields": {},
@@ -5496,10 +5173,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -5723,10 +5396,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -5850,40 +5519,6 @@
     }
   },
   {
-    "type": "mixin",
-    "named": true,
-    "fields": {
-      "keyword": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "extend",
-            "named": false
-          },
-          {
-            "type": "include",
-            "named": false
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "scoped_constant",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "modifier",
     "named": true,
     "fields": {
@@ -5953,10 +5588,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -6102,10 +5733,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -6211,14 +5838,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "alias_method",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -6255,10 +5874,6 @@
           "named": true
         },
         {
-          "type": "class_variable_assignment",
-          "named": true
-        },
-        {
           "type": "command_call",
           "named": true
         },
@@ -6291,10 +5906,6 @@
           "named": true
         },
         {
-          "type": "getter_declaration",
-          "named": true
-        },
-        {
           "type": "hash",
           "named": true
         },
@@ -6315,19 +5926,11 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
         {
           "type": "method",
-          "named": true
-        },
-        {
-          "type": "mixin",
           "named": true
         },
         {
@@ -6352,10 +5955,6 @@
         },
         {
           "type": "percent_array",
-          "named": true
-        },
-        {
-          "type": "property_declaration",
           "named": true
         },
         {
@@ -6392,10 +5991,6 @@
         },
         {
           "type": "self",
-          "named": true
-        },
-        {
-          "type": "setter_declaration",
           "named": true
         },
         {
@@ -6510,10 +6105,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -6594,10 +6185,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "block_parameter",
-          "named": true
-        },
         {
           "type": "double_splat_parameter",
           "named": true
@@ -6691,10 +6278,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -6871,10 +6454,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -7077,10 +6656,6 @@
           "named": true
         },
         {
-          "type": "block_argument",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
@@ -7126,10 +6701,6 @@
         },
         {
           "type": "keyword_argument",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -7345,10 +6916,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -7528,10 +7095,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -7651,10 +7214,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -7787,10 +7346,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -7933,10 +7488,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -8151,10 +7702,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -8279,10 +7826,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -8470,10 +8013,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -8598,10 +8137,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -8854,10 +8389,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -8989,10 +8520,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -9117,10 +8644,6 @@
           },
           {
             "type": "integer",
-            "named": true
-          },
-          {
-            "type": "lambda",
             "named": true
           },
           {
@@ -9292,10 +8815,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -9474,10 +8993,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -9642,10 +9157,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -9891,10 +9402,6 @@
           "named": true
         },
         {
-          "type": "lambda",
-          "named": true
-        },
-        {
           "type": "member_access",
           "named": true
         },
@@ -10074,10 +9581,6 @@
             "named": true
           },
           {
-            "type": "lambda",
-            "named": true
-          },
-          {
             "type": "member_access",
             "named": true
           },
@@ -10242,10 +9745,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "lambda",
           "named": true
         },
         {
@@ -10571,10 +10070,6 @@
     "named": false
   },
   {
-    "type": "and",
-    "named": false
-  },
-  {
     "type": "as",
     "named": false
   },
@@ -10648,10 +10143,6 @@
     "named": false
   },
   {
-    "type": "extend",
-    "named": false
-  },
-  {
     "type": "false",
     "named": true
   },
@@ -10680,10 +10171,6 @@
     "named": false
   },
   {
-    "type": "include",
-    "named": false
-  },
-  {
     "type": "instance_variable",
     "named": true
   },
@@ -10701,14 +10188,6 @@
   },
   {
     "type": "nil",
-    "named": false
-  },
-  {
-    "type": "not",
-    "named": false
-  },
-  {
-    "type": "or",
     "named": false
   },
   {

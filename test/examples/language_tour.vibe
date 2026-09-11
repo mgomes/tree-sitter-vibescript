@@ -1,4 +1,4 @@
-# A tour of expression-level syntax through v1.0.0-rc5.
+# A tour of expression-level syntax through Vibescript 0.70.0.
 
 # Numeric literals
 hex = 0xDEAD_BEEF
@@ -37,7 +37,7 @@ beginless = ..9
 sliced = [10, 20, 30, 40][1..]
 
 # Operators
-truthy = not false
+truthy = !false
 matched = "ID-12" =~ /id-([0-9]+)/i
 same = (1..3) === 2
 approx = 10 <=> 2
@@ -87,7 +87,7 @@ x, (y, z) = [1, [2, 3]]
 values = [1, 2, 3]
 values[1], *tail = values
 
-# Blocks and lambdas
+# Synchronous blocks
 doubled = [1, 2, 3].map { it * 2 }
 summed = [1, 2, 3].reduce(0) do |acc, n|
   acc + n
@@ -95,12 +95,14 @@ end
 pairs = [[1, 9], [2, 8]].map do |(id, score)|
   id + score
 end
-adder = ->(a, b) { a + b }
+def add(a, b)
+  a + b
+end
 named = [{ name: "a" }, { name: "b" }].map { it[:name] }
 
 # Command calls
 puts [3, 1, 2].sort
 puts 'single quoted'
 puts %w[x y]
-puts not false
+puts !false
 concat = [1] + [2]

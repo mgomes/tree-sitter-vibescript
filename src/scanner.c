@@ -7,8 +7,6 @@ enum TokenType {
   ENDLESS_MARKER,
   SIGNATURE_ARROW,
   MODULE_KEYWORD,
-  INCLUDE_KEYWORD,
-  EXTEND_KEYWORD,
   PUBLIC_KEYWORD,
   PROTECTED_KEYWORD,
   ALIAS_KEYWORD,
@@ -57,12 +55,10 @@ static bool word_equals(const char *w, int len, const char *k) {
 
 // Keywords that follow an expression rather than begin a command argument, so a
 // paren-less call must not swallow them: `foo do ... end`, `foo if bar`,
-// `x and y`. Without this, `call do |x|` would be read as `call(do ...)`.
+// `foo rescue bar`. Without this, `call do |x|` would read as `call(do ...)`.
 static bool word_is_trailing_keyword(const char *w, int len) {
-  // `not` is absent: it is a prefix operator, so `puts not x` is a command
-  // call with a negated argument, matching the interpreter.
   const char *kw[] = {"do", "end", "then", "else", "elsif", "when", "rescue",
-                      "ensure", "if", "unless", "while", "until", "and", "or",
+                      "ensure", "if", "unless", "while", "until",
                       "in"};
   for (unsigned i = 0; i < sizeof(kw) / sizeof(kw[0]); i++) {
     if (word_equals(w, len, kw[i])) return true;
@@ -84,7 +80,7 @@ static int read_word(TSLexer *lexer, char *w, int cap) {
   return len;
 }
 
-// After a splat/block-pass sigil in command position, the argument must begin
+// After a splat sigil in command position, the argument must begin
 // immediately (Ruby's "space before, none after" rule).
 static bool starts_sigil_operand(int32_t c) {
   return is_identifier_char(c) || c == '@' || c == '"' || c == '\'' ||
@@ -166,16 +162,6 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
   if (valid_symbols[MODULE_KEYWORD] && word_equals(word, len, "module")) {
     if (is_upper(next)) {
       lexer->result_symbol = MODULE_KEYWORD;
-      return true;
-    }
-    return false;
-  }
-
-  if ((valid_symbols[INCLUDE_KEYWORD] && word_equals(word, len, "include")) ||
-      (valid_symbols[EXTEND_KEYWORD] && word_equals(word, len, "extend"))) {
-    if (is_upper(next) || next == '(') {
-      lexer->result_symbol =
-          word[0] == 'i' ? INCLUDE_KEYWORD : EXTEND_KEYWORD;
       return true;
     }
     return false;
@@ -325,11 +311,10 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       return false;
     }
-    // Block-pass argument: `f &blk`, `f &:name` (never `&&`, `&.`, `a & b`).
-    if (c == '&') {
+    // Negated arguments: `puts !ready`, without consuming `!=` or `!~`.
+    if (c == '!') {
       advance(lexer);
-      if (is_identifier_char(lexer->lookahead) || lexer->lookahead == ':' ||
-          lexer->lookahead == '@' || lexer->lookahead == '"') {
+      if (lexer->lookahead != '=' && lexer->lookahead != '~') {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
@@ -390,8 +375,7 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   bool any_contextual_word =
-      valid_symbols[MODULE_KEYWORD] || valid_symbols[INCLUDE_KEYWORD] ||
-      valid_symbols[EXTEND_KEYWORD] || valid_symbols[PUBLIC_KEYWORD] ||
+      valid_symbols[MODULE_KEYWORD] || valid_symbols[PUBLIC_KEYWORD] ||
       valid_symbols[PROTECTED_KEYWORD] || valid_symbols[ALIAS_KEYWORD] ||
       valid_symbols[RESCUE_MODIFIER_KEYWORD] || valid_symbols[LOOP_DO];
   if (any_contextual_word && is_lower(lexer->lookahead)) {

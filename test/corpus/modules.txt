@@ -98,13 +98,12 @@ puts Outer::Inner.code
         (identifier)))))
 
 ================
-Module accessors and visibility
+Namespace functions and visibility
 ================
 
 module M
-  property x: int
   private
-  def hidden
+  def self.hidden -> int
     2
   end
 end
@@ -114,14 +113,13 @@ end
 (program
   (module
     (constant)
-    (property_declaration
-      (accessor_name
-        (identifier)
+    (method
+      (self_method_name
+        (identifier))
+      (return_type
         (type_annotation
           (type_name
-            (identifier)))))
-    (method
-      (identifier)
+            (identifier))))
       (integer))))
 
 ================
