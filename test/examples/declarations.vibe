@@ -1,4 +1,4 @@
-# A tour of declaration-level syntax through v1.0.0-rc5.
+# A tour of declaration-level syntax through Vibescript 0.70.0.
 
 enum Status
   Draft
@@ -68,7 +68,7 @@ def publish(status: Status) -> Status
   status
 end
 
-def tally(*values, **opts, &blk)
+def tally(*values, **opts)
   values.size
 end
 

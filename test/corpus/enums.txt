@@ -72,3 +72,16 @@ end
         (constant)))
     (constant))
   (identifier))
+================
+Semicolon enum members
+================
+
+enum State; Active; Inactive; end
+
+---
+
+(program
+  (enum
+    (constant)
+    (enum_member)
+    (enum_member)))

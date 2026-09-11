@@ -135,3 +135,46 @@ end
           (splat_target))
         (identifier))
       (identifier))))
+
+================
+Typed synchronous block parameters
+================
+
+values.map { |x: int| x + 1 }
+
+---
+
+(program
+  (call
+    (identifier)
+    (identifier)
+    (block
+      (block_parameters
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
+      (binary
+        (identifier)
+        (integer)))))
+
+================
+Named function return annotation
+================
+
+def foo() -> int
+  1
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters)
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (integer)))

@@ -1,0 +1,171 @@
+================
+Lambda literals are removed
+:error
+================
+
+f = -> { 1 }
+
+---
+
+
+
+================
+Parameterized lambda literals are removed
+:error
+================
+
+f = ->(a, b) { a + b }
+
+---
+
+
+
+================
+Do end lambda literals are removed
+:error
+================
+
+f = ->(n) do
+  n * 2
+end
+
+---
+
+
+
+================
+Destructured lambda literals are removed
+:error
+================
+
+f = ->((key, value)) { key }
+
+---
+
+
+
+================
+Block capture parameters are removed
+:error
+================
+
+def f(&blk)
+  1
+end
+
+---
+
+
+
+================
+Block forwarding arguments are removed
+:error
+================
+
+f(&blk)
+
+---
+
+
+
+================
+Symbol to proc arguments are removed
+:error
+================
+
+items.map(&:upcase)
+
+---
+
+
+
+================
+Module instance methods are removed
+:error
+================
+
+module Naming
+  def label
+    "name"
+  end
+end
+
+---
+
+
+
+================
+Arrow on a later line is not a return annotation
+:error
+================
+
+def foo()
+  -> int
+  1
+end
+
+---
+
+
+
+================
+Hash rockets are removed
+:error
+================
+
+h = { :name => "Ada" }
+
+---
+
+
+
+================
+Nested module functions are not declarations
+================
+
+module M
+  if true
+    def instance
+      1
+    end
+  end
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (if
+      (true)
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier)))
+      (integer)))
+  (identifier))
+
+================
+Nested module aliases are not declarations
+================
+
+module M
+  if true
+    alias copy original
+  end
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (if
+      (true)
+      (command_call
+        (identifier)
+        (command_arguments
+          (command_call
+            (identifier)
+            (command_arguments
+              (identifier))))))))

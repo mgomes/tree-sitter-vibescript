@@ -26,17 +26,12 @@
   "private"
   "public"
   "protected"
-  "include"
-  "extend"
   "alias"
   "alias_method"
   "property"
   "getter"
   "setter"
   "export"
-  "and"
-  "or"
-  "not"
 ] @keyword
 
 ; Break, next, and retry are named nodes
@@ -75,14 +70,14 @@
 ((call
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "lambda" "loop" "money" "money_cents" "now" "p"
-    "print" "proc" "puts" "rand" "random_id" "sleep" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "now" "p"
+    "print" "puts" "rand" "random_id" "sprintf" "srand"
     "to_float" "to_int" "uuid" "warn"))
 ((command_call
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "lambda" "loop" "money" "money_cents" "now" "p"
-    "print" "proc" "puts" "rand" "random_id" "sleep" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "now" "p"
+    "print" "puts" "rand" "random_id" "sprintf" "srand"
     "to_float" "to_int" "uuid" "warn"))
 
 ; Type annotations
@@ -101,7 +96,7 @@
 ((type_name
   (identifier) @type.builtin)
   (#any-of? @type.builtin
-    "any" "array" "bool" "duration" "float" "function" "hash" "int"
+    "any" "array" "bool" "duration" "float" "hash" "int"
     "money" "number" "object" "range" "string" "symbol" "time"))
 
 ; Nullable builtin shorthand in shape values ({ name: string? }) aliases
@@ -161,10 +156,6 @@
   (identifier) @variable.parameter)
 (double_splat_parameter
   (identifier) @variable.parameter)
-(block_parameter
-  (identifier) @variable.parameter)
-(lambda_parameters
-  (identifier) @variable.parameter)
 (destructured_parameter
   (identifier) @variable.parameter)
 
@@ -178,7 +169,7 @@
 ; Built-in namespaces
 ((constant) @module.builtin
   (#any-of? @module.builtin
-    "JSON" "Regexp" "Regex" "Math" "Time" "Duration" "Hash" "Proc" "Tasks"))
+    "JSON" "Regexp" "Regex" "Math" "Time" "Duration" "Hash"))
 
 ; Comments
 (comment) @comment
@@ -237,6 +228,7 @@
 
 ; Delimiters
 [
+  ";"
   ","
   ":"
   "."

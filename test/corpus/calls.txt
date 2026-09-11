@@ -1,39 +1,4 @@
 ================
-Block pass arguments
-================
-
-f(&blk)
-arr.map(&:to_s)
-f(1, &blk)
-f &blk
-
----
-
-(program
-  (call
-    (identifier)
-    (argument_list
-      (block_argument
-        (identifier))))
-  (call
-    (identifier)
-    (identifier)
-    (argument_list
-      (block_argument
-        (symbol))))
-  (call
-    (identifier)
-    (argument_list
-      (integer)
-      (block_argument
-        (identifier))))
-  (command_call
-    (identifier)
-    (command_arguments
-      (block_argument
-        (identifier)))))
-
-================
 Call splats
 ================
 
@@ -67,10 +32,10 @@ f **opts
         (identifier)))))
 
 ================
-Combined splats keywords and block pass
+Combined splats keywords and an attached block
 ================
 
-f(1, *rest, k: 2, **opts, &blk)
+f(1, *rest, k: 2, **opts) { |value| value }
 
 ---
 
@@ -85,16 +50,18 @@ f(1, *rest, k: 2, **opts, &blk)
         (identifier)
         (integer))
       (double_splat_argument
+        (identifier)))
+    (block
+      (block_parameters
         (identifier))
-      (block_argument
-        (identifier)))))
+      (identifier))))
 
 ================
-Rest keyword and block parameters
+Rest and keyword parameters with yield
 ================
 
-def f(a, *rest, k: 1, **opts, &blk)
-  a
+def f(a, *rest, k: 1, **opts)
+  yield(a)
 end
 
 ---
@@ -111,10 +78,10 @@ end
         (identifier)
         (integer))
       (double_splat_parameter
-        (identifier))
-      (block_parameter
         (identifier)))
-    (identifier)))
+    (yield
+      (argument_list
+        (identifier)))))
 
 ================
 Keyword parameters with defaults
@@ -353,3 +320,84 @@ puts *%w[a b]
     arguments: (command_arguments
       (splat_argument
         (percent_array)))))
+
+================
+Keyword argument shorthand
+================
+
+def run(name)
+  takes(name:, age: 42)
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (simple_parameter
+        (identifier)))
+    (call
+      (identifier)
+      (argument_list
+        (keyword_argument
+          (identifier))
+        (keyword_argument
+          (identifier)
+          (integer))))))
+
+================
+Ampersand remains array intersection
+================
+
+a = [1, 2] & [2, 3]
+locals = [1]
+locals &other
+locals & other
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (binary
+      (array
+        (integer)
+        (integer))
+      (array
+        (integer)
+        (integer))))
+  (assignment
+    (identifier)
+    (array
+      (integer)))
+  (binary
+    (identifier)
+    (identifier))
+  (binary
+    (identifier)
+    (identifier)))
+
+================
+Proc and lambda stay identifiers
+================
+
+proc = 5
+lambda = 6
+puts proc + lambda
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (binary
+        (identifier)
+        (identifier)))))

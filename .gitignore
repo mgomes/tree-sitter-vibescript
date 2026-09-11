@@ -6,3 +6,5 @@ build/
 *.dylib
 *.wasm
 .build/
+target/
+__pycache__/

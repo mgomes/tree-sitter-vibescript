@@ -1,0 +1,36 @@
+[package]
+name = "tree-sitter-vibescript"
+version = "0.70.0"
+description = "Tree-sitter grammar for Vibescript"
+authors = ["Mauricio Gomes"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/mgomes/tree-sitter-vibescript"
+edition = "2021"
+rust-version = "1.90"
+keywords = ["tree-sitter", "parser", "vibescript"]
+categories = ["parsing", "text-editors"]
+build = "bindings/rust/build.rs"
+include = [
+  "/bindings/rust/**",
+  "/grammar.js",
+  "/docs/grammar.md",
+  "/queries/*",
+  "/src/**",
+  "/test/examples/*.vibe",
+  "/tree-sitter.json",
+  "/LICENSE",
+  "/README.md",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter-language = "0.1"
+
+[build-dependencies]
+cc = "1.2"
+
+[dev-dependencies]
+tree-sitter = "0.26"
