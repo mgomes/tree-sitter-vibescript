@@ -1034,7 +1034,7 @@ module.exports = grammar({
     // --- Body ---
 
     _body: ($) =>
-      repeat1(choice($._statement, $._declaration, ";")),
+      repeat1(choice($._non_alias_statement, $.class, ";")),
 
     // --- Terminals ---
 

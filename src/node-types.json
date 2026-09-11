@@ -536,10 +536,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -608,10 +604,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -648,15 +640,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -1021,10 +1005,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -1089,10 +1069,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -1129,15 +1105,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -2788,10 +2756,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -2852,10 +2816,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -2892,15 +2852,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -3130,10 +3082,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -3194,10 +3142,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -3234,15 +3178,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -3476,10 +3412,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -3540,10 +3472,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -3580,15 +3508,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -3881,10 +3801,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -3945,10 +3861,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -3985,15 +3897,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -4430,10 +4334,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -4502,10 +4402,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -4542,15 +4438,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -5288,10 +5176,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -5360,10 +5244,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -5400,15 +5280,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -6816,10 +6688,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -6880,10 +6748,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -6920,15 +6784,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -8714,10 +8570,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -8782,10 +8634,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -8822,15 +8670,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -9060,10 +8900,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -9124,10 +8960,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -9164,15 +8996,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -9298,10 +9122,6 @@
       "required": true,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -9366,10 +9186,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -9406,15 +9222,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {
@@ -9648,10 +9456,6 @@
       "required": false,
       "types": [
         {
-          "type": "alias",
-          "named": true
-        },
-        {
           "type": "array",
           "named": true
         },
@@ -9712,10 +9516,6 @@
           "named": true
         },
         {
-          "type": "export_method",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -9752,15 +9552,7 @@
           "named": true
         },
         {
-          "type": "method",
-          "named": true
-        },
-        {
           "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "module",
           "named": true
         },
         {

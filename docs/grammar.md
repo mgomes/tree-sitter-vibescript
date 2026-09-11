@@ -40,6 +40,9 @@ Other approximations, all chosen so that the tree stays intact:
   longer receive dedicated syntax nodes or builtin highlighting. Likewise,
   `f &blk` reads as binary intersection because the grammar cannot distinguish
   a local operand from a callee. The interpreter reports unsupported uses.
+- Function, alias, and namespace declarations inside executable bodies can
+  recover as ordinary identifiers or calls. They do not produce declaration
+  nodes; named functions belong at the top level or in class/module members.
 - Runtime rules such as string-only hash keys, collection value semantics,
   nonescaping blocks, and unavailable methods are checked by Vibescript; an
   error-free syntax tree does not validate execution.

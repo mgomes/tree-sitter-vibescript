@@ -4962,11 +4962,11 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_non_alias_statement"
           },
           {
             "type": "SYMBOL",
-            "name": "_declaration"
+            "name": "class"
           },
           {
             "type": "STRING",

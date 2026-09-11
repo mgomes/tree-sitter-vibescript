@@ -7,6 +7,8 @@ f = -> { 1 }
 
 ---
 
+
+
 ================
 Parameterized lambda literals are removed
 :error
@@ -15,6 +17,8 @@ Parameterized lambda literals are removed
 f = ->(a, b) { a + b }
 
 ---
+
+
 
 ================
 Do end lambda literals are removed
@@ -27,6 +31,8 @@ end
 
 ---
 
+
+
 ================
 Destructured lambda literals are removed
 :error
@@ -35,6 +41,8 @@ Destructured lambda literals are removed
 f = ->((key, value)) { key }
 
 ---
+
+
 
 ================
 Block capture parameters are removed
@@ -47,6 +55,8 @@ end
 
 ---
 
+
+
 ================
 Block forwarding arguments are removed
 :error
@@ -56,6 +66,8 @@ f(&blk)
 
 ---
 
+
+
 ================
 Symbol to proc arguments are removed
 :error
@@ -64,6 +76,8 @@ Symbol to proc arguments are removed
 items.map(&:upcase)
 
 ---
+
+
 
 ================
 Module instance methods are removed
@@ -78,6 +92,8 @@ end
 
 ---
 
+
+
 ================
 Arrow on a later line is not a return annotation
 :error
@@ -90,6 +106,8 @@ end
 
 ---
 
+
+
 ================
 Hash rockets are removed
 :error
@@ -98,3 +116,56 @@ Hash rockets are removed
 h = { :name => "Ada" }
 
 ---
+
+
+
+================
+Nested module functions are not declarations
+================
+
+module M
+  if true
+    def instance
+      1
+    end
+  end
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (if
+      (true)
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier)))
+      (integer)))
+  (identifier))
+
+================
+Nested module aliases are not declarations
+================
+
+module M
+  if true
+    alias copy original
+  end
+end
+
+---
+
+(program
+  (module
+    (constant)
+    (if
+      (true)
+      (command_call
+        (identifier)
+        (command_arguments
+          (command_call
+            (identifier)
+            (command_arguments
+              (identifier))))))))
