@@ -7,3 +7,4 @@ build/
 *.wasm
 .build/
 target/
+__pycache__/

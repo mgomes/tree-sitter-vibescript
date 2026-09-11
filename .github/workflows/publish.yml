@@ -17,26 +17,34 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  validate:
+    if: github.event_name == 'release' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    outputs:
+      commit: ${{ steps.release.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve release tag
+        id: release
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          release_commit=$(python3 scripts/check-release.py "$RELEASE_TAG")
+          echo "commit=$release_commit" >> "$GITHUB_OUTPUT"
+
   publish:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name || inputs.tag }}
+          ref: ${{ needs.validate.outputs.commit }}
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable
-      - name: Check release version
-        env:
-          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
-        run: |
-          python3 - <<'PY'
-          import json, os, tomllib
-          from pathlib import Path
-          crate = tomllib.loads(Path("Cargo.toml").read_text())
-          version = crate["package"]["version"]
-          assert os.environ["RELEASE_TAG"] == f"v{version}"
-          assert json.loads(Path("package.json").read_text())["version"] == version
-          assert json.loads(Path("tree-sitter.json").read_text())["metadata"]["version"] == version
-          PY
       - run: cargo test --locked
       - run: cargo publish --dry-run --locked
       - run: cargo publish --locked

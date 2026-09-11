@@ -53,4 +53,6 @@ Keep the versions in `Cargo.toml`, `package.json`, and `tree-sitter.json` aligne
 Configure the repository's `CARGO_REGISTRY_TOKEN` Actions secret with a crates.io
 API token that can publish `tree-sitter-vibescript`. Publishing a GitHub release
 such as `v0.70.0` runs the crate tests and publishes that version to crates.io.
-The publish workflow can also be run manually for an existing release tag.
+The publish workflow can also be run manually from `master` for an existing
+release tag. It accepts tags whose commits have reached `master`, checks the
+versions, and publishes the resolved commit even if a ref changes during the run.
