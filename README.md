@@ -21,7 +21,8 @@ assert!(!tree.root_node().has_error());
 
 The crate includes the generated parser, external scanner, node descriptions,
 and highlighting, injection, and folding queries. Cargo builds the parser with
-a C compiler; consumers do not need Node.js or the Tree-sitter CLI.
+a C compiler and Rust 1.90 or newer; consumers do not need Node.js or the
+Tree-sitter CLI.
 
 ## Language support
 
