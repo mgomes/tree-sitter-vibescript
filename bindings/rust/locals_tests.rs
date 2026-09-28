@@ -50,3 +50,28 @@ fn require_defines_its_variable_and_captures_later_uses() {
         capture.name == "local.reference" && capture.range == (reference..reference + 7)
     }));
 }
+
+#[test]
+fn structured_targets_define_every_nested_binding() {
+    for (source, expected) in [
+        ("first, *rest = items", vec!["first", "rest"]),
+        ("x, (y, [z, *tail]) = value", vec!["x", "y", "z", "tail"]),
+        ("(first, *rest) = items", vec!["first", "rest"]),
+        ("first, * = items", vec!["first"]),
+        (
+            "for (x, (y, *tail)), *rest in rows\n  x\nend",
+            vec!["x", "y", "tail", "rest"],
+        ),
+        (
+            "items.each { |(head, [middle, *tail])| head }",
+            vec!["head", "middle", "tail"],
+        ),
+        (
+            "first, (obj.value, items[index], *items[index]) = values",
+            vec!["first"],
+        ),
+        ("obj.first, items[index], *obj.rest = values", vec![]),
+    ] {
+        assert_definitions(source, &expected);
+    }
+}

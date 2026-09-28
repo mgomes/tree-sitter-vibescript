@@ -10,6 +10,8 @@
 (assignment . (identifier) @local.definition)
 (require variable: (identifier) @local.definition)
 (destructuring_assignment left: (identifier) @local.definition)
+(destructured_target (identifier) @local.definition)
+(splat_target (identifier) @local.definition)
 (for variable: (identifier) @local.definition)
 (rescue binding: (identifier) @local.definition)
 
