@@ -1,3 +1,6 @@
+; Ordinary names are variables unless a syntactic role overrides them.
+(identifier) @variable
+
 ; Keywords
 [
   "def"
@@ -264,6 +267,6 @@
 
 (type_alias name: (constant) @type.definition)
 (block_parameter name: [(identifier) (constant)] @variable.parameter)
-(member_access (identifier) @function.method)
+(member_access ["." "&."] . (identifier) @function.method)
 (class name: (identifier) @type)
-(member_access (operator_name) @function.method)
+(member_access ["." "&."] . (operator_name _ @function.method))
