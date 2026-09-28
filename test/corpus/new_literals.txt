@@ -16,12 +16,12 @@ end
       (regex))))
 
 ================
-Percent word arrays
+Explicit word and symbol arrays
 ================
 
 def run
-  a = %w[one two three]
-  b = %i[a b c]
+  a = ["one", "two", "three"]
+  b = [:a, :b, :c]
 end
 
 ---
@@ -31,10 +31,19 @@ end
     (identifier)
     (assignment
       (identifier)
-      (percent_array))
+      (array
+        (string
+          (string_content))
+        (string
+          (string_content))
+        (string
+          (string_content))))
     (assignment
       (identifier)
-      (percent_array))))
+      (array
+        (symbol)
+        (symbol)
+        (symbol)))))
 
 ================
 Quoted symbol

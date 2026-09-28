@@ -60,7 +60,7 @@ f(1, *rest, k: 2, **opts) { |value| value }
 Rest and keyword parameters with yield
 ================
 
-def f(a, *rest, k: 1, **opts)
+def f(a: int, *rest: array<int>, k: int = 1, **opts: hash<string, int>, &block: int)
   yield(a)
 end
 
@@ -70,15 +70,44 @@ end
   (method
     (identifier)
     (parameters
-      (simple_parameter
-        (identifier))
-      (splat_parameter
-        (identifier))
-      (keyword_parameter
+      (typed_parameter
         (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (splat_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
         (integer))
       (double_splat_parameter
-        (identifier)))
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))
+              (type_annotation
+                (type_name
+                  (identifier)))))))
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier))))))
     (yield
       (argument_list
         (identifier)))))
@@ -87,7 +116,7 @@ end
 Keyword parameters with defaults
 ================
 
-def f(a: 1, b:)
+def f(*, a: int = 1, b: int) -> int
   a
 end
 
@@ -97,11 +126,22 @@ end
   (method
     (identifier)
     (parameters
-      (keyword_parameter
+      (keyword_separator)
+      (typed_parameter
         (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
         (integer))
-      (keyword_parameter
-        (identifier)))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
     (identifier)))
 
 ================
@@ -307,10 +347,10 @@ f [0] = 5
         (integer)))))
 
 ================
-Splatted percent-array command arguments
+Splatted array command arguments
 ================
 
-puts *%w[a b]
+puts *["a", "b"]
 
 ---
 
@@ -319,13 +359,17 @@ puts *%w[a b]
     method: (identifier)
     arguments: (command_arguments
       (splat_argument
-        (percent_array)))))
+        (array
+          (string
+            (string_content))
+          (string
+            (string_content)))))))
 
 ================
 Keyword argument shorthand
 ================
 
-def run(name)
+def run(name: any)
   takes(name:, age: 42)
 end
 
@@ -335,8 +379,11 @@ end
   (method
     (identifier)
     (parameters
-      (simple_parameter
-        (identifier)))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
     (call
       (identifier)
       (argument_list

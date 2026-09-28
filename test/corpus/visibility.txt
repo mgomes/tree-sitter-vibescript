@@ -198,16 +198,16 @@ Operator method definitions
 ================
 
 class V
-  def +(other)
+  def +(other: any)
     other
   end
-  def [](i)
+  def [](i: any)
     i
   end
-  def []=(i, v)
+  def []=(i: any, v: any)
     v
   end
-  def <=>(o)
+  def <=>(o: any)
     0
   end
 end
@@ -220,28 +220,43 @@ end
     (method
       (operator_name)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (identifier))
     (method
       (operator_name)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (identifier))
     (method
       (operator_name)
       (parameters
-        (simple_parameter
-          (identifier))
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))))
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (identifier))
     (method
       (operator_name)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (integer))))
 
 ================
@@ -277,7 +292,7 @@ Operator symbols in visibility and alias forms
 ================
 
 class C
-  def +(other)
+  def +(other: any)
     1
   end
 
@@ -294,8 +309,11 @@ end
     (method
       name: (operator_name)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (integer))
     (visibility_directive
       (symbol))
@@ -334,6 +352,7 @@ end
       target: (symbol))
     (visibility_directive
       (quoted_symbol))))
+
 ================
 Semicolon visibility sections
 ================

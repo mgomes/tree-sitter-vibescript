@@ -16,7 +16,7 @@ helpers = require("./helpers")
 Export function
 ================
 
-export def exposed(value)
+export def exposed(value: any)
   value * 2
 end
 
@@ -27,8 +27,11 @@ end
     (method
       name: (identifier)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (binary
         (identifier)
         (integer)))))

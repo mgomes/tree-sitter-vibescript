@@ -1,4 +1,4 @@
-//! Vibescript 0.70.0 grammar for the [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) parser.
+//! Vibescript 0.80.0 grammar for the [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) parser.
 //!
 //! ```
 //! let mut parser = tree_sitter::Parser::new();
@@ -30,6 +30,12 @@ pub const INJECTIONS_QUERY: &str = include_str!("../../queries/injections.scm");
 /// Code folding query for Vibescript.
 pub const FOLDS_QUERY: &str = include_str!("../../queries/folds.scm");
 
+/// Indentation query for Vibescript.
+pub const INDENTS_QUERY: &str = include_str!("../../queries/indents.scm");
+
+/// Local binding query for Vibescript.
+pub const LOCALS_QUERY: &str = include_str!("../../queries/locals.scm");
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -55,7 +61,13 @@ mod tests {
     #[test]
     fn queries_match_the_generated_grammar() {
         let language = LANGUAGE.into();
-        for source in [HIGHLIGHTS_QUERY, INJECTIONS_QUERY, FOLDS_QUERY] {
+        for source in [
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            FOLDS_QUERY,
+            INDENTS_QUERY,
+            LOCALS_QUERY,
+        ] {
             Query::new(&language, source).unwrap();
         }
     }

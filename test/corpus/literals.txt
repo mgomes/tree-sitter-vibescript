@@ -176,7 +176,7 @@ Quoted literals as command arguments
 ================
 
 puts 'hi'
-puts %w[a b]
+puts ["a", "b"]
 
 ---
 
@@ -189,7 +189,11 @@ puts %w[a b]
   (command_call
     (identifier)
     (command_arguments
-      (percent_array))))
+      (array
+        (string
+          (string_content))
+        (string
+          (string_content))))))
 
 ================
 Booleans

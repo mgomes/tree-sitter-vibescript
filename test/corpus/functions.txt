@@ -2,7 +2,7 @@
 Basic function
 ================
 
-def greet(name)
+def greet(name: any)
   "hello " + name
 end
 
@@ -12,8 +12,11 @@ end
   (method
     name: (identifier)
     (parameters
-      (simple_parameter
-        (identifier)))
+      (typed_parameter
+        name: (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
     (binary
       (string
         (string_content))
@@ -34,12 +37,12 @@ end
     name: (identifier)
     (parameters
       (typed_parameter
-        (identifier)
+        name: (identifier)
         (type_annotation
           (type_name
             (identifier))))
       (typed_parameter
-        (identifier)
+        name: (identifier)
         (type_annotation
           (type_name
             (identifier)))))
@@ -55,7 +58,7 @@ end
 Default parameter values
 ================
 
-def greet(name, greeting = "hello")
+def greet(name: any, greeting: string = "hello")
   greeting + " " + name
 end
 
@@ -65,10 +68,16 @@ end
   (method
     name: (identifier)
     (parameters
-      (simple_parameter
-        (identifier))
-      (simple_parameter
-        (identifier)
+      (typed_parameter
+        name: (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        name: (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
         (string
           (string_content))))
     (binary
@@ -97,7 +106,7 @@ end
 Export function
 ================
 
-export def exposed(value)
+export def exposed(value: any)
   value * 2
 end
 
@@ -108,8 +117,11 @@ end
     (method
       name: (identifier)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (binary
         (identifier)
         (integer)))))

@@ -39,7 +39,7 @@ end
     name: (identifier)
     (parameters
       (typed_parameter
-        (identifier)
+        name: (identifier)
         (type_annotation
           (type_name
             (constant)))))
@@ -72,6 +72,7 @@ end
         (constant)))
     (constant))
   (identifier))
+
 ================
 Semicolon enum members
 ================

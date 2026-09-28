@@ -1,5 +1,7 @@
 /// <reference types="tree-sitter-cli/dsl" />
 
+const UNICODE = require("./unicode");
+
 const PREC = {
   ASSIGNMENT: 1,
   RESCUE: 2,
@@ -21,7 +23,7 @@ const PREC = {
 module.exports = grammar({
   name: "vibescript",
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [/\s/, $.comment, $.block_comment],
 
   word: ($) => $.identifier,
 
@@ -36,14 +38,39 @@ module.exports = grammar({
     $._protected_keyword,
     $._alias_keyword,
     $._rescue_modifier_keyword,
-    $._loop_do,
+    $._multiply,
+    $._divide,
+    $._modifier_if,
+    $._modifier_while,
+    $._index_open,
+    $._bare_parameter_start,
+    $.block_comment,
+    $._keyword_label,
   ],
 
   conflicts: ($) => [
-    [$.simple_parameter, $._primary],
-    [$.ivar_parameter, $._primary],
-    [$.require, $._primary],
-    [$.modifier, $._expression_statement],
+    [$.computed_call],
+    [$.type_name, $.splat_target, $._primary],
+    [$.keyword_separator, $.splat_parameter],
+    [$.type_alias, $.type_name],
+    [$.type_literal, $.hash_entry],
+    [$.qualified_type_name, $.scoped_constant],
+    [$.type_name, $.keyword_argument, $._primary],
+    [$.type_shape_field, $.type_literal, $.hash_entry],
+    [$.keyword_separator, $.splat_target],
+    [$.qualified_type_name, $.type_name],
+    [$.type_name],
+    [$.qualified_type_name, $.type_name, $.scoped_constant, $._primary],
+    [$.type_name, $._rescue_type],
+    [$.type_name, $._rescue_type, $._primary],
+    [$.qualified_type_name],
+    [$.type_tuple, $.type_literal],
+    [$.type_name, $._destructure_target, $._primary],
+    [$._type],
+    [$.qualified_type_name, $.type_name, $._primary],
+    [$.type_name, $._assignable_receiver, $._primary],
+    [$.type_name, $.require, $._primary],
+    [$.qualified_type_name, $.type_name, $._assignable_receiver, $._primary],
     [$.type_annotation],
     [$.class_variable_assignment, $._primary],
     [$.argument_list],
@@ -52,20 +79,11 @@ module.exports = grammar({
     [$.type_shape, $.hash],
     [$.type_name, $._primary],
     [$.type_name, $.nil],
-    [$._non_alias_statement, $.modifier],
     [$.binary, $.beginless_range],
-    [$.scoped_constant, $._primary],
-    [$._rescue_type, $._primary],
     [$.raise, $._expression_or_closed_range],
-    [$.qualified_type_name, $._primary],
-    [$.type_shape_field, $.hash_entry],
     [$._assignable_receiver, $._primary],
     [$._assignable_receiver, $._expression],
-    [$._assignable_receiver, $._rescue_type, $._primary],
     [$._destructure_target, $._primary],
-    [$.simple_parameter, $._destructure_target],
-    [$.ivar_parameter, $._destructure_target],
-    [$.splat_parameter, $.splat_target],
   ],
 
   rules: {
@@ -83,10 +101,12 @@ module.exports = grammar({
         $.class,
         $.module,
         $.export_method,
+        $.type_alias,
       ),
 
     method: ($) =>
       method($, choice(
+        $.constant,
         $.identifier,
         $.setter_name,
         $.self_method_name,
@@ -109,13 +129,13 @@ module.exports = grammar({
 
     operator_name: (_$) =>
       choice(
-        "+", "-", "*", "/", "%", "**", "<<", "&",
+        "+", "-", "*", "/", "//", "%", "**", "<<", "&",
         "==", "!=", "<", "<=", ">", ">=", "<=>",
         "[]", "[]=",
       ),
 
     self_method_name: ($) =>
-      seq("self", ".", $.identifier, optional(token.immediate("="))),
+      seq("self", ".", choice($.identifier, $.constant), optional(token.immediate("="))),
 
     export_method: ($) =>
       seq(
@@ -136,36 +156,36 @@ module.exports = grammar({
         ")",
       )),
 
+    bare_parameters: ($) =>
+      seq($._bare_parameter_start, $._parameter, repeat(seq(",", $._parameter))),
+
     _parameter: ($) =>
       choice(
         $.typed_parameter,
-        $.keyword_parameter,
         $.ivar_parameter,
         $.splat_parameter,
         $.double_splat_parameter,
-        $.simple_parameter,
+        $.keyword_separator,
+        $.block_parameter,
       ),
 
-    // `name: default` declares an optional keyword parameter and `name:` a
-    // required one; `name: Type` is a typed positional parameter. When the
-    // payload also parses as a type (`a: int`), the typed reading wins.
-    keyword_parameter: ($) =>
-      prec.dynamic(-5, seq(
-        field("name", $.identifier),
-        ":",
-        optional(field("default", $._expression)),
-      )),
+    keyword_separator: (_$) => "*",
 
-    simple_parameter: ($) =>
+    block_parameter: ($) =>
+      seq("&", field("name", $.identifier), token(prec(3, ":")), $.block_type),
+
+    block_type: ($) =>
       seq(
-        $.identifier,
-        optional(seq("=", $._expression)),
+        choice($.type_annotation, seq("(", optional(seq(
+          $.type_annotation, repeat(seq(",", $.type_annotation)),
+        )), ")")),
+        optional(seq("->", $.type_annotation)),
       ),
 
     typed_parameter: ($) =>
       seq(
-        $.identifier,
-        ":",
+        field("name", choice($.identifier, $.constant)),
+        token(prec(3, ":")),
         $.type_annotation,
         optional(seq("=", $._expression)),
       ),
@@ -173,14 +193,15 @@ module.exports = grammar({
     ivar_parameter: ($) =>
       seq(
         $.instance_variable,
-        optional(seq(":", $.type_annotation)),
+        token(prec(3, ":")), $.type_annotation,
+        optional(seq("=", $._expression)),
       ),
 
     splat_parameter: ($) =>
-      seq("*", $.identifier),
+      seq("*", field("name", $.identifier), token(prec(3, ":")), $.type_annotation),
 
     double_splat_parameter: ($) =>
-      seq("**", $.identifier),
+      seq("**", field("name", $.identifier), token(prec(3, ":")), $.type_annotation),
 
     type_annotation: ($) =>
       seq(
@@ -189,22 +210,23 @@ module.exports = grammar({
       ),
 
     _type: ($) =>
-      choice(
+      seq(choice(
         $.type_name,
         $.qualified_type_name,
         $.type_shape,
-      ),
+        $.type_tuple,
+      ), optional("?")),
 
-    // Enum types exported by a required module: `status_mod.Status`. The
-    // member must be CamelCase (uppercase with a later lowercase letter),
-    // matching the interpreter's dotted-type rule, so ALL-CAPS members
-    // like `pi: Math.PI` keep reading as keyword-default expressions.
+    type_alias: ($) =>
+      seq("type", field("name", $.constant), "=", $.type_annotation),
+
+    type_tuple: ($) =>
+      seq("[", $.type_annotation, repeat(seq(",", $.type_annotation)), "]"),
+
     qualified_type_name: ($) =>
       seq(
         field("module", choice($.identifier, $.constant)),
-        ".",
-        alias(token(prec(1, /[A-Z][A-Z0-9_]*[a-z][a-zA-Z0-9_]*/)), $.constant),
-        optional("?"),
+        repeat1(seq(choice(".", token(prec(4, "::"))), $.constant)),
       ),
 
     type_name: ($) =>
@@ -213,43 +235,41 @@ module.exports = grammar({
           $.identifier,
           $.constant,
           "nil",
+          "type",
         ),
         optional($.type_arguments),
-        optional("?"),
       ),
 
     type_arguments: ($) =>
       seq(
         "<",
-        $._type,
-        repeat(seq(",", $._type)),
+        $.type_annotation,
+        repeat(seq(",", $.type_annotation)),
         ">",
       ),
 
     type_shape: ($) =>
       seq(
-        "{",
+        choice("{", alias($._block_open, "{")),
         optional(seq(
-          $.type_shape_field,
-          repeat(seq(",", $.type_shape_field)),
+          choice("...", seq($.type_shape_field,
+            repeat(seq(",", $.type_shape_field)), optional(seq(",", "...")))),
           optional(","),
         )),
         "}",
       ),
 
-    // Field names may be labels, string literals, symbol literals, or
-    // quoted symbols ({ "user-id": string }), matching the interpreter's
-    // shape grammar; the separator is always a colon.
     type_shape_field: ($) =>
       seq(
-        field("name", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
-        ":",
+        field("name", choice($.identifier, $.constant, $.string, $.symbol, $.quoted_symbol)),
+        optional("?"),
+        token(prec(3, ":")),
         $.type_annotation,
       ),
 
     nullable_builtin_type: (_$) =>
       token(prec(2,
-        /(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|object)\?/)),
+        /(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type)\?/)),
 
     return_type: ($) =>
       seq(
@@ -260,7 +280,7 @@ module.exports = grammar({
     class: ($) =>
       seq(
         "class",
-        field("name", $.constant),
+        field("name", choice($.constant, $.identifier)),
         optional($._class_body),
         "end",
       ),
@@ -277,6 +297,7 @@ module.exports = grammar({
           $.visibility_directive,
           $.alias_method,
           $.class,
+          $.type_alias,
           $._statement,
         ),
       ),
@@ -309,12 +330,15 @@ module.exports = grammar({
           alias($._module_method, $.method),
           $.visibility_directive,
           $.module,
+          $.class,
+          $.type_alias,
+          $.class_variable_assignment,
           $._non_alias_statement,
         ),
       ),
 
     scoped_constant: ($) =>
-      seq($.constant, repeat1(seq("::", $.constant))),
+      seq($.constant, repeat1(seq(token(prec(4, "::")), $.constant))),
 
     visibility_directive: ($) =>
       prec.dynamic(-10, prec.right(seq(
@@ -347,7 +371,7 @@ module.exports = grammar({
     accessor_name: ($) =>
       seq(
         $.identifier,
-        optional(seq(":", $.type_annotation)),
+        optional(seq(token(prec(3, ":")), $.type_annotation)),
       ),
 
     property_declaration: ($) =>
@@ -377,6 +401,7 @@ module.exports = grammar({
     class_variable_assignment: ($) =>
       seq(
         $.class_variable,
+        optional(seq(token(prec(3, ":")), $.type_annotation)),
         "=",
         $._expression,
       ),
@@ -388,23 +413,16 @@ module.exports = grammar({
 
     _non_alias_statement: ($) =>
       choice(
-        $.if,
-        $.unless,
-        $.case,
-        $.while,
-        $.until,
-        $.for,
-        $.begin,
         $.return,
         $.break,
         $.next,
         $.retry,
         $.raise,
-        $.yield,
         $.require,
         $.modifier,
+        $.endless_range,
         $.destructuring_assignment,
-        $.command_call,
+        $.typed_assignment,
         $.directive_comment,
         $._expression_statement,
       ),
@@ -415,9 +433,10 @@ module.exports = grammar({
     // parses as one command call in the interpreter.
     command_call: ($) =>
       prec.right(seq(
-        field("method", choice($.identifier, $.constant)),
+        field("method", choice($.identifier, $.constant, $.member_access)),
         $._command_start,
         field("arguments", $.command_arguments),
+        optional($.block),
       )),
 
     command_arguments: ($) =>
@@ -430,22 +449,20 @@ module.exports = grammar({
       choice(
         $._argument,
         $.endless_range,
-        $.command_call,
       ),
 
     modifier: ($) =>
       prec.left(seq(
         field("body", choice(
           $._expression,
-          $.command_call,
+          $.typed_assignment,
           $.return,
           $.break,
           $.next,
           $.retry,
           $.raise,
-          $.yield,
         )),
-        field("keyword", choice("if", "unless", "while", "until")),
+        field("keyword", choice(alias($._modifier_if, "if"), alias($._modifier_while, "while"))),
         field("condition", $._expression),
       )),
 
@@ -459,25 +476,22 @@ module.exports = grammar({
         $._rhs_expression,
       )),
 
+    typed_assignment: ($) =>
+      seq(field("name", choice($.identifier, $.constant, $.instance_variable)),
+        token(prec(3, ":")), $.type_annotation, optional(seq("=", $._rhs_expression))),
+
     _rhs_expression: ($) =>
       choice(
         $._expression,
         $.endless_range,
-        $.if,
-        $.unless,
-        $.case,
-        $.begin,
-        $.while,
-        $.until,
-        $.for,
       ),
 
     destructuring_assignment: ($) =>
       prec.right(PREC.ASSIGNMENT, seq(
-        field("left", seq(
+        field("left", choice(seq(
           $._destructure_target,
           repeat1(seq(",", $._destructure_target)),
-        )),
+        ), $.splat_target, $.destructured_target)),
         "=",
         field("right", seq(
           $._expression,
@@ -510,7 +524,7 @@ module.exports = grammar({
     _assignable_subscript: ($) =>
       prec(PREC.CALL, seq(
         $._assignable_receiver,
-        "[",
+        alias($._index_open, "["),
         $._expression_or_closed_range,
         repeat(seq(",", $._expression_or_closed_range)),
         "]",
@@ -534,17 +548,17 @@ module.exports = grammar({
     // parenthesized expression unambiguous.
     destructured_target: ($) =>
       choice(
-        seq("(", $._destructure_target, repeat1(seq(",", $._destructure_target)), ")"),
-        seq("[", $._destructure_target, repeat1(seq(",", $._destructure_target)), "]"),
+        seq("(", $._destructure_target, repeat(seq(",", $._destructure_target)), ")"),
+        seq("[", $._destructure_target, repeat(seq(",", $._destructure_target)), "]"),
       ),
 
     splat_target: ($) =>
-      seq("*", optional($.identifier)),
+      seq("*", optional(choice($.identifier, alias($._assignable_member_access, $.member_access), alias($._assignable_subscript, $.subscript)))),
 
     compound_assignment: ($) =>
       prec.right(PREC.ASSIGNMENT, seq(
         $._expression,
-        choice("+=", "-=", "*=", "/=", "%=", "**=", "||=", "&&="),
+        choice("+=", "-=", "*=", "/=", "//=", "%=", "**=", "||=", "&&="),
         $._rhs_expression,
       )),
 
@@ -593,7 +607,7 @@ module.exports = grammar({
         "require",
         "(",
         $.string,
-        optional(seq(",", "as", ":", $.string)),
+        optional(seq(",", "as", token(prec(3, ":")), $.string)),
         ")",
       )),
 
@@ -624,16 +638,6 @@ module.exports = grammar({
         optional($._body),
       ),
 
-    unless: ($) =>
-      seq(
-        "unless",
-        field("condition", $._expression),
-        optional("then"),
-        optional($._body),
-        optional($.else),
-        "end",
-      ),
-
     case: ($) =>
       seq(
         "case",
@@ -656,23 +660,10 @@ module.exports = grammar({
     _when_pattern: ($) =>
       choice($._range_or_expression, $.splat_argument),
 
-    // The loop separator `do` is an external token so that in `while f do`
-    // the `do` closes the loop header instead of opening a block on the
-    // condition's call, matching Ruby's binding.
     while: ($) =>
       seq(
         "while",
         field("condition", $._expression),
-        optional(alias($._loop_do, "do")),
-        optional($._body),
-        "end",
-      ),
-
-    until: ($) =>
-      seq(
-        "until",
-        field("condition", $._expression),
-        optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
       ),
@@ -687,7 +678,6 @@ module.exports = grammar({
         repeat(seq(",", field("variable", $._for_target))),
         "in",
         field("iterable", $._expression),
-        optional(alias($._loop_do, "do")),
         optional($._body),
         "end",
       ),
@@ -701,8 +691,8 @@ module.exports = grammar({
 
     _for_target_group: ($) =>
       choice(
-        seq("(", $._for_target, repeat1(seq(",", $._for_target)), ")"),
-        seq("[", $._for_target, repeat1(seq(",", $._for_target)), "]"),
+        seq("(", $._for_target, repeat(seq(",", $._for_target)), ")"),
+        seq("[", $._for_target, repeat(seq(",", $._for_target)), "]"),
       ),
 
     // else only has meaning after at least one rescue clause; the
@@ -743,6 +733,8 @@ module.exports = grammar({
 
     _expression: ($) =>
       choice(
+        $.yield,
+        $.command_call,
         $.assignment,
         $.compound_assignment,
         $.ternary,
@@ -752,6 +744,7 @@ module.exports = grammar({
         $.rescue_modifier,
         $.call,
         $.member_access,
+        $.computed_call,
         $.scope_resolution,
         $.subscript,
         $._primary,
@@ -767,7 +760,7 @@ module.exports = grammar({
         prec.left(PREC.BIT_AND, seq($._expression, "&", $._expression)),
         prec.left(PREC.SHIFT, seq($._expression, "<<", $._expression)),
         prec.left(PREC.ADDITIVE, seq($._expression, choice("+", "-"), $._expression)),
-        prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice("*", "/", "%"), $._expression)),
+        prec.left(PREC.MULTIPLICATIVE, seq($._expression, choice(alias($._multiply, "*"), alias($._divide, "/"), "/", "//", "%"), $._expression)),
         prec.right(PREC.POWER, seq($._expression, "**", $._expression)),
       ),
 
@@ -813,7 +806,7 @@ module.exports = grammar({
         $._expression,
         "?",
         $._expression,
-        ":",
+        token(prec(3, ":")),
         $._expression,
       )),
 
@@ -826,15 +819,15 @@ module.exports = grammar({
     scope_resolution: ($) =>
       prec.left(PREC.CALL, seq(
         $._expression,
-        "::",
-        choice($.constant, $.identifier),
+        token(prec(4, "::")),
+        choice($.identifier, $.constant),
       )),
 
     call: ($) =>
       prec.right(PREC.CALL, choice(
         seq(
           field("receiver", optional(seq($._expression, choice(".", "&.")))),
-          field("method", $.identifier),
+          field("method", choice($.identifier, $.constant)),
           "(",
           optional($.argument_list),
           ")",
@@ -842,60 +835,53 @@ module.exports = grammar({
         ),
         seq(
           field("receiver", optional(seq($._expression, choice(".", "&.")))),
-          field("method", $.identifier),
+          field("method", choice($.identifier, $.constant)),
           $.block,
         ),
       )),
+
+    computed_call: ($) => prec.dynamic(-5, prec(PREC.CALL, choice(
+      seq(field("function", $._expression), "(", optional($.argument_list), ")", optional($.block)),
+      seq(field("function", $.parenthesized), $.block),
+    ))),
 
     member_access: ($) =>
       prec.left(PREC.CALL - 1, seq(
         $._expression,
         choice(".", "&."),
-        choice($.identifier, $.constant),
+        choice($.identifier, $.constant, $.operator_name),
         optional($.block),
       )),
 
     subscript: ($) =>
       prec(PREC.CALL, seq(
         $._expression,
-        "[",
+        alias($._index_open, "["),
         $._expression_or_closed_range,
         repeat(seq(",", $._expression_or_closed_range)),
         "]",
       )),
 
     block: ($) =>
-      choice(
-        seq(
-          "do",
-          optional($.block_parameters),
-          optional($._body),
-          "end",
-        ),
-        seq(
-          $._block_open,
-          optional($.block_parameters),
-          optional($._body),
-          "}",
-        ),
-      ),
+      seq($._block_open, optional($.block_parameters), optional($._body), "}"),
 
     block_parameters: ($) =>
       seq(
         "|",
-        $._block_parameter,
-        repeat(seq(",", $._block_parameter)),
+        optional(seq($._block_parameter,
+          repeat(seq(",", $._block_parameter)))),
         "|",
       ),
 
     _block_parameter: ($) =>
       choice(
         $.identifier,
+        $.constant,
         $.typed_parameter,
         $.destructured_parameter,
       ),
 
-    // Destructured block parameters: do |(head, *)| ... end. Splats live
+    // Destructured block parameters: { |(head, *)| ... }. Splats live
     // only inside groups, matching the interpreter.
     destructured_parameter: ($) =>
       choice(
@@ -906,8 +892,10 @@ module.exports = grammar({
     _destructured_parameter_element: ($) =>
       choice(
         $.identifier,
+        $.constant,
         $.typed_parameter,
         $.splat_target,
+        $.splat_parameter,
         $.destructured_parameter,
       ),
 
@@ -934,8 +922,8 @@ module.exports = grammar({
 
     keyword_argument: ($) =>
       prec.right(seq(
-        field("key", $.identifier),
-        ":",
+        field("key", choice($.identifier, $.constant, alias($._keyword_label, $.identifier))),
+        token(prec(3, ":")),
         optional(field("value", $._expression_or_closed_range)),
       )),
 
@@ -956,18 +944,26 @@ module.exports = grammar({
         $.string,
         $.symbol,
         $.quoted_symbol,
-        $.percent_array,
         $.regex,
+        alias("//", $.regex),
         $.true,
         $.false,
         $.nil,
         $.self,
+        $.if,
+        $.case,
+        $.begin,
+        $.while,
+        $.for,
         $.instance_variable,
         $.class_variable,
+        $.type_literal,
         $.array,
         $.hash,
         $.parenthesized,
       ),
+
+    type_literal: ($) => prec.dynamic(-2, $.type_annotation),
 
     parenthesized: ($) =>
       seq("(", $._expression_or_closed_range, ")"),
@@ -987,7 +983,7 @@ module.exports = grammar({
 
     hash: ($) =>
       seq(
-        "{",
+        choice("{", alias($._block_open, "{")),
         optional(
           seq(
             $.hash_entry,
@@ -1001,8 +997,8 @@ module.exports = grammar({
     hash_entry: ($) =>
       choice(
         seq(
-          field("key", choice($.identifier, $.string)),
-          ":",
+          field("key", choice($.identifier, $.constant, $.string)),
+          token(prec(3, ":")),
           field("value", $._expression_or_closed_range),
         ),
         // Expression-position shape literals (JSON.parse_as schemas): the
@@ -1011,8 +1007,8 @@ module.exports = grammar({
         // so this branch only wins where only type syntax parses
         // (string | nil, array<int>).
         prec.dynamic(-1, seq(
-          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
-          ":",
+          field("key", choice($.identifier, $.constant, $.string)),
+          token(prec(3, ":")),
           field("value", $.type_annotation),
         )),
         // Nullable builtin shorthand ({ name: string? }): a ?-suffixed
@@ -1020,29 +1016,29 @@ module.exports = grammar({
         // interpreter's builtin-leaf rule, while other ?-suffixed
         // identifiers ({ ok: valid? }) keep the expression reading.
         prec.dynamic(1, seq(
-          field("key", choice($.identifier, $.string, $.symbol, $.quoted_symbol)),
-          ":",
+          field("key", choice($.identifier, $.constant, $.string)),
+          token(prec(3, ":")),
           field("value", alias($.nullable_builtin_type, $.type_annotation)),
         )),
         // value omission: { name:, age: } takes the value from a local of the same name
         seq(
-          field("key", $.identifier),
-          ":",
+          field("key", choice($.identifier, $.constant)),
+          token(prec(3, ":")),
         ),
       ),
 
     // --- Body ---
 
     _body: ($) =>
-      repeat1(choice($._non_alias_statement, $.class, ";")),
+      repeat1(choice($._non_alias_statement, $.class, $.method, ";")),
 
     // --- Terminals ---
 
     identifier: (_$) =>
-      /[a-z_][a-zA-Z0-9_]*[?!]?/,
+      new RegExp(UNICODE.identifier, "u"),
 
     constant: (_$) =>
-      /[A-Z][a-zA-Z0-9_]*/,
+      new RegExp(UNICODE.constant, "u"),
 
     integer: (_$) =>
       token(choice(
@@ -1095,7 +1091,7 @@ module.exports = grammar({
       token.immediate(prec(1, /[^"\\#]+/)),
 
     escape_sequence: (_$) =>
-      token.immediate(/\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[^\n])/),
+      token.immediate(/\\(x[0-9a-fA-F]{1,2}|u[0-9a-fA-F]{4}|[\s\S])/),
 
     // The body re-enters the full expression grammar, so nested strings and
     // nested interpolations come along for free. Value-producing control
@@ -1107,7 +1103,7 @@ module.exports = grammar({
     // Symbols may name operators for aliases and retroactive visibility.
     symbol: (_$) =>
       token(seq(':', choice(
-        /[a-zA-Z_][a-zA-Z0-9_]*[?!]?/,
+        new RegExp(UNICODE.symbol, "u"),
         '[]=', '[]', '===', '<=>', '**', '<<', '<=', '>=', '==', '!=',
         '&&', '||',
         /[+\-*\/%<>&|!]/,
@@ -1117,27 +1113,15 @@ module.exports = grammar({
     // escaped quote stays inside the symbol (:'don\'t').
     quoted_symbol: (_$) =>
       token(seq(':', choice(
-        seq('"', /([^"\\]|\\.)*/, '"'),
-        seq("'", /([^'\\]|\\.)*/, "'"),
+        seq('"', /([^"\\]|\\[\s\S])*/, '"'),
+        seq("'", /([^'\\]|\\[\s\S])*/, "'"),
       ))),
 
-    percent_array: (_$) =>
-      token(seq(
-        '%',
-        /[wWiI]/,
-        choice(
-          seq('[', /[^\]]*/, ']'),
-          seq('(', /[^)]*/, ')'),
-          seq('{', /[^}]*/, '}'),
-          seq('<', /[^>]*/, '>'),
-        ),
-      )),
-
     instance_variable: (_$) =>
-      /@[a-zA-Z_][a-zA-Z0-9_]*/,
+      new RegExp("@" + UNICODE.variable, "u"),
 
     class_variable: (_$) =>
-      /@@[a-zA-Z_][a-zA-Z0-9_]*/,
+      new RegExp("@@" + UNICODE.variable, "u"),
 
     true: (_$) => "true",
     false: (_$) => "false",
@@ -1160,7 +1144,7 @@ function method($, name) {
     optional(field("visibility", $._visibility_modifier)),
     "def",
     field("name", name),
-    optional($.parameters),
+    optional(choice($.parameters, $.bare_parameters)),
     optional($.return_type),
     optional($._body),
     optional(seq(repeat1($.rescue), optional($.else))),

@@ -9,12 +9,9 @@
   "elsif"
   "else"
   "then"
-  "unless"
   "while"
-  "until"
   "for"
   "in"
-  "do"
   "case"
   "when"
   "begin"
@@ -32,6 +29,7 @@
   "getter"
   "setter"
   "export"
+  "type"
 ] @keyword
 
 ; Break, next, and retry are named nodes
@@ -70,14 +68,14 @@
 ((call
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "loop" "money" "money_cents" "now" "p"
-    "print" "puts" "rand" "random_id" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "p"
+    "print" "puts" "rand" "random_id" "srand"
     "to_float" "to_int" "uuid" "warn"))
 ((command_call
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "loop" "money" "money_cents" "now" "p"
-    "print" "puts" "rand" "random_id" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "p"
+    "print" "puts" "rand" "random_id" "srand"
     "to_float" "to_int" "uuid" "warn"))
 
 ; Type annotations
@@ -89,15 +87,14 @@
   (constant) @type)
 (type_shape_field
   name: (identifier) @property)
-(type_shape_field
-  name: (symbol) @property)
 
 ; Built-in type names
 ((type_name
   (identifier) @type.builtin)
   (#any-of? @type.builtin
     "any" "array" "bool" "duration" "float" "hash" "int"
-    "money" "number" "object" "range" "string" "symbol" "time"))
+    "money" "number" "range" "string" "symbol" "time"
+    "regex" "match_data" "error" "enum_value" "enum_type" "type" "comparable"))
 
 ; Nullable builtin shorthand in shape values ({ name: string? }) aliases
 ; to a leaf type_annotation node
@@ -126,9 +123,6 @@
 ; Regular expressions
 (regex) @string.regexp
 
-; Percent-array literals
-(percent_array) @string.special
-
 ; Booleans and nil
 (true) @constant.builtin
 (false) @constant.builtin
@@ -142,16 +136,12 @@
 (class_variable) @property
 
 ; Parameters
-(simple_parameter
-  (identifier) @variable.parameter)
 (typed_parameter
   (identifier) @variable.parameter)
 (ivar_parameter
   (instance_variable) @variable.parameter)
 (block_parameters
   (identifier) @variable.parameter)
-(keyword_parameter
-  name: (identifier) @variable.parameter)
 (splat_parameter
   (identifier) @variable.parameter)
 (double_splat_parameter
@@ -169,10 +159,11 @@
 ; Built-in namespaces
 ((constant) @module.builtin
   (#any-of? @module.builtin
-    "JSON" "Regexp" "Regex" "Math" "Time" "Duration" "Hash"))
+    "JSON" "Regex" "Math" "Time" "Duration"))
 
 ; Comments
 (comment) @comment
+(block_comment) @comment
 (directive_comment) @comment
 
 ; Operators
@@ -181,6 +172,7 @@
   "-"
   "*"
   "/"
+  "//"
   "%"
   "**"
   "<<"
@@ -210,6 +202,7 @@
   "-="
   "*="
   "/="
+  "//="
   "%="
   "**="
   "||="
@@ -246,3 +239,9 @@
 ; Require
 (require
   "require" @keyword)
+
+(type_alias name: (constant) @type.definition)
+(block_parameter name: (identifier) @variable.parameter)
+(member_access (identifier) @function.method)
+(class name: (identifier) @type)
+(member_access (operator_name) @function.method)

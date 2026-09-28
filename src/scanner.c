@@ -11,7 +11,14 @@ enum TokenType {
   PROTECTED_KEYWORD,
   ALIAS_KEYWORD,
   RESCUE_MODIFIER_KEYWORD,
-  LOOP_DO,
+  MULTIPLY,
+  DIVIDE,
+  MODIFIER_IF,
+  MODIFIER_WHILE,
+  INDEX_OPEN,
+  BARE_PARAMETER_START,
+  BLOCK_COMMENT,
+  KEYWORD_LABEL,
 };
 
 void *tree_sitter_vibescript_external_scanner_create(void) { return NULL; }
@@ -26,7 +33,7 @@ static bool is_upper(int32_t c) { return c >= 'A' && c <= 'Z'; }
 static bool is_lower(int32_t c) { return c >= 'a' && c <= 'z'; }
 
 static bool is_identifier_start(int32_t c) {
-  return is_lower(c) || is_upper(c) || c == '_';
+  return is_lower(c) || is_upper(c) || c == '_' || c >= 128;
 }
 
 static bool is_identifier_char(int32_t c) {
@@ -54,11 +61,10 @@ static bool word_equals(const char *w, int len, const char *k) {
 }
 
 // Keywords that follow an expression rather than begin a command argument, so a
-// paren-less call must not swallow them: `foo do ... end`, `foo if bar`,
-// `foo rescue bar`. Without this, `call do |x|` would read as `call(do ...)`.
+// parenless call must not swallow `foo if bar` or `foo rescue bar`.
 static bool word_is_trailing_keyword(const char *w, int len) {
-  const char *kw[] = {"do", "end", "then", "else", "elsif", "when", "rescue",
-                      "ensure", "if", "unless", "while", "until",
+  const char *kw[] = {"end", "then", "else", "elsif", "when", "rescue",
+                      "ensure", "if", "while",
                       "in"};
   for (unsigned i = 0; i < sizeof(kw) / sizeof(kw[0]); i++) {
     if (word_equals(w, len, kw[i])) return true;
@@ -87,44 +93,45 @@ static bool starts_sigil_operand(int32_t c) {
          c == '[' || c == '(' || c == ':';
 }
 
-// A percent-array literal shape: %w/%W/%i/%I followed by an opening
-// delimiter. Consumes lookahead; call only past mark_end.
-static bool percent_array_follows(TSLexer *lexer) {
-  if (lexer->lookahead != '%') return false;
-  advance(lexer);
-  if (lexer->lookahead != 'w' && lexer->lookahead != 'W' &&
-      lexer->lookahead != 'i' && lexer->lookahead != 'I') {
-    return false;
-  }
-  advance(lexer);
-  return lexer->lookahead == '[' || lexer->lookahead == '(' ||
-         lexer->lookahead == '{' || lexer->lookahead == '<';
-}
-
 // Lookahead check for a `/.../` regex body starting at the cursor (which sits
 // just past the opening slash): no leading space/`=`, and an unescaped closing
 // slash before the end of the line. Mirrors the interpreter's requirement that
 // a command-argument regex closes on its own line.
 static bool regex_closes_on_line(TSLexer *lexer) {
   if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
-      lexer->lookahead == '=' || lexer->lookahead == '\n' ||
-      lexer->lookahead == 0) {
-    return false;
-  }
+      lexer->lookahead == '/' || lexer->lookahead == '=' || lexer->lookahead == '\n' ||
+      lexer->lookahead == 0) return false;
   bool in_class = false;
+  bool first = false;
+  bool posix = false;
+  int32_t previous = 0;
   while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
-    if (lexer->lookahead == '\\') {
+    int32_t c = lexer->lookahead;
+    if (c == '\\') {
       advance(lexer);
-      if (lexer->lookahead != 0 && lexer->lookahead != '\n') advance(lexer);
+      if (lexer->lookahead != 0) advance(lexer);
+      first = false;
       continue;
     }
-    if (lexer->lookahead == '[') {
+    if (!in_class && c == '/') return true;
+    if (!in_class && c == '[') {
       in_class = true;
-    } else if (lexer->lookahead == ']') {
-      in_class = false;
-    } else if (lexer->lookahead == '/' && !in_class) {
-      return true;
+      first = true;
+    } else if (in_class) {
+      if (c == '[') {
+        advance(lexer);
+        if (lexer->lookahead == ':') posix = true;
+        first = false;
+        previous = c;
+        continue;
+      }
+      if (c == ']' && !first) {
+        if (!posix || previous != ':') in_class = false;
+        posix = false;
+      }
+      if (c != '^' || !first) first = false;
     }
+    previous = c;
     advance(lexer);
   }
   return false;
@@ -139,18 +146,27 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
   if (len <= 0) return false;
   lexer->mark_end(lexer);
 
-  // A rescue modifier must sit on its expression's own line; after a newline
-  // the internal `rescue` keyword takes over as a begin/def rescue clause.
-  if (valid_symbols[RESCUE_MODIFIER_KEYWORD] && !saw_newline &&
-      word_equals(word, len, "rescue")) {
-    lexer->result_symbol = RESCUE_MODIFIER_KEYWORD;
+  if (valid_symbols[KEYWORD_LABEL] && lexer->lookahead == ':') {
+    advance(lexer);
+    if (lexer->lookahead != ':') {
+      lexer->result_symbol = KEYWORD_LABEL;
+      return true;
+    }
+    return false;
+  }
+
+  if (!saw_newline && lexer->lookahead != ':' &&
+      ((valid_symbols[MODIFIER_IF] && word_equals(word, len, "if")) ||
+       (valid_symbols[MODIFIER_WHILE] && word_equals(word, len, "while")))) {
+    lexer->result_symbol = word[0] == 'i' ? MODIFIER_IF : MODIFIER_WHILE;
     return true;
   }
 
-  // In a loop header, `do` closes the header (`while f do`) rather than
-  // opening a block on the condition's trailing call.
-  if (valid_symbols[LOOP_DO] && word_equals(word, len, "do")) {
-    lexer->result_symbol = LOOP_DO;
+  // A rescue modifier must sit on its expression's own line; after a newline
+  // the internal `rescue` keyword takes over as a begin/def rescue clause.
+  if (valid_symbols[RESCUE_MODIFIER_KEYWORD] && !saw_newline && lexer->lookahead != ':' &&
+      word_equals(word, len, "rescue")) {
+    lexer->result_symbol = RESCUE_MODIFIER_KEYWORD;
     return true;
   }
 
@@ -160,7 +176,7 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
   int32_t next = lexer->lookahead;
 
   if (valid_symbols[MODULE_KEYWORD] && word_equals(word, len, "module")) {
-    if (is_upper(next)) {
+    if (is_upper(next) || next >= 128) {
       lexer->result_symbol = MODULE_KEYWORD;
       return true;
     }
@@ -258,6 +274,58 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     skip(lexer);
   }
 
+  if (valid_symbols[BLOCK_COMMENT] && lexer->get_column(lexer) == 0 && lexer->lookahead == '=') {
+    const char *start = "=begin";
+    for (unsigned i = 0; start[i]; i++) {
+      if (lexer->lookahead != start[i]) return false;
+      advance(lexer);
+    }
+    if (lexer->lookahead != '\n' && lexer->lookahead != '\r' && lexer->lookahead != ' ' && lexer->lookahead != '\t') return false;
+    while (lexer->lookahead) {
+      if (lexer->get_column(lexer) == 0 && lexer->lookahead == '=') {
+        const char *end = "=end";
+        unsigned i = 0;
+        while (end[i] && lexer->lookahead == end[i]) {
+          advance(lexer);
+          i++;
+        }
+        if (!end[i] && (lexer->lookahead == 0 || lexer->lookahead == '\n' || lexer->lookahead == '\r' || lexer->lookahead == ' ' || lexer->lookahead == '\t')) {
+          while (lexer->lookahead && lexer->lookahead != '\n') advance(lexer);
+          lexer->result_symbol = BLOCK_COMMENT;
+          return true;
+        }
+      } else {
+        advance(lexer);
+      }
+    }
+    return false;
+  }
+
+  if (valid_symbols[BARE_PARAMETER_START] && !saw_newline && saw_space &&
+      (is_identifier_start(lexer->lookahead) || lexer->lookahead == '@' ||
+       lexer->lookahead == '*' || lexer->lookahead == '&')) {
+    lexer->mark_end(lexer);
+    if (lexer->lookahead == '*' || lexer->lookahead == '&' || lexer->lookahead == '@') {
+      int32_t sigil = lexer->lookahead;
+      advance(lexer);
+      if (lexer->lookahead == sigil) advance(lexer);
+      if (sigil == '*') {
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+        if (lexer->lookahead == ',') {
+          lexer->result_symbol = BARE_PARAMETER_START;
+          return true;
+        }
+      }
+    }
+    while (is_identifier_char(lexer->lookahead) || lexer->lookahead == '?' || lexer->lookahead == '!') advance(lexer);
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+    if (lexer->lookahead == ':') {
+      lexer->result_symbol = BARE_PARAMETER_START;
+      return true;
+    }
+    return false;
+  }
+
   if (valid_symbols[ENDLESS_MARKER]) {
     lexer->mark_end(lexer);
     if (saw_newline || lexer->lookahead == 0 || lexer->lookahead == '#' ||
@@ -293,7 +361,20 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
         char word[16];
         int len = read_word(lexer, word, sizeof(word));
         if (len < 0) len = 0;
-        if (len > 0 && word_is_trailing_keyword(word, len)) return false;
+        if (len > 0 && word_is_trailing_keyword(word, len) && lexer->lookahead != ':') {
+          if (valid_symbols[RESCUE_MODIFIER_KEYWORD] && word_equals(word, len, "rescue")) {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = RESCUE_MODIFIER_KEYWORD;
+            return true;
+          }
+          if ((valid_symbols[MODIFIER_IF] && word_equals(word, len, "if")) ||
+              (valid_symbols[MODIFIER_WHILE] && word_equals(word, len, "while"))) {
+            lexer->mark_end(lexer);
+            lexer->result_symbol = word[0] == 'i' ? MODIFIER_IF : MODIFIER_WHILE;
+            return true;
+          }
+          return false;
+        }
       }
       lexer->result_symbol = COMMAND_START;
       return true;
@@ -322,13 +403,15 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     // `x *= 2`, `a * b`).
     if (c == '*') {
       advance(lexer);
-      if (lexer->lookahead == '*') advance(lexer);
+      bool power = lexer->lookahead == '*';
+      if (power) advance(lexer);
       if (starts_sigil_operand(lexer->lookahead) && lexer->lookahead != '(') {
         lexer->result_symbol = COMMAND_START;
         return true;
       }
-      if (percent_array_follows(lexer)) {
-        lexer->result_symbol = COMMAND_START;
+      if (!power && lexer->lookahead != '=' && valid_symbols[MULTIPLY]) {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = MULTIPLY;
         return true;
       }
       return false;
@@ -349,19 +432,19 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       return false;
     }
-    // Percent-array argument: `puts %w[a b]` (never the modulo operator,
-    // which lacks the sigil-and-delimiter shape).
-    if (c == '%') {
-      if (percent_array_follows(lexer)) {
-        lexer->result_symbol = COMMAND_START;
-        return true;
-      }
-      return false;
-    }
     // Regex argument: `match /id/` requires a closing slash on the line, so
     // `total /2` keeps dividing.
     if (c == '/') {
       advance(lexer);
+      if (lexer->lookahead == '/') {
+        advance(lexer);
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+        if (lexer->lookahead == ',' || lexer->lookahead == '\n' || lexer->lookahead == 0) {
+          lexer->result_symbol = COMMAND_START;
+          return true;
+        }
+        return false;
+      }
       if (regex_closes_on_line(lexer)) {
         lexer->result_symbol = COMMAND_START;
         return true;
@@ -372,10 +455,18 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     // same-line `{` can still open a brace block.
   }
 
+  if (valid_symbols[INDEX_OPEN] && !saw_newline && lexer->lookahead == '[') {
+    advance(lexer);
+    lexer->mark_end(lexer);
+    lexer->result_symbol = INDEX_OPEN;
+    return true;
+  }
+
   bool any_contextual_word =
       valid_symbols[MODULE_KEYWORD] || valid_symbols[PUBLIC_KEYWORD] ||
       valid_symbols[PROTECTED_KEYWORD] || valid_symbols[ALIAS_KEYWORD] ||
-      valid_symbols[RESCUE_MODIFIER_KEYWORD] || valid_symbols[LOOP_DO];
+      valid_symbols[RESCUE_MODIFIER_KEYWORD] || valid_symbols[MODIFIER_IF] ||
+      valid_symbols[MODIFIER_WHILE] || valid_symbols[KEYWORD_LABEL];
   if (any_contextual_word && is_lower(lexer->lookahead)) {
     // A rejected candidate consumed only lookahead (no mark_end), and no other
     // external token can start with a letter, so the internal lexer re-reads
@@ -402,36 +493,42 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     return true;
   }
 
+  if (((valid_symbols[MULTIPLY] && lexer->lookahead == '*') ||
+                       (valid_symbols[DIVIDE] && lexer->lookahead == '/' && !saw_space && !saw_newline))) {
+    int32_t operator = lexer->lookahead;
+    advance(lexer);
+    if (lexer->lookahead == '=' || lexer->lookahead == operator) return false;
+    lexer->mark_end(lexer);
+    if (saw_newline && operator == '*') {
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
+      if (is_identifier_start(lexer->lookahead)) {
+        char word[128];
+        read_word(lexer, word, sizeof(word));
+      }
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+             lexer->lookahead == '\r' || lexer->lookahead == '\n') advance(lexer);
+      if (lexer->lookahead == ',' || lexer->lookahead == '=' || lexer->lookahead == '.') return false;
+    }
+    lexer->result_symbol = operator == '*' ? MULTIPLY : DIVIDE;
+    return true;
+  }
+
   if (valid_symbols[REGEX] && lexer->lookahead == '/') {
     advance(lexer);
     // Disambiguate from division / `/=`: a regex body never opens with a space
     // or `=`, whereas `a / b` and `a /= b` do. This keeps `/` an operator in the
     // GLR states where a statement boundary also makes a regex nominally valid.
     if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
-        lexer->lookahead == '=' || lexer->lookahead == 0) {
+        lexer->lookahead == '/' || lexer->lookahead == '=' || lexer->lookahead == 0) {
+      if (valid_symbols[DIVIDE] && !saw_newline && lexer->lookahead != '/' && lexer->lookahead != '=') {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = DIVIDE;
+        return true;
+      }
       return false;
     }
-    bool in_class = false;
-    bool closed = false;
-    while (lexer->lookahead != 0) {
-      if (lexer->lookahead == '\n') return false;
-      if (lexer->lookahead == '\\') {
-        advance(lexer);
-        if (lexer->lookahead != 0) advance(lexer);
-        continue;
-      }
-      if (lexer->lookahead == '[') {
-        in_class = true;
-      } else if (lexer->lookahead == ']') {
-        in_class = false;
-      } else if (lexer->lookahead == '/' && !in_class) {
-        advance(lexer);
-        closed = true;
-        break;
-      }
-      advance(lexer);
-    }
-    if (!closed) return false;
+    if (!regex_closes_on_line(lexer)) return false;
+    advance(lexer);
     while (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') advance(lexer);
     lexer->mark_end(lexer);
     lexer->result_symbol = REGEX;

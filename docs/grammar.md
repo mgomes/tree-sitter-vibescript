@@ -1,93 +1,81 @@
 # Grammar notes
 
-### Known divergences from the interpreter
+The reference is Rust Vibescript v0.80.0, especially `docs/language.md`, ADR-007,
+ADR-008 and the sources accepted by `vibes check`. The grammar supports typed
+locals, fields, constants and signatures; generic collection types; unions,
+optionals, tuples and open record shapes; type aliases; typed block signatures;
+keyword separators; checked `.as(T)` casts; enums; and floor division.
+Functions themselves are not generic in this release.
 
-The interpreter disambiguates several prefix sigils (`*`, `/`, `[`)
-by consulting its local-variable table: a slash, star, or bracket after a
-*known local* is an operator or index, while after a non-local callee it
-opens a parenless argument. Tree-sitter has no symbol table, so this
-grammar approximates the
-rule with spacing alone (space before the sigil, none after it). Both
-readings keep the tree free of `ERROR` nodes; only which nodes appear can
-differ from how the interpreter executes the code:
+## Editor approximations
 
-- `x *n` at statement level parses as a parenless splat command even
-  when `x` is a local variable (the interpreter multiplies for locals). `x * n` and `x*n` always stay
-  binary operators, and `x *= 2` stays a compound assignment.
-- `total /2` parses as division because the slash never closes on its
-  line. With a closing slash, `f /2 + g/i` parses as a regex command
-  argument even when `f` is a local (the interpreter keeps dividing for
-  locals, including the implicit `it` parameter and enclosing class
-  constants).
-- `a [0]` (spaced bracket) parses as an array command argument even when
-  `a` is a local, and `a [0] = 1` becomes a command whose argument is an
-  assignment to an array literal (the interpreter indexes locals in every
-  spacing). Flush brackets (`a[0]`, `puts[1]`) always stay indexing, and
-  `self [0]` stays indexing because a command callee must be an
-  identifier. `f [0] = 5` with a non-local callee is a parse error in the
-  interpreter; the grammar keeps the intact command-with-assignment tree
-  instead.
-- `total %w[0]` parses as a percent-array command argument even when
-  `total` and `w` are locals (the interpreter reads modulo of an indexed
-  local there). `total % w[0]` and `total %w [0]`-free spacings keep the
-  modulo reading, since the argument form requires the sigil, letter, and
-  delimiter to sit flush.
+Tree-sitter has no type or local-variable table. A bare name is an `identifier`
+whether it names a local or a zero-argument function. Dotted zero-argument calls
+use `member_access`; calls with arguments or a block use `call` or `command_call`.
+The language server resolves names and performs semantic checks.
 
-Other approximations, all chosen so that the tree stays intact:
+Spacing disambiguates parenless arguments from operators and indexing:
+`f *items`, `f /pattern/` and `f [1]` can be command calls even when the compiler
+knows that `f` is a local. Flush subscripts and spaced arithmetic remain ordinary
+expressions. Floor division uses `//` and `//=` and never opens a nonempty regex.
 
-- Removed builtins and directives can still form ordinary identifier or call
-  nodes, including `proc(...)`, `include M`, and module accessors. They no
-  longer receive dedicated syntax nodes or builtin highlighting. Likewise,
-  `f &blk` reads as binary intersection because the grammar cannot distinguish
-  a local operand from a callee. The interpreter reports unsupported uses.
-- Function, alias, and namespace declarations inside executable bodies can
-  recover as ordinary identifiers or calls. They do not produce declaration
-  nodes; named functions belong at the top level or in class/module members.
-- Runtime rules such as string-only hash keys, collection value semantics,
-  nonescaping blocks, and unavailable methods are checked by Vibescript; an
-  error-free syntax tree does not validate execution.
+Type literals and values share syntax. Generic, union, optional, tuple and shape
+syntax can produce `type_literal`; ambiguous plain names, arrays and hashes
+prefer the value reading. Optional field labels include their `?` in the
+identifier. Semantic restrictions on type names, declaration placement, keyword
+ordering, assignment targets and string-only hash keys belong to the checker.
 
-- A visibility word on its own line followed by a definition
-  (`private` then `def x`) produces the same tokens as the inline form
-  (`private def x`), so the grammar attaches the modifier to that first
-  definition instead of emitting a bare section directive. A visibility
-  word before a non-definition member (or before `end`) still parses as a
-  `visibility_directive` section, and `private :a, :b` parses as the
-  retroactive symbol form.
-- A bare `rescue` whose body's first statement begins with a constant on
-  the next line reads that constant as the rescue's error type.
-- `return`, `break`, `next`, and `yield` values must sit on the keyword's
-  line; a bare keyword followed by an expression statement on the next
-  line parses as the keyword consuming that expression.
-- `module foo` (lowercase name) parses as a command call; the interpreter
-  reports a targeted "module name must start with an uppercase letter"
-  error instead.
-- `def f(a: nil)` parses the `nil` as a type annotation; the interpreter
-  reads it as a keyword default unless a union pipe follows.
-- A hash entry whose value only parses as type syntax
-  (`{ note: string | nil }`, `{ tags: array<int> }`) carries a
-  `type_annotation` value, mirroring expression-position shape
-  literals. An entry that parses both ways (`{ id: string }`) keeps the
-  expression reading, exactly like the interpreter's dual-reading
-  default, so a pure schema literal can mix expression-valued and
-  type-valued entries in one hash node.
-- Interpolations inside `%W[...]` / `%I[...]` percent arrays are not
-  structured; the whole literal stays a single token, so `#{...}`
-  segments inside them are not highlighted as code.
-- Nested destructuring groups (`x, (y, z) = ...`) need at least two
-  elements; a single-element group parses as a parenthesized
-  expression.
-- Malformed abutted literals such as `1e3foo` or `123abc` parse as a
-  number followed by an identifier instead of surfacing the
-  interpreter's parse error. Rejecting them needs negative lookahead
-  the token grammar cannot express, and lenient trees highlight better
-  mid-edit; keyword suffixes (`1e3if cond`) parse identically in both.
+Statement separators include semicolons. Whitespace is an extra, so some invalid
+adjacent expressions can still produce separate statements. Similarly, a value
+on the next line can attach to `return`, `break`, `next` or `yield`. Contextual
+module/visibility/alias words, same-line blocks, parenless arguments, return
+arrows and rescue modifiers use the external scanner.
 
-Contextual words such as `module`, `public`, `protected`, and `alias`
-remain identifiers outside their declaration and directive forms. Former
-operators `and`, `or`, and `not`, and former mixin words `include` and
-`extend`, are ordinary identifiers. The
-statement-level newline that ends an endless range (`x = 5..`), the
-signature-line-only `-> Type` return annotation, the same-line `rescue`
-modifier, and the loop-header `do` are recognized by the external scanner
-(`src/scanner.c`).
+Removed words can still be ordinary identifiers; `do`, `unless` and `until` no
+longer have dedicated syntax rules. Percent literals, legacy keyword defaults,
+untyped function parameters, symbol hash keys, lambdas and block forwarding
+have no supported grammar productions.
+
+## Compiler compatibility exceptions
+
+ADR-008 prescribes parenless zero-argument calls and removes the empty regex.
+The v0.80.0 `vibes check` binary nevertheless accepts some `f()` calls when the
+function has defaulted parameters, `yield()`, standalone `//`, and symbol-spelled
+field labels inside type shapes. Computed callees and nested declarations also
+appear in accepted fixtures. The editor
+accepts these spellings too so accepted programs always have intact syntax
+trees. Empty parentheses on other calls are left to the language server to
+reject. Documentation and examples use the canonical spellings.
+
+## Corpus gate
+
+```sh
+npm ci
+npm run generate
+python3 scripts/check-corpora.py /path/to/rust-vibescript \
+  --vibes /path/to/vibes --output /path/to/editor-tooling-results
+```
+
+The gate walks `tests/`, `corpus/glue/` and `examples/`, including `.vibe` files,
+JSON/JSONL source fields, compressed replay programs, and standalone string
+literals in Rust tests/examples. It deduplicates identical source and working
+directory pairs, then runs `vibes check --json` with at most three workers.
+File fixtures keep their original module-resolution directory. Compiler
+rejections are recorded, never rewritten or counted as parser successes.
+
+Every accepted source is passed to the npm-installed Tree-sitter CLI. Any
+`ERROR`, `MISSING` node or parse timeout fails the gate. The output directory
+contains compiler diagnostics, source origins, accepted fixtures and parser
+results. `--reuse-checks` reuses compiler results only when the binary and all
+source candidates are unchanged; parsing always runs again. The parser has a
+two-minute limit per fixture. Generated stress fixtures with tens of thousands of call arguments can take tens of seconds;
+this gate establishes syntax compatibility rather than an editor latency budget.
+
+Rust snippets assembled by `format!`, concatenation, host declarations or runtime
+generators are not reconstructed. Their checked-in JSON/replay forms are covered
+where present. Sources requiring host capabilities or additional fixture setup
+remain in the rejection report unless independently accepted by the CLI.
+
+Identifier character classes are generated from Unicode 17.0.0, matching the
+compiler, by `npm run generate`. The pinned Unicode npm dependency makes parser
+generation independent of the Unicode version bundled with the CLI.

@@ -5,7 +5,7 @@ Class with property and methods
 class Point
   property x, y
 
-  def initialize(@x, @y)
+  def initialize(@x: any, @y: any)
   end
 end
 
@@ -23,9 +23,15 @@ end
       name: (identifier)
       (parameters
         (ivar_parameter
-          (instance_variable))
+          (instance_variable)
+          (type_annotation
+            (type_name
+              (identifier))))
         (ivar_parameter
-          (instance_variable))))))
+          (instance_variable)
+          (type_annotation
+            (type_name
+              (identifier))))))))
 
 ================
 Class with getter and setter
@@ -35,7 +41,7 @@ class Person
   getter age
   setter name
 
-  def initialize(name)
+  def initialize(name: any)
     @name = name
     @age = 0
   end
@@ -55,8 +61,11 @@ end
     (method
       name: (identifier)
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (assignment
         (instance_variable)
         (identifier))
@@ -164,11 +173,11 @@ Setter method definitions
 ================
 
 class Account
-  def balance=(value)
+  def balance=(value: any)
     @balance = value
   end
 
-  def self.default=(value)
+  def self.default=(value: any)
     @@default = value
   end
 end
@@ -182,8 +191,11 @@ end
       name: (setter_name
         (identifier))
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (assignment
         (instance_variable)
         (identifier)))
@@ -191,8 +203,11 @@ end
       name: (self_method_name
         (identifier))
       (parameters
-        (simple_parameter
-          (identifier)))
+        (typed_parameter
+          name: (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
       (assignment
         (class_variable)
         (identifier)))))

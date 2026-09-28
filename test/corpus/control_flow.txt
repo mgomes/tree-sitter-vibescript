@@ -69,7 +69,7 @@ else
   2
 end
 y = begin
-  compute()
+  compute
 end
 
 ---
@@ -87,16 +87,15 @@ end
   (assignment
     (identifier)
     (begin
-      (call
-        (identifier)))))
+      (identifier))))
 
 ================
-Contextual then and loop do
+Contextual then and while header
 ================
 
 if a then puts 1 end
-while ready do
-  step()
+while ready
+  step
 end
 
 ---
@@ -110,8 +109,7 @@ end
         (integer))))
   (while
     (identifier)
-    (call
-      (identifier))))
+    (identifier)))
 
 ================
 Statement modifiers on control keywords
@@ -148,7 +146,7 @@ Multi value return and destructuring
 def pair
   return 1, 2
 end
-a, b = pair()
+a, b = pair
 c, d = 1, 2
 
 ---
@@ -162,8 +160,7 @@ c, d = 1, 2
   (destructuring_assignment
     (identifier)
     (identifier)
-    (call
-      (identifier)))
+    (identifier))
   (destructuring_assignment
     (identifier)
     (identifier)
@@ -174,9 +171,9 @@ c, d = 1, 2
 Break and next with values
 ================
 
-r = [1, 2].map do |v|
+r = [1, 2].map { |v|
   next v * 2
-end
+}
 while true
   break 5
 end

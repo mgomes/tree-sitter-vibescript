@@ -4,13 +4,14 @@
   (module)
   (enum)
   (if)
-  (unless)
   (case)
   (begin)
   (while)
-  (until)
   (for)
   (block)
   (array)
   (hash)
+  (type_shape)
+  (type_tuple)
 ] @fold
+(block_comment) @fold

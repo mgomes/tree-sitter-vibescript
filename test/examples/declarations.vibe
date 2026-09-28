@@ -1,91 +1,73 @@
-# A tour of declaration-level syntax through Vibescript 0.70.0.
-
+# Vibescript 0.80.0 declarations.
 enum Status
   Draft
   Published
-  Archived
 end
+
+type Entry = { id: string, status: Status, note?: string, ... }
+type Pair = [string, int]
 
 module Billing
-  LIMIT = 5
+  type Amount = int
+  TAX: int = 8
 
-  def self.code
-    "ok"
+  def self.with_tax(cents: Amount) -> int
+    cents + cents * TAX // 100
   end
 end
 
-class Money2
-  property amount: int
+class Post
+  getter title: string
+  property status: Status
+  @views: int = 0
+  @@count: int = 0
 
-  def initialize(@amount: int)
+  def initialize(@title: string, status: Status = :draft)
+    @status = status
+    @@count += 1
   end
 
-  def +(other)
-    Money2.new(@amount + other.amount)
+  def self.count -> int
+    @@count
   end
 
-  def <=>(other)
-    @amount <=> other.amount
-  end
-
-  def [](key)
-    @amount
-  end
-
-  def []=(key, value)
-    @amount = value
-  end
-
-  def balance=(value)
-    @amount = value
-  end
-
-  def to_label -> string
-    "#{@amount}"
+  def view -> int
+    @views += 1
+    @views
   end
 end
 
-class Greeter
-  def hello
-    "hi"
-  end
-
-  alias hi hello
-  alias_method :howdy, :hello
-
-  private
-
-  def hidden
-    "secret"
-  end
+def connect(host: string, *, port: int = 8080) -> string
+  "https://#{host}:#{port}"
 end
 
-def connect(host:, port: 8080, scheme: "https", timeout: port * 2)
-  "#{scheme}://#{host}:#{port} #{timeout}"
+def tally(*values: array<int>, **options: hash<string, int>) -> int
+  values.sum + options.values.sum
 end
 
-def publish(status: Status) -> Status
-  status
+def keep(items: array<int>, &block: int -> bool) -> array<int>
+  kept: array<int> = []
+  items.each { |item|
+    kept << item if yield(item)
+  }
+  kept
 end
 
-def tally(*values, **opts)
-  values.size
+def read_label(&block: () -> string) -> string
+  yield
 end
 
-def describe(payload: { id: string, tags: array<int> }) -> string
-  payload[:id]
+def each_pair(counts: hash<string, int>, &block: (string, int))
+  counts.keys.each { |key| yield key, counts.fetch(key) }
 end
 
-puts Billing.code
-puts Billing::LIMIT
-puts Status::Draft.name
-puts connect(host: "example.com")
-puts publish(status: Status::Published).name
-m = Money2.new(3)
-m.balance = 9
-puts m.to_label
-g = Greeter.new
-puts g.hi
-puts g.howdy
-puts tally(1, 2, 3)
-puts describe(payload: { id: "a", tags: [1] })
+post = Post.new("Hello")
+post.view
+post.status = :published
+puts post.title
+puts Billing.with_tax(100)
+puts connect("example.com", port: 443)
+puts tally(1, 2, bonus: 3)
+puts keep([1, 2, 3]) { |n| n.even? }
+puts read_label { "ready" }
+each_pair({ a: 1 }) { |key, value| puts "#{key}=#{value}" }
