@@ -270,3 +270,4 @@
 (member_access ["." "&."] . (identifier) @function.method)
 (class name: (identifier) @type)
 (member_access ["." "&."] . (operator_name _ @function.method))
+(method name: (constant) @function.method)
