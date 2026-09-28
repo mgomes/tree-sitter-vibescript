@@ -1,7 +1,11 @@
 use super::{LANGUAGE, LOCALS_QUERY};
 use std::ops::Range;
+use std::sync::OnceLock;
 use tree_sitter::{Parser, Query, QueryCursor, StreamingIterator};
 use tree_sitter_highlight::{HighlightConfiguration, HighlightEvent, Highlighter};
+
+#[path = "locals_references_tests.rs"]
+mod references;
 
 #[derive(Debug, PartialEq)]
 struct Capture {
@@ -12,6 +16,7 @@ struct Capture {
 }
 
 fn captures(source: &str) -> Vec<Capture> {
+    static QUERY: OnceLock<Query> = OnceLock::new();
     let language = LANGUAGE.into();
     let mut parser = Parser::new();
     parser.set_language(&language).unwrap();
@@ -21,9 +26,9 @@ fn captures(source: &str) -> Vec<Capture> {
         "{}",
         tree.root_node().to_sexp()
     );
-    let query = Query::new(&language, LOCALS_QUERY).unwrap();
+    let query = QUERY.get_or_init(|| Query::new(&language, LOCALS_QUERY).unwrap());
     let mut cursor = QueryCursor::new();
-    let mut matches = cursor.captures(&query, tree.root_node(), source.as_bytes());
+    let mut matches = cursor.captures(query, tree.root_node(), source.as_bytes());
     let mut result = Vec::new();
     while let Some((matched, index)) = matches.next() {
         let capture = matched.captures[*index];
@@ -224,6 +229,7 @@ fn require_aliases_define_only_static_unescaped_names() {
 }
 
 fn colors_for(source: &str, name: &str) -> Vec<&'static str> {
+    static CONFIG: OnceLock<HighlightConfiguration> = OnceLock::new();
     const COLORS: [&str; 5] = [
         "unresolved",
         "binding",
@@ -242,7 +248,19 @@ fn colors_for(source: &str, name: &str) -> Vec<&'static str> {
         (enum name: (_) @declaration)
         (type_alias name: (_) @declaration)
     "#;
-    colors_for_query(source, name, highlights, &COLORS)
+    let config = CONFIG.get_or_init(|| {
+        let mut config = HighlightConfiguration::new(
+            LANGUAGE.into(),
+            "vibescript",
+            highlights,
+            "",
+            LOCALS_QUERY,
+        )
+        .unwrap();
+        config.configure(&COLORS);
+        config
+    });
+    colors_for_config(source, name, config, &COLORS)
 }
 
 fn colors_for_query<'a>(
@@ -255,11 +273,20 @@ fn colors_for_query<'a>(
         HighlightConfiguration::new(LANGUAGE.into(), "vibescript", highlights, "", LOCALS_QUERY)
             .unwrap();
     config.configure(colors);
+    colors_for_config(source, name, &config, colors)
+}
+
+fn colors_for_config<'a>(
+    source: &str,
+    name: &str,
+    config: &HighlightConfiguration,
+    colors: &[&'a str],
+) -> Vec<&'a str> {
     let mut highlighter = Highlighter::new();
     let mut ranges = Vec::new();
     let mut stack = Vec::new();
     for event in highlighter
-        .highlight(&config, source.as_bytes(), None, |_| None)
+        .highlight(config, source.as_bytes(), None, |_| None)
         .unwrap()
     {
         match event.unwrap() {

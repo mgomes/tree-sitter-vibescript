@@ -50,9 +50,12 @@ receivers and other arguments keep their expression colors. Fully resolving
 ambiguous schemas or qualified expressions requires the language server.
 
 The locals query propagates colors only through value/type reference positions.
-It excludes method names, accessor/alias names and labels, so a parameter called
-`name` cannot recolor `user.name` or a `{ name: value }` key. Namespace suffixes
+It excludes method names, accessor/alias names and explicit labels, so a parameter
+called `name` cannot recolor `user.name` or a `{ name: value }` key. Namespace suffixes
 are not looked up as unrelated lexical locals. Generic type references, expression
 receivers, argument values, defaults, interpolation bodies and nested bindings
 still participate in local resolution. Type-alias references may inherit the
 alias definition color where the enclosing local scope makes it visible.
+Shorthand hash and keyword labels with no value are also references to the local
+of the same name. Splatted arguments and yielded operands propagate local colors
+through their argument containers.

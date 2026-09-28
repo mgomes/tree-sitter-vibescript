@@ -231,6 +231,7 @@ name = "tree-sitter-vibescript"
 version = "0.80.0"
 dependencies = [
  "cc",
+ "serde_json",
  "tree-sitter",
  "tree-sitter-highlight",
  "tree-sitter-language",

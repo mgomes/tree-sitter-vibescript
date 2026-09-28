@@ -66,6 +66,20 @@ the query is not a replacement for name resolution or definite-assignment checks
 Rust tests exercise definition captures and Tree-sitter's actual highlighting
 consumer, including scope inheritance, shadowing and binding lifetimes.
 
+The reference audit checks every reachable direct identifier/constant slot in
+`src/node-types.json`. It asserts reference, definition and non-local-name roles,
+and verifies parameter-color propagation through every operand context. New
+slots fail the inventory test until classified. The one schema-only exception is
+`computed_call.function`: bare callees prefer `call.method`, while computed calls
+contain parenthesized or compound expressions, whose inner references are tested.
+
+Both `yield value` and `yield(value)` wrap operands in `argument_list`, so they
+share its reference capture. Splatted values use `splat_argument` and
+`double_splat_argument`. Shorthand `{ name: }` and `f(name:)` labels also read a
+local; explicit labels in `{ name: value }` and `f(name: value)` do not. Type tuple
+elements resolve through `type_name`, casts through `.as` receivers and arguments,
+and the canonical replacement for `unless` through `if !condition`.
+
 ## Highlight captures
 
 The [highlight audit](highlights.md) records the capture boundary for every named
