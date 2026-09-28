@@ -323,11 +323,12 @@ end
 (program
   (class
     (constant)
-    (method
-      (identifier)
-      (subscript
-        (self)
-        (integer)))))
+    (class_body
+      (method
+        (identifier)
+        (subscript
+          (self)
+          (integer))))))
 
 ================
 Assignment to an array command argument

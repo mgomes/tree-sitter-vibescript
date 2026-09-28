@@ -1,0 +1,95 @@
+================
+Parenthesized local targets
+================
+
+(plain) = 1
+((UPPER)) = 2
+(((plain))) += UPPER
+((UPPER)) //= 2
+plain + UPPER
+
+---
+
+(program
+  (assignment
+    (parenthesized_target
+      (identifier))
+    (integer))
+  (assignment
+    (parenthesized_target
+      (parenthesized_target
+        (constant)))
+    (integer))
+  (compound_assignment
+    (parenthesized_target
+      (parenthesized_target
+        (parenthesized_target
+          (identifier))))
+    (constant))
+  (compound_assignment
+    (parenthesized_target
+      (parenthesized_target
+        (constant)))
+    (integer))
+  (binary
+    (identifier)
+    (constant)))
+
+================
+Grouped mutation receivers and reads are not bindings
+================
+
+items = [1]
+((items[0])) = 2
+value = (items)
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (array
+      (integer)))
+  (assignment
+    (parenthesized
+      (parenthesized
+        (subscript
+          (identifier)
+          (integer))))
+    (integer))
+  (assignment
+    (identifier)
+    (parenthesized
+      (identifier))))
+
+================
+Yield permits its parenthesized arguments on the following line
+================
+
+def f(&block: () -> int) -> int
+  yield
+  ()
+end
+f { 3 }
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (yield))
+  (call
+    (identifier)
+    (block
+      (integer))))

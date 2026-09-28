@@ -135,24 +135,6 @@
 (instance_variable) @property
 (class_variable) @property
 
-; Parameters
-(typed_parameter
-  (identifier) @variable.parameter)
-(ivar_parameter
-  (instance_variable) @variable.parameter)
-(block_parameters
-  (identifier) @variable.parameter)
-(splat_parameter
-  (identifier) @variable.parameter)
-(double_splat_parameter
-  (identifier) @variable.parameter)
-(destructured_parameter
-  (identifier) @variable.parameter)
-
-; Rescue bindings
-(rescue
-  binding: (identifier) @variable)
-
 ; Constants
 (constant) @type
 
@@ -160,6 +142,24 @@
 ((constant) @module.builtin
   (#any-of? @module.builtin
     "JSON" "Regex" "Math" "Time" "Duration"))
+
+; Parameters
+(typed_parameter
+  name: [(identifier) (constant)] @variable.parameter)
+(ivar_parameter
+  (instance_variable) @variable.parameter)
+(block_parameters
+  [(identifier) (constant)] @variable.parameter)
+(splat_parameter
+  name: [(identifier) (constant)] @variable.parameter)
+(double_splat_parameter
+  name: [(identifier) (constant)] @variable.parameter)
+(destructured_parameter
+  [(identifier) (constant)] @variable.parameter)
+
+; Rescue bindings
+(rescue
+  binding: [(identifier) (constant)] @variable)
 
 ; Comments
 (comment) @comment
@@ -240,8 +240,30 @@
 (require
   "require" @keyword)
 
+; Literal import aliases name modules; references inherit this scope.
+(require
+  (string)
+  (string . (string_content) @type .))
+((call
+  !receiver
+  method: (identifier) @_require
+  (argument_list
+    (keyword_argument
+      key: (identifier) @_as
+      value: (string . (string_content) @type .))))
+ (#eq? @_require "require")
+ (#eq? @_as "as"))
+((command_call
+  method: (identifier) @_require
+  (command_arguments
+    (keyword_argument
+      key: (identifier) @_as
+      value: (string . (string_content) @type .))))
+ (#eq? @_require "require")
+ (#eq? @_as "as"))
+
 (type_alias name: (constant) @type.definition)
-(block_parameter name: (identifier) @variable.parameter)
+(block_parameter name: [(identifier) (constant)] @variable.parameter)
 (member_access (identifier) @function.method)
 (class name: (identifier) @type)
 (member_access (operator_name) @function.method)

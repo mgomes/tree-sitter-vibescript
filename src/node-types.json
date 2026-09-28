@@ -537,6 +537,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_target",
+          "named": true
+        },
+        {
           "type": "quoted_symbol",
           "named": true
         },
@@ -1395,6 +1399,10 @@
         "required": true,
         "types": [
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -1987,6 +1995,16 @@
     "type": "class",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "class_body",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -2001,7 +2019,12 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "class_body",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -2728,6 +2751,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_target",
+          "named": true
+        },
+        {
           "type": "quoted_symbol",
           "named": true
         },
@@ -3008,6 +3035,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "destructured_target",
           "named": true
         },
@@ -3048,6 +3079,10 @@
           },
           {
             "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
             "named": true
           },
           {
@@ -3408,6 +3443,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -4580,6 +4619,10 @@
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
           {
             "type": "destructured_target",
             "named": true
@@ -6724,6 +6767,16 @@
     "type": "module",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "module_body",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -6734,7 +6787,12 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "module_body",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -7326,6 +7384,29 @@
     }
   },
   {
+    "type": "parenthesized_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parenthesized_target",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "program",
     "named": true,
     "root": true,
@@ -7801,6 +7882,10 @@
         "required": true,
         "types": [
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -7826,6 +7911,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -8951,6 +9040,10 @@
         "required": true,
         "types": [
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -8976,6 +9069,10 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true

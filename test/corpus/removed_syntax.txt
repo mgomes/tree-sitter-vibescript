@@ -136,11 +136,12 @@ end
 (program
   (module
     (constant)
-    (if
-      (true)
-      (method
-        (identifier)
-        (integer)))))
+    (module_body
+      (if
+        (true)
+        (method
+          (identifier)
+          (integer))))))
 
 ================
 Nested module aliases are not declarations
@@ -157,15 +158,16 @@ end
 (program
   (module
     (constant)
-    (if
-      (true)
-      (command_call
-        (identifier)
-        (command_arguments
-          (command_call
-            (identifier)
-            (command_arguments
-              (identifier))))))))
+    (module_body
+      (if
+        (true)
+        (command_call
+          (identifier)
+          (command_arguments
+            (command_call
+              (identifier)
+              (command_arguments
+                (identifier)))))))))
 
 ================
 Percent literals are removed

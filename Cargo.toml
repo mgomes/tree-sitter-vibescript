@@ -35,3 +35,4 @@ cc = "1.2"
 
 [dev-dependencies]
 tree-sitter = "0.26"
+tree-sitter-highlight = "0.26"

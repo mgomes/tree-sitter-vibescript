@@ -18,12 +18,13 @@ end
 (program
   (class
     (constant)
-    (method
-      (identifier)
-      (integer))
-    (method
-      (identifier)
-      (integer))))
+    (class_body
+      (method
+        (identifier)
+        (integer))
+      (method
+        (identifier)
+        (integer)))))
 
 ================
 Inline visibility modifiers
@@ -42,21 +43,22 @@ end
 (program
   (class
     (constant)
-    (method
-      (identifier)
-      (integer))
-    (property_declaration
-      (accessor_name
+    (class_body
+      (method
         (identifier)
-        (type_annotation
-          (type_name
-            (identifier)))))
-    (getter_declaration
-      (accessor_name
-        (identifier)
-        (type_annotation
-          (type_name
-            (identifier)))))))
+        (integer))
+      (property_declaration
+        (accessor_name
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)))))
+      (getter_declaration
+        (accessor_name
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))))))))
 
 ================
 Retroactive visibility symbols
@@ -75,14 +77,15 @@ end
 (program
   (class
     (constant)
-    (method
-      (identifier)
-      (integer))
-    (visibility_directive
-      (symbol)
-      (symbol))
-    (visibility_directive
-      (symbol))))
+    (class_body
+      (method
+        (identifier)
+        (integer))
+      (visibility_directive
+        (symbol)
+        (symbol))
+      (visibility_directive
+        (symbol)))))
 
 ================
 Visibility and former mixin words stay identifiers
@@ -133,9 +136,10 @@ end
 (program
   (class
     (constant)
-    (assignment
-      (identifier)
-      (integer))))
+    (class_body
+      (assignment
+        (identifier)
+        (integer)))))
 
 ================
 Alias declarations
@@ -165,15 +169,16 @@ end
     (identifier))
   (class
     (constant)
-    (method
-      (identifier)
-      (integer))
-    (alias
-      (identifier)
-      (identifier))
-    (alias_method
-      (symbol)
-      (symbol))))
+    (class_body
+      (method
+        (identifier)
+        (integer))
+      (alias
+        (identifier)
+        (identifier))
+      (alias_method
+        (symbol)
+        (symbol)))))
 
 ================
 Alias stays an identifier
@@ -217,47 +222,48 @@ end
 (program
   (class
     (constant)
-    (method
-      (operator_name)
-      (parameters
-        (typed_parameter
-          (identifier)
-          (type_annotation
-            (type_name
-              (identifier)))))
-      (identifier))
-    (method
-      (operator_name)
-      (parameters
-        (typed_parameter
-          (identifier)
-          (type_annotation
-            (type_name
-              (identifier)))))
-      (identifier))
-    (method
-      (operator_name)
-      (parameters
-        (typed_parameter
-          (identifier)
-          (type_annotation
-            (type_name
-              (identifier))))
-        (typed_parameter
-          (identifier)
-          (type_annotation
-            (type_name
-              (identifier)))))
-      (identifier))
-    (method
-      (operator_name)
-      (parameters
-        (typed_parameter
-          (identifier)
-          (type_annotation
-            (type_name
-              (identifier)))))
-      (integer))))
+    (class_body
+      (method
+        (operator_name)
+        (parameters
+          (typed_parameter
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier)))))
+        (identifier))
+      (method
+        (operator_name)
+        (parameters
+          (typed_parameter
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier)))))
+        (identifier))
+      (method
+        (operator_name)
+        (parameters
+          (typed_parameter
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier))))
+          (typed_parameter
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier)))))
+        (identifier))
+      (method
+        (operator_name)
+        (parameters
+          (typed_parameter
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier)))))
+        (integer)))))
 
 ================
 Class body constants and nested classes
@@ -275,11 +281,12 @@ puts Config::LIMIT
 (program
   (class
     (constant)
-    (assignment
-      (constant)
-      (integer))
-    (class
-      (constant)))
+    (class_body
+      (assignment
+        (constant)
+        (integer))
+      (class
+        (constant))))
   (command_call
     (identifier)
     (command_arguments
@@ -306,20 +313,21 @@ end
 (program
   (class
     name: (constant)
-    (method
-      name: (operator_name)
-      (parameters
-        (typed_parameter
-          name: (identifier)
-          (type_annotation
-            (type_name
-              (identifier)))))
-      (integer))
-    (visibility_directive
-      (symbol))
-    (alias
-      name: (symbol)
-      target: (symbol))))
+    body: (class_body
+      (method
+        name: (operator_name)
+        (parameters
+          (typed_parameter
+            name: (identifier)
+            (type_annotation
+              (type_name
+                (identifier)))))
+        (integer))
+      (visibility_directive
+        (symbol))
+      (alias
+        name: (symbol)
+        target: (symbol)))))
 
 ================
 Quoted symbols in alias and visibility forms
@@ -340,18 +348,19 @@ end
 (program
   (class
     name: (constant)
-    (method
-      name: (identifier)
-      (string
-        (string_content)))
-    (alias
-      name: (quoted_symbol)
-      target: (symbol))
-    (alias_method
-      name: (quoted_symbol)
-      target: (symbol))
-    (visibility_directive
-      (quoted_symbol))))
+    body: (class_body
+      (method
+        name: (identifier)
+        (string
+          (string_content)))
+      (alias
+        name: (quoted_symbol)
+        target: (symbol))
+      (alias_method
+        name: (quoted_symbol)
+        target: (symbol))
+      (visibility_directive
+        (quoted_symbol)))))
 
 ================
 Semicolon visibility sections
@@ -365,18 +374,20 @@ module M; public; def self.code; 1; end; end
 (program
   (class
     (constant)
-    (visibility_directive)
-    (method
-      (identifier)
-      (integer))
-    (visibility_directive)
-    (method
-      (identifier)
-      (integer)))
+    (class_body
+      (visibility_directive)
+      (method
+        (identifier)
+        (integer))
+      (visibility_directive)
+      (method
+        (identifier)
+        (integer))))
   (module
     (constant)
-    (visibility_directive)
-    (method
-      (self_method_name
-        (identifier))
-      (integer))))
+    (module_body
+      (visibility_directive)
+      (method
+        (self_method_name
+          (identifier))
+        (integer)))))

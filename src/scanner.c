@@ -19,6 +19,7 @@ enum TokenType {
   BARE_PARAMETER_START,
   BLOCK_COMMENT,
   KEYWORD_LABEL,
+  CALL_OPEN,
 };
 
 void *tree_sitter_vibescript_external_scanner_create(void) { return NULL; }
@@ -455,10 +456,11 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     // same-line `{` can still open a brace block.
   }
 
-  if (valid_symbols[INDEX_OPEN] && !saw_newline && lexer->lookahead == '[') {
+  if (!saw_newline && ((valid_symbols[INDEX_OPEN] && lexer->lookahead == '[') ||
+                       (valid_symbols[CALL_OPEN] && lexer->lookahead == '('))) {
+    lexer->result_symbol = lexer->lookahead == '[' ? INDEX_OPEN : CALL_OPEN;
     advance(lexer);
     lexer->mark_end(lexer);
-    lexer->result_symbol = INDEX_OPEN;
     return true;
   }
 

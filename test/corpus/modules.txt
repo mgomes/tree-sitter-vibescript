@@ -72,19 +72,21 @@ puts Outer::Inner.code
 (program
   (module
     (constant)
-    (assignment
-      (constant)
-      (integer))
-    (module
-      (constant)
+    (module_body
+      (assignment
+        (constant)
+        (integer))
+      (module
+        (constant)
+        (module_body
+          (method
+            (self_method_name
+              (identifier))
+            (integer))))
       (method
         (self_method_name
           (identifier))
-        (integer)))
-    (method
-      (self_method_name
-        (identifier))
-      (constant)))
+        (constant))))
   (command_call
     (identifier)
     (command_arguments
@@ -116,14 +118,15 @@ end
 (program
   (module
     (constant)
-    (method
-      (self_method_name
-        (identifier))
-      (return_type
-        (type_annotation
-          (type_name
-            (identifier))))
-      (integer))))
+    (module_body
+      (method
+        (self_method_name
+          (identifier))
+        (return_type
+          (type_annotation
+            (type_name
+              (identifier))))
+        (integer)))))
 
 ================
 Module stays an identifier

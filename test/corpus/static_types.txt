@@ -161,24 +161,26 @@ x: Outer::Inner::Item = 1
 (program
   (module
     (constant)
-    (class
-      (constant)
-      (type_alias
+    (module_body
+      (class
         (constant)
-        (type_annotation
-          (type_name
-            (identifier))))
-      (typed_assignment
-        (instance_variable)
-        (type_annotation
-          (type_name
-            (identifier))))
-      (class_variable_assignment
-        (class_variable)
-        (type_annotation
-          (type_name
-            (identifier)))
-        (integer))))
+        (class_body
+          (type_alias
+            (constant)
+            (type_annotation
+              (type_name
+                (identifier))))
+          (typed_assignment
+            (instance_variable)
+            (type_annotation
+              (type_name
+                (identifier))))
+          (class_variable_assignment
+            (class_variable)
+            (type_annotation
+              (type_name
+                (identifier)))
+            (integer))))))
   (typed_assignment
     (identifier)
     (type_annotation
