@@ -1,0 +1,92 @@
+Build(input, Record)
+# <- function.call
+#     ^^^^^ variable
+#            ^^^^^^ type
+
+Build input, Record
+# <- function.call
+#     ^^^^^ variable
+#            ^^^^^^ type
+
+user.Build(input)
+# <- variable
+#    ^^^^^ function.call
+#          ^^^^^ variable
+
+user.Build input
+# <- variable
+#    ^^^^^ function.method
+#          ^^^^^ variable
+
+user.Build
+# <- variable
+#    ^^^^^ function.method
+
+User.Build
+# <- type
+#    ^^^^^ function.method
+
+user&.Math(input)
+# <- variable
+#     ^^^^ function.call
+#          ^^^^^ variable
+
+user.Math
+# <- variable
+#    ^^^^ function.method
+
+puts(input)
+# <- function.builtin
+#    ^^^^^ variable
+
+puts input
+# <- function.builtin
+#    ^^^^^ variable
+
+logger.puts(input)
+# <- variable
+#      ^^^^ function.call
+#           ^^^^^ variable
+
+logger.puts input
+# <- variable
+#      ^^^^ function.method
+#           ^^^^^ variable
+
+logger.puts
+# <- variable
+#      ^^^^ function.method
+
+puts(logger.format(input))
+# <- function.builtin
+#    ^^^^^^ variable
+#           ^^^^^^ function.call
+#                  ^^^^^ variable
+
+items.each { |value| value.name }
+# <- variable
+#     ^^^^ function.call
+#             ^^^^^ variable.parameter
+#                          ^^^^ function.method
+
+(factory)(argument)
+#^^^^^^^ variable
+#         ^^^^^^^^ variable
+
+user.+(other)
+# <- variable
+#    ^ function.method
+#      ^^^^^ variable
+
+user.[](index)
+# <- variable
+#    ^^ function.method
+#       ^^^^^ variable
+
+standalone
+# <- variable
+
+JSON.parse(text)
+# <- module.builtin
+#    ^^^^^ function.call
+#          ^^^^ variable

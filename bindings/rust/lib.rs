@@ -40,6 +40,9 @@ pub const LOCALS_QUERY: &str = include_str!("../../queries/locals.scm");
 mod locals_tests;
 
 #[cfg(test)]
+mod highlights_tests;
+
+#[cfg(test)]
 mod tests {
     use super::*;
     use tree_sitter::{Parser, Query, QueryCursor, StreamingIterator};

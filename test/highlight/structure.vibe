@@ -1,0 +1,162 @@
+# vibe: 0.80
+# ^^^^ comment
+
+# uses: json, time
+# ^^^^ comment
+
+export def exposed(value: int) -> int
+# <- keyword
+#          ^^^^^^^ function.method
+#                  ^^^^^ variable.parameter
+
+  return value + 1
+# ^^^^^^ keyword
+#        ^^^^^ variable.parameter
+#              ^ operator
+#                ^ number
+
+end
+
+class Aliases
+
+  alias_method :short, :long
+# ^^^^^^^^^^^^ keyword
+#              ^^^^^^ string.special.symbol
+#                      ^^^^^ string.special.symbol
+
+end
+
+first, (second, *tail) = values
+# <- variable
+#       ^^^^^^ variable
+#                ^^^^ variable
+#                        ^^^^^^ variable
+
+((plain)) = source
+# ^^^^^ variable
+#           ^^^^^^ variable
+
+total //= 2
+# <- variable
+#     ^^^ operator
+#         ^ number
+
+for (x, y) in rows
+# <- keyword
+#    ^ variable
+#       ^ variable
+#          ^^ keyword
+#             ^^^^ variable
+
+  if x > 0
+# ^^ keyword
+#    ^ variable
+#      ^ operator
+
+    total += x
+#   ^^^^^ variable
+#         ^^ operator
+#            ^ variable
+
+  elsif y > 0
+# ^^^^^ keyword
+#       ^ variable
+
+    next y
+#   ^^^^ keyword
+#        ^ variable
+
+  else
+# ^^^^ keyword
+
+    break total
+#   ^^^^^ keyword
+#         ^^^^^ variable
+
+  end
+
+end
+
+while ready
+# <- keyword
+#     ^^^^^ variable
+
+  work if ready
+# ^^^^ variable
+#      ^^ keyword
+#         ^^^^^ variable
+
+end
+
+case subject
+# <- keyword
+#    ^^^^^^^ variable
+
+when low..high then result
+# <- keyword
+#    ^^^ variable
+#       ^^ operator
+#         ^^^^ variable
+#              ^^^^ keyword
+#                   ^^^^^^ variable
+
+else fallback
+# <- keyword
+#    ^^^^^^^^ variable
+
+end
+
+begin
+
+  work
+# ^^^^ variable
+
+ensure
+# <- keyword
+
+  cleanup
+# ^^^^^^^ variable
+
+end
+
+saved = risky rescue fallback
+#       ^^^^^ variable
+#             ^^^^^^ keyword
+#                    ^^^^^^^^ variable
+
+answer = ready ? -left : +right
+#        ^^^^^ variable
+#              ^ operator
+#                ^ operator
+#                 ^^^^ variable
+#                        ^ operator
+#                         ^^^^^ variable
+
+values = [..upper, lower..]
+#           ^^^^^ variable
+#                  ^^^^^ variable
+
+record = items[index]
+#        ^^^^^ variable
+#              ^^^^^ variable
+
+send(*args, **options)
+# <- function.call
+#     ^^^^ variable
+#             ^^^^^^^ variable
+
+self.name
+# <- variable.builtin
+#    ^^^^ function.method
+
+Outer::Inner
+# <- type
+#      ^^^^^ type
+
+tools::Inner
+# <- variable
+#      ^^^^^ type
+
+yield(value)
+# <- keyword
+#     ^^^^^ variable

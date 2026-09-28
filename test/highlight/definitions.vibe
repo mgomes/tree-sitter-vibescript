@@ -1,0 +1,107 @@
+def lower(value: int) -> int
+#   ^^^^^ function.method
+#         ^^^^^ variable.parameter
+#                ^^^ type.builtin
+#                        ^^^ type.builtin
+
+  value
+# ^^^^^ variable.parameter
+
+end
+# <- keyword
+
+class Sample
+#     ^^^^^^ type
+
+  def self.Build(value: Record) -> Record
+#     ^^^^ variable.builtin
+#          ^^^^^ function.method
+#                ^^^^^ variable.parameter
+#                       ^^^^^^ type
+#                                  ^^^^^^ type
+
+    value
+#   ^^^^^ variable.parameter
+
+  end
+
+  def self.value=(other: int)
+#     ^^^^ variable.builtin
+#          ^^^^^^ function.method
+#                 ^^^^^ variable.parameter
+
+  end
+
+  def value=(other: int)
+#     ^^^^^^ function.method
+#            ^^^^^ variable.parameter
+
+  end
+
+  def //(other: int) -> int
+#     ^^ function.method
+#        ^^^^^ variable.parameter
+#                       ^^^ type.builtin
+
+    1
+#   ^ number
+
+  end
+
+  def [](index: int) -> int
+#     ^^ function.method
+#        ^^^^^ variable.parameter
+
+    index
+#   ^^^^^ variable.parameter
+
+  end
+
+  property title: string, count: int
+# ^^^^^^^^ keyword
+#          ^^^^^ property
+#                 ^^^^^^ type.builtin
+#                         ^^^^^ property
+#                                ^^^ type.builtin
+
+  getter status: Status
+# ^^^^^^ keyword
+#        ^^^^^^ property
+#                ^^^^^^ type
+
+  setter label: string
+# ^^^^^^ keyword
+#        ^^^^^ property
+#               ^^^^^^ type.builtin
+
+  alias second first
+# ^^^^^ keyword
+#       ^^^^^^ function.method
+#              ^^^^^ function.method
+
+end
+
+class lower_class
+#     ^^^^^^^^^^^ type
+
+end
+
+module Container
+#      ^^^^^^^^^ type
+
+  LIMIT = 3
+# ^^^^^ type
+#         ^ number
+
+end
+
+enum Status
+#    ^^^^^^ type
+
+Ready
+# <- constant
+
+Done
+# <- constant
+
+end

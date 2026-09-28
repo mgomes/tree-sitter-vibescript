@@ -66,6 +66,14 @@ the query is not a replacement for name resolution or definite-assignment checks
 Rust tests exercise definition captures and Tree-sitter's actual highlighting
 consumer, including scope inheritance, shadowing and binding lifetimes.
 
+## Highlight captures
+
+The [highlight audit](highlights.md) records the capture boundary for every named
+node kind. `npm test` runs the assertions in `test/highlight/`; Rust tests also
+check that those fixtures parse and cover the emitted named-node inventory.
+Receivers, defaults, argument values and nested expressions keep independent
+captures. Local-reference propagation excludes syntactic method names and labels.
+
 ## Compiler compatibility exceptions
 
 ADR-008 prescribes parenless zero-argument calls and removes the empty regex.
