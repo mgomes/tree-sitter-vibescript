@@ -8,6 +8,7 @@
 (destructured_parameter (identifier) @local.definition)
 (typed_assignment name: (identifier) @local.definition)
 (assignment . (identifier) @local.definition)
+(require variable: (identifier) @local.definition)
 (destructuring_assignment left: (identifier) @local.definition)
 (for variable: (identifier) @local.definition)
 (rescue binding: (identifier) @local.definition)

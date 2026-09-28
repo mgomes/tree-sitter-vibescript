@@ -37,6 +37,9 @@ pub const INDENTS_QUERY: &str = include_str!("../../queries/indents.scm");
 pub const LOCALS_QUERY: &str = include_str!("../../queries/locals.scm");
 
 #[cfg(test)]
+mod locals_tests;
+
+#[cfg(test)]
 mod tests {
     use super::*;
     use tree_sitter::{Parser, Query, QueryCursor, StreamingIterator};
