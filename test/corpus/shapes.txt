@@ -145,7 +145,7 @@ end
 Nullable builtin shorthand in shape values
 ================
 
-opt = { x: string?, ok: valid? }
+opt = { x: string?, value: comparable?, ok: valid? }
 
 ---
 
@@ -153,6 +153,9 @@ opt = { x: string?, ok: valid? }
   (assignment
     (identifier)
     (hash
+      (hash_entry
+        key: (identifier)
+        value: (type_annotation))
       (hash_entry
         key: (identifier)
         value: (type_annotation))

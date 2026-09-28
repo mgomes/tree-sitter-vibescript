@@ -269,7 +269,7 @@ module.exports = grammar({
 
     nullable_builtin_type: (_$) =>
       token(prec(2,
-        /(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type)\?/)),
+        /(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type|comparable)\?/)),
 
     return_type: ($) =>
       seq(

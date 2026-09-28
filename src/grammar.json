@@ -1324,7 +1324,7 @@
         "value": 2,
         "content": {
           "type": "PATTERN",
-          "value": "(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type)\\?"
+          "value": "(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type|comparable)\\?"
         }
       }
     },
