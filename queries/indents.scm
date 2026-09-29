@@ -23,3 +23,5 @@
 ] @indent
 
 ["end" "elsif" "else" "rescue" "ensure" "when" ")" "]" "}"] @outdent
+
+(type_arguments ">" @outdent)

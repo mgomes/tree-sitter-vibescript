@@ -43,6 +43,9 @@ mod locals_tests;
 mod highlights_tests;
 
 #[cfg(test)]
+mod indents_tests;
+
+#[cfg(test)]
 mod tests {
     use super::*;
     use tree_sitter::{Parser, Query, QueryCursor, StreamingIterator};
