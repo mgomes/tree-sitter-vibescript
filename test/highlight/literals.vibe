@@ -69,3 +69,11 @@ literal words
 
 =end
 # <- comment
+
+[m //] # empty argument
+#  ^^ string.regexp
+#      ^^^^^^^^^^^^^^^^ comment
+
+m // if ready
+# ^^ string.regexp
+#    ^^ keyword

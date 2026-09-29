@@ -440,9 +440,21 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       if (lexer->lookahead == '/') {
         advance(lexer);
         while (lexer->lookahead == ' ' || lexer->lookahead == '\t') advance(lexer);
-        if (lexer->lookahead == ',' || lexer->lookahead == '\n' || lexer->lookahead == 0) {
+        if (lexer->lookahead == ',' || lexer->lookahead == '\n' ||
+            lexer->lookahead == '\r' || lexer->lookahead == 0 ||
+            lexer->lookahead == ')' || lexer->lookahead == ']' ||
+            lexer->lookahead == '}' || lexer->lookahead == ';' ||
+            lexer->lookahead == '#') {
           lexer->result_symbol = COMMAND_START;
           return true;
+        }
+        if (is_lower(lexer->lookahead)) {
+          char word[16];
+          int len = read_word(lexer, word, sizeof(word));
+          if (len > 0 && word_is_trailing_keyword(word, len) && lexer->lookahead != ':') {
+            lexer->result_symbol = COMMAND_START;
+            return true;
+          }
         }
         return false;
       }

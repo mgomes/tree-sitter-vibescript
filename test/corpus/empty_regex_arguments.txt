@@ -1,0 +1,174 @@
+==================
+Empty command regex before expression closers
+==================
+[m //]
+f(m //)
+{pattern: m //}
+(m //)
+m //; next_line
+m //, value
+m // # trailing comment
+m //
+
+---
+
+(program
+  (array
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex))))
+  (call
+    (identifier)
+    (argument_list
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex)))))
+  (hash
+    (hash_entry
+      (identifier)
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex)))))
+  (parenthesized
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex)))
+  (identifier)
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex)
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex)))
+  (comment)
+  (command_call
+    (identifier)
+    (command_arguments
+      (regex))))
+
+==================
+Empty command regex before trailing keywords
+==================
+if m // then value elsif m // then other else fallback end
+while m //; value; end
+case m //; when m // then value; else fallback; end
+begin; m // rescue fallback; rescue; m //; ensure; m //; end
+m // if condition
+m // while condition
+for item in m //; value; end
+
+---
+
+(program
+  (if
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (identifier)
+    (elsif
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex)))
+      (identifier))
+    (else
+      (identifier)))
+  (while
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (identifier))
+  (case
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (when
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex)))
+      (identifier))
+    (else
+      (identifier)))
+  (begin
+    (command_call
+      (identifier)
+      (command_arguments
+        (rescue_modifier
+          (regex)
+          (identifier))))
+    (rescue
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex))))
+    (ensure
+      (command_call
+        (identifier)
+        (command_arguments
+          (regex)))))
+  (modifier
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (identifier))
+  (modifier
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (identifier))
+  (for
+    (identifier)
+    (command_call
+      (identifier)
+      (command_arguments
+        (regex)))
+    (identifier)))
+
+==================
+Floor division still takes its right operand
+==================
+[m // divisor]
+f(m // 2)
+m // ready?
+m // iffy
+m //= 2
+
+---
+
+(program
+  (array
+    (binary
+      (identifier)
+      (identifier)))
+  (call
+    (identifier)
+    (argument_list
+      (binary
+        (identifier)
+        (integer))))
+  (binary
+    (identifier)
+    (identifier))
+  (binary
+    (identifier)
+    (identifier))
+  (compound_assignment
+    (identifier)
+    (integer)))
