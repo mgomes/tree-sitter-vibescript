@@ -19,7 +19,7 @@ function characterClass(points) {
 }
 
 const upper = new Set(uppercase);
-const continuation = characterClass([...letters, ...digits, 95, 63, 33]);
+const continuation = characterClass([...letters, ...digits, 95]);
 const names = {
   identifier: characterClass([...letters.filter((c) => !upper.has(c)), 95]) + continuation + "*",
   constant: characterClass(uppercase) + continuation + "*",

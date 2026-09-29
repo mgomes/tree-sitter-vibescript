@@ -92,7 +92,7 @@
 (type_shape_field
   name: [(identifier) (constant)] @property)
 
-; Built-in type names, including the optional suffix retained in name tokens.
+; Built-in type names. Optional markers are separate operator tokens.
 ((type_name
   (identifier) @type.builtin)
   (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
@@ -259,7 +259,25 @@
 (member_access ["." "&."] . [(identifier) (constant)] @function.method)
 (member_access ["." "&."] . (operator_name _ @function.method))
 
+(symbol ["?" "!"] @string.special.symbol)
+
+; Suffixed names are unambiguously methods, except in explicit string labels.
+(method_name) @function.call
+(method_name [(identifier) (constant) "?" "!"] @function.call)
+(member_access ["." "&."] . (method_name) @function.method)
+(member_access ["." "&."] . (method_name [(identifier) (constant) "?" "!"] @function.method))
+(hash_entry key: (method_name) @property)
+(hash_entry key: (method_name [(identifier) (constant) "?" "!"] @property))
+(keyword_argument key: (method_name) @variable.parameter)
+(keyword_argument key: (method_name [(identifier) (constant) "?" "!"] @variable.parameter))
+(alias [(method_name)] @function.method)
+(alias (method_name [(identifier) (constant) "?" "!"] @function.method))
+
 ; Function definitions
+(method name: (method_name) @function.method)
+(method name: (method_name [(identifier) (constant) "?" "!"] @function.method))
+(method name: (self_method_name (method_name) @function.method))
+(method name: (self_method_name (method_name [(identifier) (constant) "?" "!"] @function.method)))
 (method
   name: [(identifier) (constant)] @function.method)
 (method
@@ -302,4 +320,25 @@
   (argument_list . (_) . (identifier) @type.builtin .))
  (#eq? @module.builtin "JSON")
  (#eq? @function.call "parse_as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+
+; Optional builtin type arguments share the predicate-call tree.
+((call
+  receiver: (_)
+  method: (identifier) @function.call
+  (argument_list . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.call "as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+((call
+  receiver: (constant) @module.builtin
+  method: (identifier) @function.call
+  (argument_list . (_) . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.call "parse_as")
+ (#eq? @module.builtin "JSON")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+((command_call
+
+  method: (member_access ["." "&."] . (identifier) @function.method)
+  (command_arguments . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.method "as")
  (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))

@@ -1,0 +1,2808 @@
+{
+  "reason": "Obsolete binding names rejected with V0003 by the Rust mgomes/name-suffix lexer (2026-09-28). Exact source hashes only; remove after the v0.80 corpora migrate.",
+  "sources": [
+    {
+      "sha256": "cd8a273686c87cde7e96c6d88cca0422b147f729e7c075537157032bb0f40f6f",
+      "origins": [
+        "tests/language-errors.json:1/16077/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "ae39a3143db3b02118c79e5b64b25170471a1c0441523a585b87980bfa92ebda",
+      "origins": [
+        "tests/language-errors.json:1/16078/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "27be56b04e0e6b1af67b93e5fc5252dd76b3c91d2413bfadf69f08d000ea68b4",
+      "origins": [
+        "tests/language-errors.json:1/16079/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "1f7f5cf0f35e8e55610265110275a553f7967b61289d9bf0ffcf2af1bf0bf732",
+      "origins": [
+        "tests/language.json:1/38162/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "9439ae36d34180198ec46354018b4455bbe670113772e6421dfdacca0c9fd808",
+      "origins": [
+        "tests/language.json:1/38163/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "d01289a272030ad926eb959733bc0428c53114d0a04dc671ac0fb1d21d39a889",
+      "origins": [
+        "tests/language.json:1/38164/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "e0f5b5d8b205d160236f85efd5c6c9acc1ff3dfa82fa33bcf210a7d0b2858510",
+      "origins": [
+        "tests/language.json:1/38165/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "b66519bb571e19658d7ed1164e6874b3d09186e1e4d079010203dc786cb0a7ff",
+      "origins": [
+        "tests/language.json:1/38166/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "4474a46894b84572052f9b41074a81c74b4b79333a2a1ba65ce9657c054636d6",
+      "origins": [
+        "tests/language.json:1/38167/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "3c9e825f4fd430b0f7ec0ca3b6e041fab09b3950454364bdfd5fbed73d057b9d",
+      "origins": [
+        "tests/language.json:1/38168/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "fd3a6fbc571675c8132a951cc1bbffe62b83ae098e2935d54cc2e6f05f75fe0a",
+      "origins": [
+        "tests/language.json:1/38169/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "6060bfec2b086e095cfaa0d3e7b9a8614e05b290f5c1b846fbd9756f81c51c10",
+      "origins": [
+        "tests/language.json:1/38170/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "0dbc804b7d61633d0574f266260684006d980b28443dca99cd0f1a60742b6e48",
+      "origins": [
+        "tests/language.json:1/38171/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "e8208254e2fdb7c9ec36c9515d81d4fcc42f3599f98465de4b4dcb114ec5eb73",
+      "origins": [
+        "tests/language.json:1/38172/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "3c1773e16d2360dd5f2f65ea8fb4bde15134ca1ecdee8314f502ff5f34010af4",
+      "origins": [
+        "tests/language.json:1/38173/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "98b7b1242f9f6a4c45c946fe57498df0f7224c9bbcb84373b51641325732ec1e",
+      "origins": [
+        "tests/language.json:1/38174/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "41d3c7408876ba68416e9ec17873dd6d68a0666c61efc0896bfcc1bd0f9f8595",
+      "origins": [
+        "tests/language.json:1/38175/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "e133d4b1ecc2ded51dc6533a878f9d0ca888a04224bdbbda41e94dde841220b8",
+      "origins": [
+        "tests/language.json:1/38176/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "2179cfa23a26bf715d510f9ccb5a0958f3031fc586c68ca0c111336f486c72f5",
+      "origins": [
+        "tests/language.json:1/38177/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "35cf6e85d9b06cf7578733a9af9f47004dbe54a94c34ea6f880098f31e11a9a2",
+      "origins": [
+        "tests/language.json:1/38178/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "5850bb1830036b2f9e6323c65b461efb16ba1413c70f7d42c7aba6c8508fe8d0",
+      "origins": [
+        "tests/language.json:1/38179/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "56e77d53df0edd96c8fbc72a3cbf2c5cdac8261aceb054138e851791dbdd6f40",
+      "origins": [
+        "tests/language.json:1/38180/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "744620b40d2bcc79b345f5ffa0f1463822e6c64b3fcc9b0bc427005cabef0b28",
+      "origins": [
+        "tests/language.json:1/38181/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "9c5f682155166481a3548a4491b121656c7837361d20cf5b41008ec883077974",
+      "origins": [
+        "tests/language.json:1/38182/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "efdf41d59463ad1e6267eefde71c40cf0a5056f2a9d7e803ec138fca55654a81",
+      "origins": [
+        "tests/language.json:1/38183/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "4bb1abce5d1ab166a57698e85ea8d299a0944bfd1c18b818a9a4fe4531b41c4b",
+      "origins": [
+        "tests/language.json:1/38184/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "2d17b88eb985c0e5aa629074eaa00c8bf4e954839f576ce1738924cffaf5b3ab",
+      "origins": [
+        "tests/language.json:1/38185/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "dcf299fffdb2ca5a14b14facab89cdeedf364dfe63ae4673bf44d90d91afe845",
+      "origins": [
+        "tests/language.json:1/38186/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "4af5b49064155b493e76d92221ed4b13256c4f4770564d00988d24d6ed51c6f4",
+      "origins": [
+        "tests/language.json:1/38187/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "2ceb379dc3e9e55f946f087942288b2da2cf71b1b058e2511ff0ed3c9382f269",
+      "origins": [
+        "tests/language.json:1/38188/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "61df67b63208cc41b7ae17cbd72931771f88e4202a2d3f2faa01207009dbadbb",
+      "origins": [
+        "tests/language.json:1/38189/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "b186c345062b28a39e3907e71c8baa946b5b43b9d1e9daf5e44de59545b98cd5",
+      "origins": [
+        "tests/language.json:1/38190/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "e9d8726a2a544bfedb9deca612d24edb25995fd688545aba5ca64bc4d998a42f",
+      "origins": [
+        "tests/language.json:1/38191/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "d805b5900e838eec86424da00bd5fd3166fc6927630979f0717c314cf9179bb3",
+      "origins": [
+        "tests/language.json:1/38192/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "0890ef381225d20a4af3513041a47d89ada7ef58d7b371e6ed49b6e27e63c0e5",
+      "origins": [
+        "tests/language.json:1/38193/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "c0662b5aa6f2c55e513abf14adf8e9346dfbd4c64444d1d5e80d2a880a464d7a",
+      "origins": [
+        "tests/language.json:1/38194/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "a2b4a2bf1e288111f27ac8b3acd23379be69da6bedd68a8cc16e05efa17db560",
+      "origins": [
+        "tests/language.json:1/38195/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "e05caf302ac3d835654a9d48b465ba3d08d6ac69d5b0a3b019bf25e77e933fd9",
+      "origins": [
+        "tests/language.json:1/38196/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "be2bdc8865864ebe56a92c353d0105507caa872e1e687777b6c87906c296738d",
+      "origins": [
+        "tests/language.json:1/38197/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "78c3405d65e3e9379786d4a0d4326a78a1d49ce6cd2d13cdcfba5e5a178e926f",
+      "origins": [
+        "tests/language.json:1/38198/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "950a60d657e551250aa9f35d16b1c2eea3e6e07df60a748a53b2f3b5001fcf7c",
+      "origins": [
+        "tests/language.json:1/38199/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "3ee3e36a245d426373abd4beb498950870224492a5f7114b730bacb5e9387ff1",
+      "origins": [
+        "tests/language.json:1/38200/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "ed191c33a76716a41b4dfc741f346ff0326b3fc7a99a62ea59bf6123330a423a",
+      "origins": [
+        "tests/language.json:1/38201/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "1eeadc93f656cf9d47d08ac808ce67c9f58cf892116822a2c337cbdb91b588b6",
+      "origins": [
+        "tests/language.json:1/38202/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "eeb00062223db44eebc60e96fb10a1bfd3f029f6c4b746466b5bf47a901f8eed",
+      "origins": [
+        "tests/language.json:1/38203/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "df3dd888b085d4069303910a125796833d0862df9f230ddde3d8894d718e44d6",
+      "origins": [
+        "tests/language.json:1/38204/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "65b5b9dca41e57614e682d16a0e512931774ede95b6cecea6f1a476818b6d074",
+      "origins": [
+        "tests/language.json:1/38205/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "4797bbca6f72994faf32855abf6f0f7ed7c58028d1d12095773f4d6a6d05b5b7",
+      "origins": [
+        "tests/language.json:1/38206/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "6cd8591e978127ac1c084115848c84d25e84822401f39eae84e049adef77a416",
+      "origins": [
+        "tests/language.json:1/38207/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "b3d426afe24429c679f425d262224b0bdf875ba8ca03a945680a0567cc5f3d64",
+      "origins": [
+        "tests/language.json:1/38208/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "a26d6bfab39ab4a2ba2105b3763f5aa013295863ebc6e4ca008968c619d35704",
+      "origins": [
+        "tests/language.json:1/38209/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "2b77bad6a621e9dfacaeb09eb2fb6a4a1d05e20093eeaf0c4a41ae625ccff286",
+      "origins": [
+        "tests/language.json:1/38210/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "ca2e338224b2d3b21ecb14383e691e2bc87f14d9e9b9efe67a43a6f5ca071bdd",
+      "origins": [
+        "tests/language.json:1/38211/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "6f764d175eb182723efd0f0a2a9072f88954f65f9b916c8b81cc57aa60279466",
+      "origins": [
+        "tests/language.json:1/38212/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "d054499fa2fe8d8b76baf8bc67e7de0b61188a374ef106b8b93b5df1f91f1a1b",
+      "origins": [
+        "tests/language.json:1/38213/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "8227f5dcb04636af5438a0a185e74da24baab187362483a86c5e88550c73a061",
+      "origins": [
+        "tests/language.json:1/38214/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "3bcb6d881ece3472d865208dd8126507be4a3b11ee0ff3a7892b7148476a2b4e",
+      "origins": [
+        "tests/language.json:1/38215/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "609d30d75a7c1cf8008a5723f64eea323d451199fc77cc95e73a3409a02c6e2b",
+      "origins": [
+        "tests/language.json:1/38216/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "5b0a4096ef6c38191794cad5a1e5fd5a34478b45476a2204cbfd4ca96066490d",
+      "origins": [
+        "tests/language.json:1/38217/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "f750568b8c49e1d91c34945441fa42ea37529a05a8b8ecf08f4f4bcf2686ae5a",
+      "origins": [
+        "tests/language.json:1/38218/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "c4a39b569ea05e7f2af317838bb31530ab59e7020bebbb913d1bf69cb63e43f1",
+      "origins": [
+        "tests/language.json:1/38219/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "7443ed182dafe97adae71cc6fa9e1bed55af2045ff33f0cc36c419b5d324ef47",
+      "origins": [
+        "tests/language.json:1/38220/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "daed3b140c1cf3e1bb2f5dce9b1fe7d002f668847e48c30d3bc8295d94c39fd6",
+      "origins": [
+        "tests/language.json:1/38221/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "1c75c4462dfa767d84c67dbf9349742beceb9e9236f7eb10d094d1c02d5b22ed",
+      "origins": [
+        "tests/language.json:1/38222/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "69bc5d2c2f1ea89738c7d1b3ce02cecafda5ad993eee4f963c1edc7bfcc5fadc",
+      "origins": [
+        "tests/language.json:1/38223/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "15c32a9f22408d455b310a8d38ac0086cdf1306742b9da4f6294b69f6f909a40",
+      "origins": [
+        "tests/language.json:1/38224/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "6874c67cc87ac15ff3cba3124d6eb4a6dde3a0fb40f75554ae165fa3d74f6ad9",
+      "origins": [
+        "tests/language.json:1/38225/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "bb22b9e27988d9040fd0b8f1db2f626014f22af3504c4942ed980c72f213b1d0",
+      "origins": [
+        "tests/language.json:1/38226/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "7457c08aadf6307d44093523f548d4a64f3d37d23bc6480ad1c4d6c4a42b17e3",
+      "origins": [
+        "tests/language.json:1/38227/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 22
+        }
+      ]
+    },
+    {
+      "sha256": "2f2761b8db33e92b52a6e1bcb3a9def44c85f65197422b2d0f37400cc84d84cb",
+      "origins": [
+        "tests/language.json:1/38228/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "ffbf2f80c5d2b678fc4278dabc749a117ab76e2328aa8123d4f90bf0629c052a",
+      "origins": [
+        "tests/language.json:1/38229/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "7b9a11a743342a4948669f609c421a599ff460f0296d3e2f5ead37c4138890eb",
+      "origins": [
+        "tests/language.json:1/38230/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "19fa64707308757eb11250ce13fe3ba3185281c3a3f485b6d2abe13ad301e90a",
+      "origins": [
+        "tests/language.json:1/38231/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "65c8f4a317a7cd546fc79343cf652a2e063a2729b9eb459a9f1c4efb6a4bd37f",
+      "origins": [
+        "tests/language.json:1/38232/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "78f8a9d76a5e127a69d5559cdce8c47bc0471d3da81303a989de22347f13ceb7",
+      "origins": [
+        "tests/language.json:1/38233/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 17
+        }
+      ]
+    },
+    {
+      "sha256": "5e4ef086c7944feb0951517fae8c48f9f57c3922522cc842488245a3d284a129",
+      "origins": [
+        "tests/language.json:1/38234/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "ff41546e79e024d756b9d6543a971353fa783b213b45bd17c02c0fac49c6fbef",
+      "origins": [
+        "tests/language.json:1/38235/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "9e5d610eff9104e4be1051ee75a29994b74a21666aaa86ddc6ec67217f859c65",
+      "origins": [
+        "tests/language.json:1/38236/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "1516d1d42a7ee5300099c469ba5df5456909399bb994688448d7cc51103a18bb",
+      "origins": [
+        "tests/language.json:1/38237/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "1f4d52e628ffe5fea22f41faa02da6947995ef50c3175656d61c88040a056c35",
+      "origins": [
+        "tests/language.json:1/38238/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "f7689ec9f75cf8a03d1f351861033d0ff9c1703e3f7b279e6bfaab932c9ff289",
+      "origins": [
+        "tests/language.json:1/38239/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "f8a9bdc4c08db27983f018cc31e8923559eec474f5e0f5667a6468f995bae077",
+      "origins": [
+        "tests/language.json:1/38240/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "f555142a7d7bda59a46e3a9c72c12abcd1fbcf9909c61cfe98e73d682e7348e8",
+      "origins": [
+        "tests/language.json:1/38241/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "d954d5f51dc344551e7fdfdd2123ab8b557684f1d9be0a78c6306143266d3136",
+      "origins": [
+        "tests/language.json:1/38242/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "cd60a27aacef27ed7bba52bbb5d799cd6f1cc1290ebd578ef25cae013446bca0",
+      "origins": [
+        "tests/language.json:1/38243/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "57931baec8018b5a602730ddb75ed5e0c4ede85f08f70e49aa155c58a8b05710",
+      "origins": [
+        "tests/language.json:1/38244/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "feef483745a14c3d2ede1d316c0694226610b8e528c801eb1d0da8d34fd3d132",
+      "origins": [
+        "tests/language.json:1/38245/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "0e5b012b5c2a80fba989710cdf3545dca85bf1a805798a937cf3ca47ebd229c9",
+      "origins": [
+        "tests/language.json:1/38246/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "ca822fafd7ac8ea8f6ac0cd75e2610114a3a94cea1c89171e800ce3e4240fabc",
+      "origins": [
+        "tests/language.json:1/38247/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "92c80093ad41bf6e8fb0181c7c3de109fdeb7817e8ce1522b777f7562539bc71",
+      "origins": [
+        "tests/language.json:1/38248/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "f2d4d77634851283e7e9cbc5a69576c90846ad5505f22a2f67401895d7e61d7f",
+      "origins": [
+        "tests/language.json:1/38249/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "3efce23e3cf95e5ae066fd6f3a1502c49a08edc9235b86802b281eb020d4b176",
+      "origins": [
+        "tests/language.json:1/38250/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "7a9d843a531658a17334e898d72f4b9486bf73bf1881375f7f2c0cb683d4807c",
+      "origins": [
+        "tests/language.json:1/38251/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "84aba76ac36b4e28b2db9cdfd43c3826c5fd47549ca53fa6fc69a612ac122296",
+      "origins": [
+        "tests/language.json:1/38252/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "8b2c3f4c0f9f91e774c8aafecc60f4cfb91bb5aeb07b2406cd6bb781769a8fd7",
+      "origins": [
+        "tests/language.json:1/38253/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "614e68868b8ed5822c153ceb53734effb5c653907acd06cccc89316ed9d7de4c",
+      "origins": [
+        "tests/language.json:1/38254/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "b09acfcb64ad2701e0bf8bb7eff7775da8862a7452ca871428f0ce299b0713e8",
+      "origins": [
+        "tests/language.json:1/38255/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "205c38d23bea8e799053ba2c9d53a003976c47cf4e0f3dfc2db61fdafc03bea2",
+      "origins": [
+        "tests/language.json:1/38256/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "b45a945d11a82819600e465458c5cda180505b420e13e7b164c7fef838f0645f",
+      "origins": [
+        "tests/language.json:1/38257/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "ecfe8ea673c130153cda79a9092c3d795956739e52d674dd74f028eac98c4041",
+      "origins": [
+        "tests/language.json:1/38258/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "92180b2d369574ce0ea16d2a6fb8c15f1adeb26d2d03724e71dd3d0dfa63d2d0",
+      "origins": [
+        "tests/language.json:1/38259/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "2be92abaf2ef01df958cfb0990a77ee3fdebb0ccf9bc6e214983f4536fff240f",
+      "origins": [
+        "tests/language.json:1/38260/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "1370dd0b17e255cb1d56f22b348095b38fe5df857d231aee8f68765dd1ee8523",
+      "origins": [
+        "tests/language.json:1/38261/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "cd14c59b376b5e94d803525537756b50fe5c2a414736b6e8280e602fc3dfd922",
+      "origins": [
+        "tests/language.json:1/38262/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "c30683afecb464d51aa3dc55778be54e5afa6438a7601045eb17e5bf41dba972",
+      "origins": [
+        "tests/language.json:1/38263/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "6ea823cb9ae3c04821a628542aba20f5e7b6fe5403a65260816d7a14233ea080",
+      "origins": [
+        "tests/language.json:1/38264/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "9fa8c06eef906e80be37e6fe0f21a08cc2d6344bd3754f6ba8575f76a77ae44c",
+      "origins": [
+        "tests/language.json:1/38265/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "4f4ad73883d0fb0d6d36ee6df3c42e9082544b569d987097c43a5de3b6c4922d",
+      "origins": [
+        "tests/language.json:1/38266/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "5b6e80f974f2cd6a09af160cb9965bff22fb869e34882924323efe3694d957e0",
+      "origins": [
+        "tests/language.json:1/38267/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "1d1034dae3f5ac6fcec796bda0b4c9fe4c3a3fa58a36eed82b61571b2931e683",
+      "origins": [
+        "tests/language.json:1/38268/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "a81ab3b2d54348ab366deafab967bdab3a100a439ed78663e1878699c739a870",
+      "origins": [
+        "tests/language.json:1/38269/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "000e73caf1d74106625e2371d189e5556834168c9bee266eb70a77a6ef371e51",
+      "origins": [
+        "tests/language.json:1/38270/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "a596dbc4072cea85e530fd876042a57b873fea859e78628f25accb805788f1c2",
+      "origins": [
+        "tests/language.json:1/38271/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "42406742fc8f6181ab21876269da49e10745c88aced781274be6900fd57538dc",
+      "origins": [
+        "tests/language.json:1/38272/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "3d499e0fd4580537de23eef8b57272d084ca558d475fb654ba7c80265d7061c1",
+      "origins": [
+        "tests/language.json:1/38273/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "622b99995875d66628e6136253fe571fa210b3dfde5d3ce50e677792c50bcc34",
+      "origins": [
+        "tests/language.json:1/38274/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "bfcdb9e7e353e240e28e868a0b931e2298455ba1e2e131c8e5a7c8f6531a364a",
+      "origins": [
+        "tests/language.json:1/38275/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 20
+        }
+      ]
+    },
+    {
+      "sha256": "2552e1ee5677d6ec715eb160489b24422f924e36db05e6f726b68e4e8b424336",
+      "origins": [
+        "tests/language.json:1/38276/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "e54c8e60c30bda59eaf312c70f73918c90b431714920929e150ecebb3a69aee4",
+      "origins": [
+        "tests/language.json:1/38277/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "0a2afec1e91e7f6e02b4512d06882b6630a6f018bd4afdd48a8ed5a88f1c5239",
+      "origins": [
+        "tests/language.json:1/38278/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "53be3cc283f5d1ecfdae9178b9c2a6067bcaed707eb785ebee6ae10674ab9d61",
+      "origins": [
+        "tests/language.json:1/38279/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "3fa5ef9a6de1a093e41970e854eb8761da9c5f735b504b2ed7f0d1068feca749",
+      "origins": [
+        "tests/language.json:1/38280/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "946d622c00a84a88d23b15ee5a951eeb2f602fbc4adebd09d388426653aa6915",
+      "origins": [
+        "tests/language.json:1/38281/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 18
+        }
+      ]
+    },
+    {
+      "sha256": "1121bb7e626ed0743ff64197af8d6b12c756e33df2c6b6475f7150b335896038",
+      "origins": [
+        "tests/language.json:1/38402/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "2185cf5bfb25355cc2029c8e22ef5eb463f0d2b613b186d93bfabcabe2b1ef45",
+      "origins": [
+        "tests/language.json:1/38403/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "2d6e52bbd672ffdf3f836362c1a8267801b8f5deed4ecfbd223d0c6cb8d8ff72",
+      "origins": [
+        "tests/language.json:1/38407/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "8dd5482b6d513a7cc0db1021cb722be70132bbe94fe9487ebef6b8eafe7c4091",
+      "origins": [
+        "tests/language.json:1/38408/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        },
+        {
+          "code": "V0003",
+          "line": 17,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "de52e4b4b6922b42a38abf8be9a3c0802284ef10ec2fe7f66ad0ba4ce6c4a201",
+      "origins": [
+        "tests/language.json:1/38409/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "6f9c2186769cf88124550ccc75918f2ca1355f7ded9b87a978a2ed6869b7873b",
+      "origins": [
+        "tests/language.json:1/38410/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "9c4577d14da491a65e15626ab768bcc30514dc4412d476335f014c34ccf15731",
+      "origins": [
+        "tests/language.json:1/38411/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "45fb881e0568f7cc69169e2b7ba8f2b02cf1101df49d243e2bd9336c69740cca",
+      "origins": [
+        "tests/language.json:1/38412/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "eebd46f1c1b981ffe62da9869f650f04ddd22f21343fd558fe220255135f11f0",
+      "origins": [
+        "tests/language.json:1/38413/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "66b1ed47d088edbfa55001f0e2bc1919f95ef72025e8b187c2234d134614f0bc",
+      "origins": [
+        "tests/language.json:1/38414/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "16fbf061cff5f33757a940b1616198d910da03b0d8294397a76bc844d0e7fb70",
+      "origins": [
+        "tests/language.json:1/38415/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "e06f21e857618de186de37da74850a5dafaf6a40f4345085d426ce949edec837",
+      "origins": [
+        "tests/language.json:1/38416/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "74da5ac1e2100776590b4d63f3d9aeecfa2364595b3eca3c8105f53d45c592dd",
+      "origins": [
+        "tests/language.json:1/38417/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "cef74808d264469d7fd7ce85593bf0371e0a35aad4f1e3092ddaac73b0d4fe7f",
+      "origins": [
+        "tests/language.json:1/38418/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "680dbd7ddb943a07a10a5e2f4c905324ed6649c427eaab58b0d4a8510ae38084",
+      "origins": [
+        "tests/language.json:1/38419/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "9c0f154dc0f1571ef256f66a434aaa7288b201927c30897d825540938b086406",
+      "origins": [
+        "tests/language.json:1/38420/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "9182f1dbe1ff22a10ccd4f76877c851afe22ecb8fe13c7f317f062f20e423ffe",
+      "origins": [
+        "tests/language.json:1/38421/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "b65d53e28734654595ec8e28c9dc825f8ba62e7d1eed5899c44da1dc292f6546",
+      "origins": [
+        "tests/language.json:1/38422/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "2bb1698fe047c5e9eb4a15533855833a9c4efa925661a23925a10232d31a5145",
+      "origins": [
+        "tests/language.json:1/38423/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "d93f6188d919df32f9454909ea258960c65f507b67c788d4f669e11113f44c28",
+      "origins": [
+        "tests/language.json:1/38424/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "ca3f1b767653483c56c0d06aec4e549d4c588cc081a5d931714128b0cdaf7810",
+      "origins": [
+        "tests/language.json:1/38425/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "0d11613207216da5e8a8f28a8bab1504a69864a2ff89db086a9e07644949090f",
+      "origins": [
+        "tests/language.json:1/38426/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "be7c4680984813c335355d5c7b215344effe780374452170481f274455c8a37f",
+      "origins": [
+        "tests/language.json:1/38576/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 1,
+          "column": 11
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "sha256": "4767d2f9f366e67c3dad3b919f522ae1ea5f3b14487d9d9be23c55e5024b236c",
+      "origins": [
+        "tests/language.json:1/38608/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "67cf14b1688473154a1e23afea7bc4427a9a699707bd4454e84646f0b2ec605f",
+      "origins": [
+        "tests/language.json:1/38609/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "4acd165662220076668a63dce0a6355504abef3b0169491cb35020631b8d1377",
+      "origins": [
+        "tests/language.json:1/38610/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "c17e533d8dad317da6f086fafcb6d9aec39f7bdad01ae57bce94337beb917147",
+      "origins": [
+        "tests/language.json:1/38611/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "b108bd1d925a5a7f7635e263ebde97c63f590d9d58dfad278a84a23a16f4e2e2",
+      "origins": [
+        "tests/language.json:1/38612/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 15
+        }
+      ]
+    },
+    {
+      "sha256": "015315577428be7cf9a2ad9881b331801c102b8bfe99346a32e421da1f4ae3db",
+      "origins": [
+        "tests/language.json:1/38613/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 6
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "3cc44e91f4083164c31d9a8d6ed19c0f539b43610e9b00c60c4811d4e782b231",
+      "origins": [
+        "tests/language.json:1/38646/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 2
+        }
+      ]
+    },
+    {
+      "sha256": "5b73645999d07d0a05bf405877bf5d89f1ffbbb4d4c9068ac853c65d73e38965",
+      "origins": [
+        "tests/language.json:1/38647/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 2
+        }
+      ]
+    },
+    {
+      "sha256": "9c3d1d88cfc72c94e15c5232ff702e0e857978f00e14f48055c05cb8bcb2a35d",
+      "origins": [
+        "tests/language.json:1/38662/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 2
+        }
+      ]
+    },
+    {
+      "sha256": "5f34027e48d6a9d8d6461e6e55250ec956aaafcd99a8efb85f9c007ebd84a305",
+      "origins": [
+        "tests/language.json:1/38664/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 11
+        }
+      ]
+    },
+    {
+      "sha256": "a5e344b3d64f1afdeb0ef0ba32fc73427b2fed63dc633978c962c8f811c5d2f4",
+      "origins": [
+        "tests/language.json:1/38667/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 11
+        }
+      ]
+    },
+    {
+      "sha256": "5e1845234979edb82e15bd699be0687d212d5f7820b657847c13887d765a3a13",
+      "origins": [
+        "tests/language.json:1/41910/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "c3a2833f492e6b051d36a4280bed6790c67f1565cf0e0ec6aef80936a60b118f",
+      "origins": [
+        "tests/language.json:1/41911/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "18d665da75c233de101b38ec1cb6069817c732c7984ed675c51ce684b15f75f1",
+      "origins": [
+        "tests/language.json:1/41912/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "5b21883b6f3c240e384f6df6bbc3dcd59f20698db3adc82d60244b45b51441af",
+      "origins": [
+        "tests/language.json:1/41914/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "c4f508393b12bcc0d7dc7c210833acdce06b753f74883577940ced99d66c84f3",
+      "origins": [
+        "tests/language.json:1/41915/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "66e571f3227a09d2c0feff1c9ef52d225a82afdfa1ddb3d5bff0c07605222545",
+      "origins": [
+        "tests/language.json:1/41917/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "89f687b3e4a5b5da92f1aa764b9e6af77ee05117c2a71e530bd411eeb215ab87",
+      "origins": [
+        "tests/language.json:1/41918/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "f1b00a692d8cd50a46ffc28bc7ee41c2de9e3fdfeb3c561df7b003175086c1cc",
+      "origins": [
+        "tests/language.json:1/41919/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "506ffe632ff4a7ec626336596e780eafea0fb07df246944fa79d47dba2a1841a",
+      "origins": [
+        "tests/language.json:1/41921/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "903fb80ae2c3f4de064ad45adbd87dd079896b7d17e77b271f56b70c554a5a26",
+      "origins": [
+        "tests/language.json:1/41922/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "1b373e76704fef8b4276815d07c07afafecf5a9b583016d7290b9852e6747c25",
+      "origins": [
+        "tests/language.json:1/41923/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "024d22597550514c3ce658238997cf3f48e4663ff7f41cfe664aa5012dc628d7",
+      "origins": [
+        "tests/language.json:1/41925/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "0e94a7a73987a800065c68fe2e9d0fd92e4a12aceab01fff305edcadf3d99225",
+      "origins": [
+        "tests/language.json:1/41926/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "3fc43262597bae8dd5f1ac5efb51f777a9d00b252b12ce30598ad74c1fb551ad",
+      "origins": [
+        "tests/language.json:1/41927/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "3798f1ed3cf5e8ae6662f910dffc4f0b348b73ee7535470b0b42e40bcaf603cf",
+      "origins": [
+        "tests/language.json:1/41929/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "01ef1f357cf941c338c3e3a8befc7c48c96538fadbe0bc9ead5563050fb9c6f2",
+      "origins": [
+        "tests/language.json:1/41930/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "19bc1ecf81bab770cefb6514216c74ba308a2515fe28f4ac414b7f70b527715f",
+      "origins": [
+        "tests/language.json:1/41931/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "sha256": "910f60f17e17426cedb97f9d294286abc95669dd1ee8760cc67dc67d55a33b7f",
+      "origins": [
+        "tests/language.json:1/42398/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 7
+        }
+      ]
+    },
+    {
+      "sha256": "ca1c7a84963a299d20199c71377aa21e84f4495a211b986bcf6d1590c9cdd495",
+      "origins": [
+        "tests/language.json:1/71230/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 1,
+          "column": 9
+        }
+      ]
+    },
+    {
+      "sha256": "77c4e04d7ce2938f56740b7ebd37bf1c5f3dd3f1e0e25474b6eb75c9f191b55e",
+      "origins": [
+        "tests/language.json:1/71231/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 1,
+          "column": 9
+        }
+      ]
+    },
+    {
+      "sha256": "732f66a975c3cf09a4311fc64b7d5c9c8cf31f525f13cf734847db6ba44d0d47",
+      "origins": [
+        "tests/language.json:1/71636/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 13
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 14
+        }
+      ]
+    },
+    {
+      "sha256": "0cc67c6e1ba2eb3d55e3a455347d033854bf5338e5ff3ba36bd5c51e4cccc672",
+      "origins": [
+        "tests/language.json:1/106280/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 8
+        },
+        {
+          "code": "V0003",
+          "line": 3,
+          "column": 9
+        },
+        {
+          "code": "V0003",
+          "line": 4,
+          "column": 14
+        },
+        {
+          "code": "V0003",
+          "line": 6,
+          "column": 16
+        },
+        {
+          "code": "V0003",
+          "line": 7,
+          "column": 11
+        },
+        {
+          "code": "V0003",
+          "line": 8,
+          "column": 10
+        },
+        {
+          "code": "V0003",
+          "line": 16,
+          "column": 12
+        },
+        {
+          "code": "V0003",
+          "line": 21,
+          "column": 15
+        },
+        {
+          "code": "V0003",
+          "line": 22,
+          "column": 9
+        },
+        {
+          "code": "V0003",
+          "line": 29,
+          "column": 11
+        }
+      ]
+    },
+    {
+      "sha256": "142d72550108ffc2933ba54a35679298921cd9e70df6c06ddfc66bb4343b68d9",
+      "origins": [
+        "tests/language.json:1/106357/source"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 14,
+          "column": 13
+        }
+      ]
+    },
+    {
+      "sha256": "ef63b76399fee475d29349564e10d95d790a85e1f3127fc1ebfd244759e1fc6d",
+      "origins": [
+        "tests/parser_boundaries.rs:213"
+      ],
+      "diagnostics": [
+        {
+          "code": "V0003",
+          "line": 2,
+          "column": 8
+        },
+        {
+          "code": "V0003",
+          "line": 3,
+          "column": 14
+        },
+        {
+          "code": "V0003",
+          "line": 5,
+          "column": 16
+        },
+        {
+          "code": "V0003",
+          "line": 6,
+          "column": 10
+        },
+        {
+          "code": "V0003",
+          "line": 9,
+          "column": 17
+        },
+        {
+          "code": "V0003",
+          "line": 13,
+          "column": 15
+        },
+        {
+          "code": "V0003",
+          "line": 15,
+          "column": 17
+        }
+      ]
+    }
+  ]
+}

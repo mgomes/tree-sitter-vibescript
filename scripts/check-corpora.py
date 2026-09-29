@@ -77,6 +77,19 @@ def candidates(root):
                                 yield origin, code, path.parent, None
 
 
+def partition_results(summary, manifest, exceptions):
+    origins = {item['path']: item['origin'] for item in manifest}
+    failures, retired = [], []
+    for item in summary['parse_summaries']:
+        result = {**item, 'origin': origins[item['file']]}
+        digest = hashlib.sha256(Path(item['file']).read_bytes()).hexdigest()
+        if digest in exceptions:
+            retired.append({**result, 'sha256': digest, 'diagnostics': exceptions[digest]['diagnostics']})
+        elif not item['successful']:
+            failures.append(result)
+    return failures, retired
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('rust_repo', type=Path)
@@ -152,17 +165,20 @@ def main():
         raise RuntimeError('Tree-sitter did not produce a parse summary; see parse.log')
     summary = json.loads(result.stdout[start:])
     (output / 'parse-summary.json').write_text(json.dumps(summary, indent=2) + '\n')
-    origins = {item['path']: item['origin'] for item in manifest}
-    failures = [{**item, 'origin': origins[item['file']]}
-                for item in summary['parse_summaries'] if not item['successful']]
+    exceptions = json.loads((grammar / 'test/name-suffix-exceptions.json').read_text())
+    failures, retired = partition_results(summary, manifest,
+                                         {item['sha256']: item for item in exceptions['sources']})
     (output / 'failures.json').write_text(json.dumps(failures, indent=2) + '\n')
+    (output / 'retired-suffix-names.json').write_text(json.dumps(retired, indent=2) + '\n')
     if summary['source_count'] != len(accepted) or len(summary['parse_summaries']) != len(accepted):
         raise RuntimeError('Tree-sitter did not check every accepted fixture')
     print(f'{len(accepted)} accepted sources; {len(sources) - len(accepted)} rejected candidates; parse exit {result.returncode}')
+    print(f'{len(retired)} obsolete suffix-name fixtures listed separately; {len(failures)} unexpected parse failures')
     print(f'Origins, compiler diagnostics and parser results: {output}')
     for failure in failures[:20]:
         print(f"Failed: {failure['origin']} ({failure['file']})")
-    return result.returncode or bool(failures)
+    expected_failure_exit = result.returncode == 1 and any(not item['successful'] for item in retired)
+    return bool(failures) or (result.returncode != 0 and not expected_failure_exit)
 
 
 if __name__ == '__main__':

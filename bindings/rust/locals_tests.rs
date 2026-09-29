@@ -134,7 +134,7 @@ fn all_parameter_spellings_define_only_their_names() {
         ("def f(*rest: array<int>, keyword: int = 1, **options: hash<string, int>)\nend", vec!["rest", "keyword", "options"]),
         ("def f(*Rest: array<int>, Keyword: int = 1, **Options: hash<string, int>, &Block: () -> int)\nend", vec!["Rest", "Keyword", "Options", "Block"]),
         ("def f value: int, *, option: string = text\nend", vec!["value", "option"]),
-        ("class C\ndef initialize(@field: int, Value: int)\nend\ndef self.f(value: int, &block?: () -> int)\nend\nend", vec!["C", "Value", "value", "block?"]),
+        ("class C\ndef initialize(@field: int, Value: int)\nend\ndef self.f(value: int, &block?: () -> int)\nend\nend", vec!["C", "Value", "value", "block"]),
         ("items.each { |plain, Typed: int, (head, (nested, *rest))| plain }", vec!["plain", "Typed", "head", "nested", "rest"]),
         ("items.each { |Upper, (Nested, *rest: array<int>)| Upper }", vec!["Upper", "Nested", "rest"]),
     ] {

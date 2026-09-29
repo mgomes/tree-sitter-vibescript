@@ -20,6 +20,8 @@ enum TokenType {
   BLOCK_COMMENT,
   KEYWORD_LABEL,
   CALL_OPEN,
+  PREDICATE_SUFFIX,
+  BANG_SUFFIX,
 };
 
 void *tree_sitter_vibescript_external_scanner_create(void) { return NULL; }
@@ -273,6 +275,20 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     if (lexer->lookahead == '\n') saw_newline = true;
     else saw_space = true;
     skip(lexer);
+  }
+
+  if (!saw_space && !saw_newline &&
+      ((valid_symbols[PREDICATE_SUFFIX] && lexer->lookahead == '?') ||
+       (valid_symbols[BANG_SUFFIX] && lexer->lookahead == '!'))) {
+    enum TokenType suffix = lexer->lookahead == '?' ? PREDICATE_SUFFIX : BANG_SUFFIX;
+    advance(lexer);
+    lexer->mark_end(lexer);
+    if (lexer->lookahead == '=') {
+      advance(lexer);
+      if (lexer->lookahead != '=' && lexer->lookahead != '~') return false;
+    }
+    lexer->result_symbol = suffix;
+    return true;
   }
 
   if (valid_symbols[BLOCK_COMMENT] && lexer->get_column(lexer) == 0 && lexer->lookahead == '=') {

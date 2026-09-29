@@ -31,6 +31,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "quoted_symbol",
             "named": true
           },
@@ -46,6 +50,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -196,6 +204,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -366,6 +378,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -526,6 +542,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -759,6 +779,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -950,6 +974,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -1106,6 +1134,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -1293,6 +1325,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -1555,6 +1591,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -1636,21 +1676,17 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "method_name",
+            "named": true
           }
         ]
       },
       "receiver": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "&.",
-            "named": false
-          },
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "array",
             "named": true
@@ -1733,6 +1769,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -1907,6 +1947,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -2154,6 +2198,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -2357,6 +2405,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -2532,6 +2584,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -2630,6 +2686,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           }
         ]
@@ -2740,6 +2800,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -2903,6 +2967,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -3204,6 +3272,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -3366,6 +3438,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -3582,6 +3658,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -3769,6 +3849,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -3945,6 +4029,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -4135,6 +4223,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -4315,6 +4407,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -4550,6 +4646,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -4751,6 +4851,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -4911,6 +5015,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           }
@@ -5006,6 +5114,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -5170,6 +5282,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -5357,6 +5473,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -5551,6 +5671,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -5711,6 +5835,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -5795,6 +5923,10 @@
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           }
         ]
@@ -5889,6 +6021,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -6061,6 +6197,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -6086,6 +6226,10 @@
         },
         {
           "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "scoped_constant",
           "named": true
         },
         {
@@ -6145,6 +6289,10 @@
           },
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -6305,6 +6453,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -6412,6 +6564,25 @@
     }
   },
   {
+    "type": "method_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "modifier",
     "named": true,
     "fields": {
@@ -6505,6 +6676,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -6679,6 +6854,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -6910,6 +7089,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -7106,6 +7289,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -7314,6 +7501,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -7533,6 +7724,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -7803,6 +7998,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -8035,6 +8234,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -8226,6 +8429,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -8377,6 +8584,10 @@
           },
           {
             "type": "member_access",
+            "named": true
+          },
+          {
+            "type": "method_name",
             "named": true
           },
           {
@@ -8541,6 +8752,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -8718,6 +8933,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -8818,6 +9037,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         }
       ]
@@ -8962,6 +9185,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -9208,6 +9435,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -9229,6 +9460,10 @@
         },
         {
           "type": "scope_resolution",
+          "named": true
+        },
+        {
+          "type": "scoped_constant",
           "named": true
         },
         {
@@ -9273,6 +9508,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "symbol",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "ternary",
@@ -9364,6 +9604,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -9727,6 +9971,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -9905,6 +10153,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "nil",
           "named": true
         },
@@ -10065,6 +10317,10 @@
         },
         {
           "type": "member_access",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -10270,6 +10526,10 @@
           "named": true
         },
         {
+          "type": "method_name",
+          "named": true
+        },
+        {
           "type": "modifier",
           "named": true
         },
@@ -10461,6 +10721,10 @@
             "named": true
           },
           {
+            "type": "method_name",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -10637,6 +10901,10 @@
         },
         {
           "type": "method",
+          "named": true
+        },
+        {
+          "type": "method_name",
           "named": true
         },
         {
@@ -11133,10 +11401,6 @@
   },
   {
     "type": "string_content",
-    "named": true
-  },
-  {
-    "type": "symbol",
     "named": true
   },
   {

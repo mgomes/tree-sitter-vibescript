@@ -15,12 +15,13 @@ local: hash<string, array<Point?>> = source
 #      ^^^^ type.builtin
 #           ^^^^^^ type.builtin
 #                   ^^^^^ type.builtin
-#                         ^^^^^ type
+#                         ^^^^^ type.definition
 #                                    ^^^^^^ variable
 
 optional: int? = nil
 # <- variable
-#         ^^^^ type.builtin
+#         ^^^ type.builtin
+#            ^ operator
 #                ^^^ constant.builtin
 
 UPPER: [int, string] = source
@@ -121,4 +122,18 @@ schema = { value: array<int>, other: string | nil }
 
 plain = { value: valid? }
 #         ^^^^^ property
-#                ^^^^^^ variable
+#                ^^^^^^ function.call
+
+user.as(string?)
+#       ^^^^^^ type.builtin
+#             ^ operator
+user.as string?
+#       ^^^^^^ type.builtin
+#             ^ operator
+JSON.parse_as(text, string?)
+#                   ^^^^^^ type.builtin
+#                         ^ operator
+user.as(string!)
+#       ^^^^^^^ function.call
+JSON.parse_as(text, string!)
+#                   ^^^^^^^ function.call

@@ -165,7 +165,8 @@ m //= 2
         (integer))))
   (binary
     (identifier)
-    (identifier))
+    (method_name
+      (identifier)))
   (binary
     (identifier)
     (identifier))

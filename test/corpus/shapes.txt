@@ -161,7 +161,8 @@ opt = { x: string?, value: comparable?, ok: valid? }
         value: (type_annotation))
       (hash_entry
         key: (identifier)
-        value: (identifier)))))
+        value: (method_name
+          (identifier))))))
 
 ================
 String and label shape keys

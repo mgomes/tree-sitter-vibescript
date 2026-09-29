@@ -21,9 +21,9 @@ expressions. Floor division uses `//` and `//=` and never opens a nonempty regex
 
 Type literals and values share syntax. Generic, union, optional, tuple and shape
 syntax can produce `type_literal`; ambiguous plain names, arrays and hashes
-prefer the value reading. Optional field labels include their `?` in the
-identifier. Semantic restrictions on type names, declaration placement, keyword
-ordering, assignment targets and string-only hash keys belong to the checker.
+prefer the value reading. Optional markers are separate tokens, including in field labels and `&block?:`.
+Semantic restrictions on type names, declaration placement, keyword ordering,
+assignment targets and string-only hash keys belong to the checker.
 
 Statement separators include semicolons. Whitespace is an extra, so some invalid
 adjacent expressions can still produce separate statements. Similarly, a value
@@ -35,6 +35,36 @@ Removed words can still be ordinary identifiers; `do`, `unless` and `until` no
 longer have dedicated syntax rules. Percent literals, legacy keyword defaults,
 untyped function parameters, symbol hash keys, lambdas and block forwarding
 have no supported grammar productions.
+
+## Method suffixes
+
+The owner's 2026-09-28 rule and Rust `mgomes/name-suffix` branch restrict terminal
+`?` and `!` name suffixes to methods: definitions, calls and method symbols.
+Ordinary identifiers, constants and instance/class variables contain only their
+Unicode letters, decimal digits and underscores. Suffixed method names use a
+`method_name` node; its name child excludes the suffix and never resolves as a
+local reference. Assignment targets and parameter/declaration names exclude it.
+Tree-sitter marks invalid bindings with syntax errors; actionable diagnostics
+and renames come from `vibes lsp`.
+
+A suffix immediately followed by a single `=` is rejected, so `a!=b`,
+`LIMIT!=OTHER` and `@left!=@right` remain inequalities. Before `==` or `=~`, it
+remains a suffix: `ok?==true` calls `ok?`. The scanner checks beyond the suffix
+without consuming the following operator. Optional type markers share the `?`
+token but remain valid before assignments such as `value: int?=nil`.
+
+Hash and keyword labels **keep suffixes**: `{ ready?: true }` names the string key
+`"ready?"`, and `f(save!: true)` passes `"save!"`. They require explicit values;
+`{ ready?: }` and `f(ready?:)` would read forbidden suffixed locals. This matches
+the Rust branch's lexer, language guide and ADR-008 addendum. Type shapes instead
+interpret `ready?: bool` as an optional field named `ready`; `&block?:` declares
+an optional block whose binding name is `block`.
+
+A nullable nominal type in an expression can share spelling with an illegal
+constant name (`Record?`). The grammar can emit an optional `type_literal` there;
+only the language server knows whether `Record` declares a type. Its `constant`
+child never includes `?`. Nullable rescue types and expression-position schemas
+accepted by the compiler retain their optional markers too.
 
 ## Local bindings and scopes
 
@@ -116,7 +146,13 @@ File fixtures keep their original module-resolution directory. Compiler
 rejections are recorded, never rewritten or counted as parser successes.
 
 Every accepted source is passed to the npm-installed Tree-sitter CLI. Any
-`ERROR`, `MISSING` node or parse timeout fails the gate. The output directory
+`ERROR`, `MISSING` node or parse timeout fails the gate, except for the exact
+retired sources in `test/name-suffix-exceptions.json`. That ledger lists 181
+v0.80.0 fixtures confirmed with `V0003` by the Rust suffix-branch binary, using
+SHA-256 of the complete source, original corpus locations and diagnostic spans.
+No spelling-based exclusion applies to new or edited programs. These sources are
+still parsed and listed in `retired-suffix-names.json`, separately from unexpected
+failures; remove ledger entries as the upstream fixtures migrate. The output directory
 contains compiler diagnostics, source origins, accepted fixtures and parser
 results. `--reuse-checks` reuses compiler results only when the binary and all
 source candidates are unchanged; parsing always runs again. The parser has a

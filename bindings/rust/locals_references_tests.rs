@@ -207,6 +207,11 @@ const OTHER_ROLES: &[(&str, &str, &[&str])] = &[
         &["localref"],
     ),
     ("alias names", "alias $n $n", &["localref"]),
+    (
+        "suffixed method name",
+        "def $n?; end",
+        &["localref", "Localref"],
+    ),
     ("call name", "$n(1)", &["localref", "Localref"]),
     ("command call name", "$n 1", &["localref", "Localref"]),
     ("member name", "other.$n", &["localref", "Localref"]),

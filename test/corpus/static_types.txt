@@ -255,7 +255,8 @@ end
           (yield
             (argument_list
               (integer)))))
-      (identifier)))
+      (method_name
+        (identifier))))
   (method
     (identifier)
     (parameters
@@ -415,7 +416,8 @@ schema = { value: array<int>, nested: { name: string }, ... }
       (argument_list
         (string
           (string_content))
-        (identifier))))
+        (method_name
+          (identifier)))))
   (assignment
     (identifier)
     (type_literal

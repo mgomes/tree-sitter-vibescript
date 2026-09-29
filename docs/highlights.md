@@ -1,6 +1,6 @@
 # Highlight query audit
 
-The audit accounts for all 109 named node kinds in `src/node-types.json`.
+The audit accounts for all 110 named node kinds in `src/node-types.json`.
 `test/highlight/` runs native `tree-sitter test` assertions, including negative
 receiver assertions and collisions between parameters, methods and labels.
 A Rust test checks that these fixtures parse without errors and exercise every
@@ -18,6 +18,7 @@ prevent those expressions from matching.
 | --- | --- |
 | `identifier` | Variable fallback. A later field- or position-specific rule overrides syntactic names. Bare zero-argument calls remain ambiguous. |
 | `constant` | Type fallback, with builtin namespace names recognized by spelling. Later method, parameter, label and declaration captures take precedence. |
+| `method_name` | Whole suffixed name and its direct name/suffix children are calls by default. Definition/member/alias positions override them as methods; hash and keyword keys override them as labels. None of these children are lexical local references. |
 | `method`, `self_method_name`, `setter_name`, `operator_name` | `method.name` selects the definition. Self-qualified names capture the child name and `self` separately. Setter names and operator tokens override generic punctuation/operators; no body expression is captured. |
 | `class`, `module`, `enum`, `type_alias`, `enum_member` | Declaration `name` fields, and the leaf enum-member node. Class/module bodies and alias right-hand types are separate nodes. |
 | `call`, `command_call`, `member_access`, `computed_call` | Calls use `method`; command arguments use `arguments`. Members select the name after `.` or `&.`, including capitalized/operator names. Kernel builtins require a receiverless call. Computed callees retain their expression captures. Nested receivers and arguments are never selected as the outer callee. |
@@ -25,7 +26,7 @@ prevent those expressions from matching.
 | `typed_parameter`, `splat_parameter`, `double_splat_parameter`, `block_parameter`, `ivar_parameter` | Parameter `name` fields, or the first named child for an instance-variable parameter. Annotation and default-expression children are excluded. This also prevents `@fallback` defaults inheriting the parameter capture. |
 | `block_parameters`, `destructured_parameter`, `splat_target` | Direct identifier/constant children are parameters only under the parameter containers. A splat target gets parameter color only under a destructured parameter. Assignment/loop splats keep ordinary binding colors. |
 | `parameters`, `bare_parameters`, `keyword_separator` | Parameter-list containers have no blanket capture. The bare keyword separator is a leaf operator. |
-| `type_name`, `qualified_type_name` | Only direct name children are types; generic arguments are wrapped and visited separately. Every direct qualified-name component is intentionally a type component. Builtin names include optional suffixes; `nil` and `type` have token-specific type captures. |
+| `type_name`, `qualified_type_name` | Only direct name children are types; generic arguments are wrapped and visited separately. Every direct qualified-name component is intentionally a type component. Optional markers are separate operators; builtin names use the name child; `nil` and `type` have token-specific type captures. |
 | `type_annotation`, `type_arguments`, `type_literal`, `type_tuple`, `type_shape`, `block_type`, `return_type` | Containers delegate to their names, fields and punctuation. Union pipes are operators. The sole whole-node exception is a hash value aliased to a leaf nullable builtin; an exact builtin-name predicate limits it. |
 | `type_shape_field`, `hash_entry`, `keyword_argument` | Only `name` or `key` fields receive property/keyword-parameter captures, including capitalized labels. Values and nested type annotations keep independent captures. Quoted and symbol-spelled keys retain literal colors. |
 | `require` | The `require` token is a keyword. The first string is the path; only the second, unescaped single-content string is an alias. Other require spellings require a receiverless `require` method and an `as` keyword value. Calls on receivers and unrelated functions keep ordinary strings. |

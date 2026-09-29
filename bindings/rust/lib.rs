@@ -122,3 +122,6 @@ mod tests {
         );
     }
 }
+
+#[cfg(test)]
+mod name_suffix_tests;
