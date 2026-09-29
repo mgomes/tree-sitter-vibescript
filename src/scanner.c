@@ -1,4 +1,5 @@
 #include "tree_sitter/parser.h"
+#include "unicode.h"
 
 enum TokenType {
   REGEX,
@@ -212,7 +213,7 @@ static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
   int32_t next = lexer->lookahead;
 
   if (valid_symbols[MODULE_KEYWORD] && word_equals(word, len, "module")) {
-    if (is_upper(next) || next >= 128) {
+    if (is_unicode_uppercase(next)) {
       lexer->result_symbol = MODULE_KEYWORD;
       return true;
     }

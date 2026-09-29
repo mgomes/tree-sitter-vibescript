@@ -125,3 +125,6 @@ mod tests {
 
 #[cfg(test)]
 mod name_suffix_tests;
+
+#[cfg(test)]
+mod unicode_tests;

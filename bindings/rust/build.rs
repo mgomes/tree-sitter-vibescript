@@ -8,7 +8,12 @@ fn main() {
         .warnings(false)
         .compile("tree-sitter-vibescript");
 
-    for file in ["src/parser.c", "src/scanner.c", "src/tree_sitter/parser.h"] {
+    for file in [
+        "src/parser.c",
+        "src/scanner.c",
+        "src/unicode.h",
+        "src/tree_sitter/parser.h",
+    ] {
         println!("cargo:rerun-if-changed={file}");
     }
 }

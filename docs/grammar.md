@@ -169,3 +169,7 @@ remain in the rejection report unless independently accepted by the CLI.
 Identifier character classes are generated from Unicode 17.0.0, matching the
 compiler, by `npm run generate`. The pinned Unicode npm dependency makes parser
 generation independent of the Unicode version bundled with the CLI.
+
+The module scanner uses `src/unicode.h`, generated from the very same
+`Uppercase_Letter` list as the `constant` token. Lowercase, titlecase and uncased
+Unicode names keep contextual `module` in call position (`module λ`).

@@ -1,0 +1,135 @@
+==================
+Unicode uppercase module declarations
+==================
+module Λ; end
+module É; end
+module 𐐀; end
+module Ᲊ; end
+
+---
+
+(program
+  (module
+    (constant)
+    (module_body))
+  (module
+    (constant)
+    (module_body))
+  (module
+    (constant)
+    (module_body))
+  (module
+    (constant)
+    (module_body)))
+
+==================
+Unicode identifiers preserve contextual module calls
+==================
+module λ
+module é
+module 𐐨
+module ǅ
+module 名
+module ʰ
+
+---
+
+(program
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier))))
+
+==================
+Unicode class and enum declarations
+==================
+class Λ; end
+class λ; end
+class 𐐀; end
+enum 状態; 有効; 無効; end
+enum Σ; α; Β; end
+
+---
+
+(program
+  (class
+    (constant)
+    (class_body))
+  (class
+    (identifier)
+    (class_body))
+  (class
+    (constant)
+    (class_body))
+  (enum
+    (identifier)
+    (enum_member)
+    (enum_member))
+  (enum
+    (constant)
+    (enum_member)
+    (enum_member)))
+
+==================
+Unicode names around contextual keywords
+==================
+module = λ
+public λ
+protected 名
+class Σ; public :λ; end
+alias λ other
+module? λ
+f(module: λ)
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (identifier))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)))
+  (class
+    (constant)
+    (class_body
+      (visibility_directive
+        (symbol))))
+  (alias
+    (identifier)
+    (identifier))
+  (command_call
+    (method_name)
+    (command_arguments
+      (identifier)))
+  (call
+    (identifier)
+    (argument_list
+      (keyword_argument
+        (identifier)
+        (identifier)))))
