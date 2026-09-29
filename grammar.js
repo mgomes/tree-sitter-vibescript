@@ -49,6 +49,7 @@ module.exports = grammar({
     $._call_open,
     $._predicate_suffix,
     $._bang_suffix,
+    $._suffixed_keyword,
   ],
 
   conflicts: ($) => [
@@ -1082,9 +1083,9 @@ module.exports = grammar({
 
     // --- Terminals ---
 
-    method_name: ($) => seq(choice($.identifier, $.constant), methodSuffix($)),
+    method_name: ($) => choice(seq(choice($.identifier, $.constant), methodSuffix($)), $._suffixed_keyword),
 
-    _bare_method_name: ($) => seq($.identifier, methodSuffix($)),
+    _bare_method_name: ($) => choice(seq($.identifier, methodSuffix($)), $._suffixed_keyword),
 
     identifier: (_$) =>
       new RegExp(UNICODE.identifier, "u"),

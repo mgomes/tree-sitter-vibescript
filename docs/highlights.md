@@ -18,7 +18,7 @@ prevent those expressions from matching.
 | --- | --- |
 | `identifier` | Variable fallback. A later field- or position-specific rule overrides syntactic names. Bare zero-argument calls remain ambiguous. |
 | `constant` | Type fallback, with builtin namespace names recognized by spelling. Later method, parameter, label and declaration captures take precedence. |
-| `method_name` | Whole suffixed name and its direct name/suffix children are calls by default. Definition/member/alias positions override them as methods; hash and keyword keys override them as labels. None of these children are lexical local references. |
+| `method_name` | Whole suffixed name and its direct name/suffix children are calls by default. Keyword-prefixed names are leaves. Definition/member/alias positions override them as methods; hash and keyword keys override them as labels. None of these children are lexical local references. |
 | `method`, `self_method_name`, `setter_name`, `operator_name` | `method.name` selects the definition. Self-qualified names capture the child name and `self` separately. Setter names and operator tokens override generic punctuation/operators; no body expression is captured. |
 | `class`, `module`, `enum`, `type_alias`, `enum_member` | Declaration `name` fields, and the leaf enum-member node. Class/module bodies and alias right-hand types are separate nodes. |
 | `call`, `command_call`, `member_access`, `computed_call` | Calls use `method`; command arguments use `arguments`. Members select the name after `.` or `&.`, including capitalized/operator names. Kernel builtins require a receiverless call. Computed callees retain their expression captures. Nested receivers and arguments are never selected as the outer callee. |

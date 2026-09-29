@@ -134,3 +134,15 @@ LIMIT!=OTHER
 #             ^^^^^ property
 consume(ready?: true)
 #       ^^^^^^ variable.parameter
+
+def if? -> bool
+#   ^^^ function.method
+  true
+end
+if?==true
+# <- function.call
+#  ^^ operator
+return!
+# <- function.call
+{if?: true}
+#^^^^ property

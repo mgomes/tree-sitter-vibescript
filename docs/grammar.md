@@ -42,8 +42,10 @@ The owner's 2026-09-28 rule and Rust `mgomes/name-suffix` branch restrict termin
 `?` and `!` name suffixes to methods: definitions, calls and method symbols.
 Ordinary identifiers, constants and instance/class variables contain only their
 Unicode letters, decimal digits and underscores. Suffixed method names use a
-`method_name` node; its name child excludes the suffix and never resolves as a
-local reference. Assignment targets and parameter/declaration names exclude it.
+`method_name` node. An ordinary name child excludes the suffix and never
+resolves as a local reference. Reserved-word spellings such as `if?` and
+`return!` are scanned as whole method names so their prefixes cannot start
+control-flow statements. Assignment targets and parameter/declaration names exclude it.
 Tree-sitter marks invalid bindings with syntax errors; actionable diagnostics
 and renames come from `vibes lsp`.
 

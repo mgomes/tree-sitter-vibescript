@@ -307,3 +307,36 @@ f(ready?:)
 ---
 
 (ERROR)
+
+==================
+Keyword prefixes in method names
+==================
+def if? -> bool; true; end
+if?
+if?==true
+return!
+user.class?
+{if?: true}
+
+---
+
+(program
+  (method
+    (method_name)
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (true))
+  (method_name)
+  (binary
+    (method_name)
+    (true))
+  (method_name)
+  (member_access
+    (identifier)
+    (method_name))
+  (hash
+    (hash_entry
+      (method_name)
+      (true))))

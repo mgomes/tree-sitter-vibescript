@@ -154,3 +154,62 @@ fn suffix_boundary_changes_reparse_incrementally() {
         );
     }
 }
+
+#[test]
+fn keyword_prefixes_do_not_turn_suffixed_methods_into_control_flow() {
+    for word in [
+        "def",
+        "end",
+        "class",
+        "module",
+        "enum",
+        "if",
+        "elsif",
+        "else",
+        "then",
+        "while",
+        "for",
+        "in",
+        "case",
+        "when",
+        "begin",
+        "rescue",
+        "ensure",
+        "raise",
+        "return",
+        "yield",
+        "private",
+        "public",
+        "protected",
+        "alias",
+        "alias_method",
+        "property",
+        "getter",
+        "setter",
+        "export",
+        "type",
+        "break",
+        "next",
+        "retry",
+        "true",
+        "false",
+        "nil",
+        "self",
+        "require",
+        "as",
+    ] {
+        for suffix in ['?', '!'] {
+            let name = format!("{word}{suffix}");
+            let source = format!("def {name} -> bool; true; end; {name}");
+            let tree = parse(&source);
+            let root = tree.root_node();
+            assert!(!root.has_error(), "{source}: {}", root.to_sexp());
+            assert_eq!(root.named_child_count(), 2, "{source}");
+            assert_eq!(
+                root.named_child(1).unwrap().kind(),
+                "method_name",
+                "{source}"
+            );
+        }
+    }
+}

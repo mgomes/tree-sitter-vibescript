@@ -22,6 +22,7 @@ enum TokenType {
   CALL_OPEN,
   PREDICATE_SUFFIX,
   BANG_SUFFIX,
+  SUFFIXED_KEYWORD,
 };
 
 void *tree_sitter_vibescript_external_scanner_create(void) { return NULL; }
@@ -75,18 +76,42 @@ static bool word_is_trailing_keyword(const char *w, int len) {
   return false;
 }
 
-// Reads the identifier word at the cursor into `w` (capped at cap - 1 chars).
-// Returns the length, or -1 when the word is longer than the cap or carries a
-// `?`/`!` suffix (so it cannot be one of the contextual keywords).
-static int read_word(TSLexer *lexer, char *w, int cap) {
+// Reads name characters into `w`, returning -1 if the buffer is too small.
+static int read_word_body(TSLexer *lexer, char *w, int cap) {
   int len = 0;
   while (is_identifier_char(lexer->lookahead)) {
     if (len >= cap - 1) return -1;
     w[len++] = (char)lexer->lookahead;
     advance(lexer);
   }
+  return len;
+}
+
+// Contextual keywords cannot carry a method suffix.
+static int read_word(TSLexer *lexer, char *w, int cap) {
+  int len = read_word_body(lexer, w, cap);
   if (lexer->lookahead == '?' || lexer->lookahead == '!') return -1;
   return len;
+}
+
+static bool word_is_keyword(const char *word, int len) {
+  const char *keywords[] = {
+    "def", "end", "class", "module", "enum", "if", "elsif", "else", "then",
+    "while", "for", "in", "case", "when", "begin", "rescue", "ensure", "raise",
+    "return", "yield", "private", "public", "protected", "alias", "alias_method",
+    "property", "getter", "setter", "export", "type", "break", "next", "retry",
+    "true", "false", "nil", "self", "require", "as",
+  };
+  for (unsigned i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++) {
+    if (word_equals(word, len, keywords[i])) return true;
+  }
+  return false;
+}
+
+static bool suffix_boundary(TSLexer *lexer) {
+  if (lexer->lookahead != '=') return true;
+  advance(lexer);
+  return lexer->lookahead == '=' || lexer->lookahead == '~';
 }
 
 // After a splat sigil in command position, the argument must begin
@@ -145,8 +170,16 @@ static bool regex_closes_on_line(TSLexer *lexer) {
 static bool scan_contextual_word(TSLexer *lexer, const bool *valid_symbols,
                                  bool saw_newline) {
   char word[16];
-  int len = read_word(lexer, word, sizeof(word));
+  int len = read_word_body(lexer, word, sizeof(word));
   if (len <= 0) return false;
+  if (lexer->lookahead == '?' || lexer->lookahead == '!') {
+    if (!valid_symbols[SUFFIXED_KEYWORD] || !word_is_keyword(word, len)) return false;
+    advance(lexer);
+    lexer->mark_end(lexer);
+    if (!suffix_boundary(lexer)) return false;
+    lexer->result_symbol = SUFFIXED_KEYWORD;
+    return true;
+  }
   lexer->mark_end(lexer);
 
   if (valid_symbols[KEYWORD_LABEL] && lexer->lookahead == ':') {
@@ -283,10 +316,7 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
     enum TokenType suffix = lexer->lookahead == '?' ? PREDICATE_SUFFIX : BANG_SUFFIX;
     advance(lexer);
     lexer->mark_end(lexer);
-    if (lexer->lookahead == '=') {
-      advance(lexer);
-      if (lexer->lookahead != '=' && lexer->lookahead != '~') return false;
-    }
+    if (!suffix_boundary(lexer)) return false;
     lexer->result_symbol = suffix;
     return true;
   }
@@ -496,7 +526,8 @@ bool tree_sitter_vibescript_external_scanner_scan(void *payload, TSLexer *lexer,
       valid_symbols[MODULE_KEYWORD] || valid_symbols[PUBLIC_KEYWORD] ||
       valid_symbols[PROTECTED_KEYWORD] || valid_symbols[ALIAS_KEYWORD] ||
       valid_symbols[RESCUE_MODIFIER_KEYWORD] || valid_symbols[MODIFIER_IF] ||
-      valid_symbols[MODIFIER_WHILE] || valid_symbols[KEYWORD_LABEL];
+      valid_symbols[MODIFIER_WHILE] || valid_symbols[KEYWORD_LABEL] ||
+      valid_symbols[SUFFIXED_KEYWORD];
   if (any_contextual_word && is_lower(lexer->lookahead)) {
     // A rejected candidate consumed only lookahead (no mark_end), and no other
     // external token can start with a letter, so the internal lexer re-reads
