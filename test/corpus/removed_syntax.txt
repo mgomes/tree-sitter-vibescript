@@ -45,7 +45,7 @@ f = ->((key, value)) { key }
 
 
 ================
-Block capture parameters are removed
+Untyped block capture parameters are removed
 :error
 ================
 
@@ -120,7 +120,7 @@ h = { :name => "Ada" }
 
 
 ================
-Nested module functions are not declarations
+Nested function syntax is checked by the compiler
 ================
 
 module M
@@ -136,14 +136,12 @@ end
 (program
   (module
     (constant)
-    (if
-      (true)
-      (command_call
-        (identifier)
-        (command_arguments
-          (identifier)))
-      (integer)))
-  (identifier))
+    (module_body
+      (if
+        (true)
+        (method
+          (identifier)
+          (integer))))))
 
 ================
 Nested module aliases are not declarations
@@ -160,12 +158,74 @@ end
 (program
   (module
     (constant)
-    (if
-      (true)
-      (command_call
-        (identifier)
-        (command_arguments
-          (command_call
-            (identifier)
-            (command_arguments
-              (identifier))))))))
+    (module_body
+      (if
+        (true)
+        (command_call
+          (identifier)
+          (command_arguments
+            (command_call
+              (identifier)
+              (command_arguments
+                (identifier)))))))))
+
+================
+Percent literals are removed
+:error
+================
+
+words = %w[a b]
+
+---
+
+
+
+================
+Symbol hash keys are removed
+:error
+================
+
+h = { :id: 1 }
+
+---
+
+
+
+================
+Legacy keyword defaults are removed
+:error
+================
+
+def f(name: "default")
+end
+
+---
+
+
+
+================
+Do end is no longer a block
+================
+
+items.each do |item|
+ puts item
+end
+
+---
+
+(program
+  (command_call
+    (member_access
+      (identifier)
+      (identifier))
+    (command_arguments
+      (type_literal
+        (type_annotation
+          (type_name
+            (identifier))
+          (type_name
+            (identifier))
+          (type_name
+            (identifier))))))
+  (identifier)
+  (identifier))

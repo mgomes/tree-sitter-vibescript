@@ -1,0 +1,29 @@
+user.name
+# <- !function.method
+#    ^^^^ function.method
+
+user&.profile.name
+# <- !function.method
+#     ^^^^^^^ function.method
+#             ^^^^ function.method
+
+lookup(user).name
+# <- function.call
+#      ^^^^ !function.method
+#            ^^^^ function.method
+
+user.name, *other.name = values
+# <- !function.method
+#    ^^^^ function.method
+#           ^^^^^ !function.method
+#                 ^^^^ function.method
+
+user.//(divisor)
+# <- !function.method
+#    ^^ function.method
+#       ^^^^^^^ !function.method
+
+user.walk { body }
+# <- !function.method
+#    ^^^^ function.call
+#           ^^^^ !function.method

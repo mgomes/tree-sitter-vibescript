@@ -20,17 +20,17 @@ end
         (integer)))))
 
 ================
-Until loop
+Negated while loop
 ================
 
-until n >= limit
+while n < limit
   n = n + 1
 end
 
 ---
 
 (program
-  (until
+  (while
     condition: (binary
       (identifier)
       (identifier))

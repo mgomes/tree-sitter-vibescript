@@ -1,0 +1,139 @@
+type Point = { X: int, y?: float, label: string | nil, ... }
+# <- keyword
+#    ^^^^^ type.definition
+#              ^ property
+#                 ^^^ type.builtin
+#                      ^^ property
+#                          ^^^^^ type.builtin
+#                                 ^^^^^ property
+#                                        ^^^^^^ type.builtin
+#                                               ^ operator
+#                                                 ^^^ type.builtin
+
+local: hash<string, array<Point?>> = source
+# <- variable
+#      ^^^^ type.builtin
+#           ^^^^^^ type.builtin
+#                   ^^^^^ type.builtin
+#                         ^^^^^ type.definition
+#                                    ^^^^^^ variable
+
+optional: int? = nil
+# <- variable
+#         ^^^ type.builtin
+#            ^ operator
+#                ^^^ constant.builtin
+
+UPPER: [int, string] = source
+# <- type
+#       ^^^ type.builtin
+#            ^^^^^^ type.builtin
+#                      ^^^^^^ variable
+
+value: tools.Models::User = source
+#      ^^^^^ type
+#            ^^^^^^ type
+#                    ^^^^ type
+#                           ^^^^^^ variable
+
+class Record
+
+  @field: Point
+# ^^^^^^ property
+#         ^^^^^ type.definition
+
+  @@cache: hash<string, Point> = {}
+# ^^^^^^^ property
+#          ^^^^ type.builtin
+#               ^^^^^^ type.builtin
+#                       ^^^^^ type.definition
+
+end
+
+def transform(x: type, &callback: (Point, [int, string]) -> bool) -> array<Point>
+#             ^ variable.parameter
+#                ^^^^ type.builtin
+#                       ^^^^^^^^ variable.parameter
+#                                  ^^^^^ type
+#                                                                          ^^^^^ type
+#                                          ^^^ type.builtin
+#                                               ^^^^^^ type.builtin
+#                                                           ^^^^ type.builtin
+#                                                                    ^^^^^ type.builtin
+
+end
+
+object.as(int)
+# <- variable
+#      ^^ function.call
+#         ^^^ type.builtin
+
+object.as(array<string>)
+# <- variable
+#      ^^ function.call
+#         ^^^^^ type.builtin
+#               ^^^^^^ type.builtin
+
+object.as int
+# <- variable
+#      ^^ function.method
+#         ^^^ type.builtin
+
+as(value)
+# <- function.call
+#  ^^^^^ variable
+
+JSON.parse_as(text, int)
+# <- module.builtin
+#    ^^^^^^^^ function.call
+#             ^^^^ variable
+#                   ^^^ type.builtin
+
+other.parse_as(text, int)
+# <- variable
+#     ^^^^^^^^ function.call
+#              ^^^^ variable
+#                    ^^^ variable
+
+object.is_type?(:int)
+# <- variable
+#      ^^^^^^^^ function.call
+#               ^^^^ string.special.symbol
+
+object.other(int)
+#      ^^^^^ function.call
+#            ^^^ variable
+
+schema = { value: comparable?, match: match_data?, status: enum_value? }
+#          ^^^^^ property
+#                 ^^^^^^^^^^^ type.builtin
+#                              ^^^^^ property
+#                                     ^^^^^^^^^^^ type.builtin
+#                                                  ^^^^^^ property
+#                                                          ^^^^^^^^^^^ type.builtin
+
+schema = { value: array<int>, other: string | nil }
+#          ^^^^^ property
+#                 ^^^^^ type.builtin
+#                       ^^^ type.builtin
+#                             ^^^^^ property
+#                                    ^^^^^^ type.builtin
+#                                             ^^^ type.builtin
+
+plain = { value: valid? }
+#         ^^^^^ property
+#                ^^^^^^ function.call
+
+user.as(string?)
+#       ^^^^^^ type.builtin
+#             ^ operator
+user.as string?
+#       ^^^^^^ type.builtin
+#             ^ operator
+JSON.parse_as(text, string?)
+#                   ^^^^^^ type.builtin
+#                         ^ operator
+user.as(string!)
+#       ^^^^^^^ function.call
+JSON.parse_as(text, string!)
+#                   ^^^^^^^ function.call

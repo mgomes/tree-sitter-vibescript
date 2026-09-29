@@ -1,3 +1,14 @@
+; Constants
+(constant) @type
+
+; Built-in namespaces
+((constant) @module.builtin
+  (#any-of? @module.builtin
+    "JSON" "Regex" "Math" "Time" "Duration"))
+
+; Ordinary names are variables unless a syntactic role overrides them.
+(identifier) @variable
+
 ; Keywords
 [
   "def"
@@ -9,12 +20,9 @@
   "elsif"
   "else"
   "then"
-  "unless"
   "while"
-  "until"
   "for"
   "in"
-  "do"
   "case"
   "when"
   "begin"
@@ -32,26 +40,17 @@
   "getter"
   "setter"
   "export"
+  "type"
 ] @keyword
 
-; Break, next, and retry are named nodes
-(break) @keyword
-(next) @keyword
+; Control-flow values keep their own captures.
+"break" @keyword
+"next" @keyword
 (retry) @keyword
-
-; Function definitions
-(method
-  name: (identifier) @function.method)
-(method
-  name: (self_method_name) @function.method)
-(method
-  name: (setter_name) @function.method)
-(method
-  name: (operator_name) @function.method)
 
 ; Class, module, and enum definitions
 (class
-  name: (constant) @type)
+  name: [(identifier) (constant)] @type)
 (module
   name: (constant) @type)
 (enum
@@ -62,58 +61,52 @@
 
 ; Function calls
 (call
-  method: (identifier) @function.call)
+  method: [(identifier) (constant)] @function.call)
 (command_call
-  method: (identifier) @function.call)
+  method: [(identifier) (constant)] @function.call)
 
 ; Built-in kernel functions
 ((call
+  !receiver
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "loop" "money" "money_cents" "now" "p"
-    "print" "puts" "rand" "random_id" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "p"
+    "print" "puts" "rand" "random_id" "srand"
     "to_float" "to_int" "uuid" "warn"))
 ((command_call
   method: (identifier) @function.builtin)
   (#any-of? @function.builtin
-    "assert" "format" "loop" "money" "money_cents" "now" "p"
-    "print" "puts" "rand" "random_id" "sprintf" "srand"
+    "assert" "format" "loop" "money" "money_cents" "p"
+    "print" "puts" "rand" "random_id" "srand"
     "to_float" "to_int" "uuid" "warn"))
 
 ; Type annotations
 (type_name
-  (identifier) @type)
+  [(identifier) (constant)] @type)
+(type_name
+  ["type" "nil"] @type.builtin)
 (qualified_type_name
   (identifier) @type)
 (qualified_type_name
   (constant) @type)
 (type_shape_field
-  name: (identifier) @property)
-(type_shape_field
-  name: (symbol) @property)
+  name: [(identifier) (constant)] @property)
 
-; Built-in type names
+; Built-in type names. Optional markers are separate operator tokens.
 ((type_name
   (identifier) @type.builtin)
-  (#any-of? @type.builtin
-    "any" "array" "bool" "duration" "float" "hash" "int"
-    "money" "number" "object" "range" "string" "symbol" "time"))
+  (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
 
 ; Nullable builtin shorthand in shape values ({ name: string? }) aliases
 ; to a leaf type_annotation node
 (hash_entry
   value: (type_annotation) @type.builtin
-  (#match? @type.builtin "^[a-z]+\\?$"))
+  (#match? @type.builtin "^(any|int|float|number|string|bool|duration|time|money|symbol|range|array|hash|regex|match_data|error|enum_value|enum_type|comparable)\\?$"))
 
 ; Strings
 (string) @string
 (escape_sequence) @string.escape
 (string_content) @string
-
-; Interpolation delimiters
-(interpolation
-  "#{" @punctuation.special
-  "}" @punctuation.special)
 
 ; Numbers
 (integer) @number
@@ -125,9 +118,6 @@
 
 ; Regular expressions
 (regex) @string.regexp
-
-; Percent-array literals
-(percent_array) @string.special
 
 ; Booleans and nil
 (true) @constant.builtin
@@ -142,37 +132,29 @@
 (class_variable) @property
 
 ; Parameters
-(simple_parameter
-  (identifier) @variable.parameter)
+(keyword_separator) @operator
 (typed_parameter
-  (identifier) @variable.parameter)
+  name: [(identifier) (constant)] @variable.parameter)
 (ivar_parameter
-  (instance_variable) @variable.parameter)
+  . (instance_variable) @variable.parameter)
 (block_parameters
-  (identifier) @variable.parameter)
-(keyword_parameter
-  name: (identifier) @variable.parameter)
+  [(identifier) (constant)] @variable.parameter)
 (splat_parameter
-  (identifier) @variable.parameter)
+  name: [(identifier) (constant)] @variable.parameter)
 (double_splat_parameter
-  (identifier) @variable.parameter)
+  name: [(identifier) (constant)] @variable.parameter)
 (destructured_parameter
-  (identifier) @variable.parameter)
+  [(identifier) (constant)] @variable.parameter)
+(destructured_parameter
+  (splat_target [(identifier) (constant)] @variable.parameter))
 
 ; Rescue bindings
 (rescue
-  binding: (identifier) @variable)
-
-; Constants
-(constant) @type
-
-; Built-in namespaces
-((constant) @module.builtin
-  (#any-of? @module.builtin
-    "JSON" "Regexp" "Regex" "Math" "Time" "Duration" "Hash"))
+  binding: [(identifier) (constant)] @variable)
 
 ; Comments
 (comment) @comment
+(block_comment) @comment
 (directive_comment) @comment
 
 ; Operators
@@ -181,6 +163,7 @@
   "-"
   "*"
   "/"
+  "//"
   "%"
   "**"
   "<<"
@@ -210,6 +193,7 @@
   "-="
   "*="
   "/="
+  "//="
   "%="
   "**="
   "||="
@@ -237,12 +221,124 @@
 
 ; Keyword arguments
 (keyword_argument
-  key: (identifier) @variable.parameter)
+  key: [(identifier) (constant)] @variable.parameter)
 
 ; Hash entry keys
 (hash_entry
-  key: (identifier) @property)
+  key: [(identifier) (constant)] @property)
 
 ; Require
 (require
   "require" @keyword)
+(require "as" @variable.parameter)
+
+; Literal import aliases name modules; references inherit this scope.
+(require
+  (string)
+  (string . (string_content) @type .))
+((call
+  !receiver
+  method: (identifier) @function.call
+  (argument_list
+    (keyword_argument
+      key: (identifier) @variable.parameter
+      value: (string . (string_content) @type .))))
+ (#eq? @function.call "require")
+ (#eq? @variable.parameter "as"))
+((command_call
+  method: (identifier) @function.call
+  arguments: (command_arguments
+    (keyword_argument
+      key: (identifier) @variable.parameter
+      value: (string . (string_content) @type .))))
+ (#eq? @function.call "require")
+ (#eq? @variable.parameter "as"))
+
+(type_alias name: (constant) @type.definition)
+(block_parameter name: [(identifier) (constant)] @variable.parameter)
+(member_access ["." "&."] . [(identifier) (constant)] @function.method)
+(member_access ["." "&."] . (operator_name _ @function.method))
+
+(symbol ["?" "!"] @string.special.symbol)
+
+; Suffixed names are unambiguously methods, except in explicit string labels.
+(method_name) @function.call
+(method_name [(identifier) (constant) "?" "!"] @function.call)
+(member_access ["." "&."] . (method_name) @function.method)
+(member_access ["." "&."] . (method_name [(identifier) (constant) "?" "!"] @function.method))
+(hash_entry key: (method_name) @property)
+(hash_entry key: (method_name [(identifier) (constant) "?" "!"] @property))
+(keyword_argument key: (method_name) @variable.parameter)
+(keyword_argument key: (method_name [(identifier) (constant) "?" "!"] @variable.parameter))
+(alias [(method_name)] @function.method)
+(alias (method_name [(identifier) (constant) "?" "!"] @function.method))
+
+; Function definitions
+(method name: (method_name) @function.method)
+(method name: (method_name [(identifier) (constant) "?" "!"] @function.method))
+(method name: (self_method_name (method_name) @function.method))
+(method name: (self_method_name (method_name [(identifier) (constant) "?" "!"] @function.method)))
+(method
+  name: [(identifier) (constant)] @function.method)
+(method
+  name: (self_method_name
+    [(identifier) (constant)] @function.method))
+(self_method_name "self" @variable.builtin)
+(method
+  name: (setter_name
+    (identifier) @function.method
+    "=" @function.method))
+(method
+  name: (operator_name _ @function.method))
+
+(accessor_name (identifier) @property)
+(alias name: (identifier) @function.method)
+(alias target: (identifier) @function.method)
+
+; Interpolation delimiters
+(interpolation
+  "#{" @punctuation.special
+  "}" @punctuation.special)
+(type_annotation "|" @operator)
+
+; Casts are member calls; unrelated functions and later arguments are values.
+((call
+  receiver: (_)
+  method: (identifier) @function.call
+  (argument_list . (identifier) @type.builtin .))
+ (#eq? @function.call "as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+((command_call
+  method: (member_access ["." "&."] . (identifier) @function.method)
+  arguments: (command_arguments . (identifier) @type.builtin .))
+ (#eq? @function.method "as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+
+((call
+  receiver: (constant) @module.builtin
+  method: (identifier) @function.call
+  (argument_list . (_) . (identifier) @type.builtin .))
+ (#eq? @module.builtin "JSON")
+ (#eq? @function.call "parse_as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+
+; Optional builtin type arguments share the predicate-call tree.
+((call
+  receiver: (_)
+  method: (identifier) @function.call
+  (argument_list . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.call "as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+((call
+  receiver: (constant) @module.builtin
+  method: (identifier) @function.call
+  (argument_list . (_) . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.call "parse_as")
+ (#eq? @module.builtin "JSON")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))
+((command_call
+
+  method: (member_access ["." "&."] . (identifier) @function.method)
+  (command_arguments . (method_name (identifier) @type.builtin "?" @operator) @type.builtin .))
+ (#eq? @function.method "as")
+ (#match? @type.builtin "^(any|array|bool|duration|float|hash|int|money|number|range|string|symbol|time|regex|match_data|error|enum_value|enum_type|type|comparable)\\??$"))

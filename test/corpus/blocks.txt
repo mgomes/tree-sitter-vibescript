@@ -2,9 +2,9 @@
 Block with parameters
 ================
 
-values.each do |value|
+values.each { |value|
   total = total + value
-end
+}
 
 ---
 
@@ -25,9 +25,9 @@ end
 Block with call and parameters
 ================
 
-values.reduce(0) do |running_total, value|
+values.reduce(0) { |running_total, value|
   running_total + value
-end
+}
 
 ---
 
@@ -59,14 +59,15 @@ end
 (program
   (method
     name: (identifier)
-    (yield)
-    (yield)))
+    (yield
+      (argument_list
+        (yield)))))
 
 ================
 Yield with arguments
 ================
 
-def times(n)
+def times(n: any)
   i = 0
   while i < n
     yield(i)
@@ -80,8 +81,11 @@ end
   (method
     name: (identifier)
     (parameters
-      (simple_parameter
-        (identifier)))
+      (typed_parameter
+        name: (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
     (assignment
       (identifier)
       (integer))
@@ -102,13 +106,13 @@ end
 Destructured block parameters
 ================
 
-items.each do |(id, score)|
+items.each { |(id, score)|
   puts id
-end
+}
 
-pairs.map do |(head, *), index|
+pairs.map { |(head, *), index|
   head
-end
+}
 
 ---
 
@@ -163,7 +167,7 @@ values.map { |x: int| x + 1 }
 Named function return annotation
 ================
 
-def foo() -> int
+def foo -> int
   1
 end
 
@@ -172,7 +176,6 @@ end
 (program
   (method
     (identifier)
-    (parameters)
     (return_type
       (type_annotation
         (type_name

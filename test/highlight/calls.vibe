@@ -1,0 +1,148 @@
+Build(input, Record)
+# <- function.call
+#     ^^^^^ variable
+#            ^^^^^^ type
+
+Build input, Record
+# <- function.call
+#     ^^^^^ variable
+#            ^^^^^^ type
+
+user.Build(input)
+# <- variable
+#    ^^^^^ function.call
+#          ^^^^^ variable
+
+user.Build input
+# <- variable
+#    ^^^^^ function.method
+#          ^^^^^ variable
+
+user.Build
+# <- variable
+#    ^^^^^ function.method
+
+User.Build
+# <- type
+#    ^^^^^ function.method
+
+user&.Math(input)
+# <- variable
+#     ^^^^ function.call
+#          ^^^^^ variable
+
+user.Math
+# <- variable
+#    ^^^^ function.method
+
+puts(input)
+# <- function.builtin
+#    ^^^^^ variable
+
+puts input
+# <- function.builtin
+#    ^^^^^ variable
+
+logger.puts(input)
+# <- variable
+#      ^^^^ function.call
+#           ^^^^^ variable
+
+logger.puts input
+# <- variable
+#      ^^^^ function.method
+#           ^^^^^ variable
+
+logger.puts
+# <- variable
+#      ^^^^ function.method
+
+puts(logger.format(input))
+# <- function.builtin
+#    ^^^^^^ variable
+#           ^^^^^^ function.call
+#                  ^^^^^ variable
+
+items.each { |value| value.name }
+# <- variable
+#     ^^^^ function.call
+#             ^^^^^ variable.parameter
+#                          ^^^^ function.method
+
+(factory)(argument)
+#^^^^^^^ variable
+#         ^^^^^^^^ variable
+
+user.+(other)
+# <- variable
+#    ^ function.method
+#      ^^^^^ variable
+
+user.[](index)
+# <- variable
+#    ^^ function.method
+#       ^^^^^ variable
+
+standalone
+# <- variable
+
+JSON.parse(text)
+# <- module.builtin
+#    ^^^^^ function.call
+#          ^^^^ variable
+
+def ok? -> bool
+#   ^^^ function.method
+  true
+end
+ok?==true
+# <- function.call
+#  ^^ operator
+save!==true
+# <- function.call
+#    ^^ operator
+user.valid?
+# <- variable
+#    ^^^^^^ function.method
+list&.empty?
+# <- variable
+#     ^^^^^^ function.method
+ok?(value)
+# <- function.call
+save! value
+# <- function.call
+def self.Ready?
+#        ^^^^^^ function.method
+  true
+end
+:save!
+# <- string.special.symbol
+:ok?!=:other
+# <- string.special.symbol
+#   ^^ operator
+LIMIT!=OTHER
+# <- type
+#    ^^ operator
+@left!=@right
+# <- property
+#    ^^ operator
+@@left!=@@right
+# <- property
+#     ^^ operator
+{ready?: true, save!: false}
+#^^^^^^ property
+#             ^^^^^ property
+consume(ready?: true)
+#       ^^^^^^ variable.parameter
+
+def if? -> bool
+#   ^^^ function.method
+  true
+end
+if?==true
+# <- function.call
+#  ^^ operator
+return!
+# <- function.call
+{if?: true}
+#^^^^ property

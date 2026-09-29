@@ -18,8 +18,9 @@ end
           (type_name
             (identifier)
             (type_arguments
-              (type_name
-                (identifier)))))))
+              (type_annotation
+                (type_name
+                  (identifier))))))))
     (return_type
       (type_annotation
         (type_name

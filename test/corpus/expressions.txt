@@ -65,7 +65,7 @@ Statement modifiers
 
 def run
   go if ready
-  stop unless done
+  stop if !done
 end
 
 ---
@@ -78,7 +78,8 @@ end
       (identifier))
     (modifier
       (identifier)
-      (identifier))))
+      (unary
+        (identifier)))))
 
 ================
 Destructuring with splat
@@ -194,7 +195,7 @@ Command calls as modifier bodies
 ================
 
 puts x if ready
-puts [1, 2] unless done
+puts [1, 2] if !done
 
 ---
 
@@ -212,7 +213,8 @@ puts [1, 2] unless done
         (array
           (integer)
           (integer))))
-    condition: (identifier)))
+    condition: (unary
+      (identifier))))
 
 ================
 Constant command callees

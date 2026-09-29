@@ -1,0 +1,229 @@
+================
+Capitalized destructuring
+================
+
+FIRST, SECOND = 1, 2
+FIRST + SECOND
+
+---
+
+(program
+  (destructuring_assignment
+    (constant)
+    (constant)
+    (integer)
+    (integer))
+  (binary
+    (constant)
+    (constant)))
+
+================
+Capitalized splat target
+================
+
+HEAD, *REST = [1, 2]
+REST
+
+---
+
+(program
+  (destructuring_assignment
+    (constant)
+    (splat_target
+      (constant))
+    (array
+      (integer)
+      (integer)))
+  (constant))
+
+================
+Capitalized for variable
+================
+
+for ITEM in [1]
+  ITEM
+end
+
+---
+
+(program
+  (for
+    (constant)
+    (array
+      (integer))
+    (constant)))
+
+================
+Capitalized nested loop targets
+================
+
+for (LEFT, RIGHT) in [[1, 2]]
+  LEFT
+end
+
+---
+
+(program
+  (for
+    (destructured_target
+      (constant)
+      (constant))
+    (array
+      (array
+        (integer)
+        (integer)))
+    (constant)))
+
+================
+Capitalized nested block rest
+================
+
+[[1, 2]].each { |(HEAD, *REST)| HEAD }
+
+---
+
+(program
+  (call
+    (array
+      (array
+        (integer)
+        (integer)))
+    (identifier)
+    (block
+      (block_parameters
+        (destructured_parameter
+          (constant)
+          (splat_target
+            (constant))))
+      (constant))))
+
+================
+Capitalized rest parameter
+================
+
+def f(*REST: array<int>) -> int
+  REST.length
+end
+f(1)
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (splat_parameter
+        (constant)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (member_access
+      (constant)
+      (identifier)))
+  (call
+    (identifier)
+    (argument_list
+      (integer))))
+
+================
+Capitalized keyword rest parameter
+================
+
+def f(**OPTIONS: hash<string, int>) -> int
+  OPTIONS.length
+end
+f(k: 1)
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (double_splat_parameter
+        (constant)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (member_access
+      (constant)
+      (identifier)))
+  (call
+    (identifier)
+    (argument_list
+      (keyword_argument
+        (identifier)
+        (integer)))))
+
+================
+Capitalized block signature name
+================
+
+def f(&BLOCK: () -> int) -> int
+  yield
+end
+f { 1 }
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (block_parameter
+        (constant)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (yield))
+  (call
+    (identifier)
+    (block
+      (integer))))
+
+================
+Capitalized rescue binding
+================
+
+begin
+  raise "x"
+rescue => ERROR
+  ERROR.message
+end
+
+---
+
+(program
+  (begin
+    (raise
+      (string
+        (string_content)))
+    (rescue
+      (constant)
+      (member_access
+        (constant)
+        (identifier)))))

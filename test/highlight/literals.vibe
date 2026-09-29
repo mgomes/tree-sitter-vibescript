@@ -1,0 +1,79 @@
+consume(name: value, Upper: Default, if: true, shorthand:)
+# <- function.call
+#       ^^^^ variable.parameter
+#             ^^^^^ variable
+#                    ^^^^^ variable.parameter
+#                           ^^^^^^^ type
+#                                    ^^ variable.parameter
+#                                        ^^^^ constant.builtin
+#                                              ^^^^^^^^^ variable.parameter
+
+record = { name: value, Upper: Default, if: true, shorthand: }
+# <- variable
+#          ^^^^ property
+#                ^^^^^ variable
+#                       ^^^^^ property
+#                              ^^^^^^^ type
+#                                       ^^ property
+#                                           ^^^^ constant.builtin
+#                                                 ^^^^^^^^^ property
+
+items = [:ready, :"two words", :'quoted', :+, :[], :[]=]
+#        ^^^^^^ string.special.symbol
+#                ^^^^^^^^^^^^ string.special.symbol
+#                              ^^^^^^^^^ string.special.symbol
+#                                         ^^ string.special.symbol
+#                                             ^^^ string.special.symbol
+#                                                  ^^^^ string.special.symbol
+
+alias :short :long
+#     ^^^^^^ string.special.symbol
+#            ^^^^^ string.special.symbol
+
+class Visible
+
+  private :[], :"Build"
+#         ^^^ string.special.symbol
+#              ^^^^^^^^ string.special.symbol
+
+end
+
+text = "hello #{user.name}\n"
+#       ^^^^^ string
+#             ^^ punctuation.special
+#               ^^^^ variable
+#                    ^^^^ function.method
+#                        ^ punctuation.special
+#                         ^^ string.escape
+
+pattern = /#\d+/
+#         ^^^^^^ string.regexp
+
+nothing = nil; yes = true; no = false
+#         ^^^ constant.builtin
+#                    ^^^^ constant.builtin
+#                               ^^^^^ constant.builtin
+
+answer = LIMIT; object = Record.new(1.5)
+#        ^^^^^ type
+#                        ^^^^^^ type
+#                               ^^^ function.call
+#                                   ^^^ number
+
+# comment user.name
+# ^^^^^^^ comment
+
+=begin
+
+literal words
+
+=end
+# <- comment
+
+[m //] # empty argument
+#  ^^ string.regexp
+#      ^^^^^^^^^^^^^^^^ comment
+
+m // if ready
+# ^^ string.regexp
+#    ^^ keyword

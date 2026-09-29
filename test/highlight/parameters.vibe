@@ -1,0 +1,67 @@
+class Sample
+
+  def initialize(@value: int = @fallback, Upper: Record = Default)
+#                ^^^^^^ variable.parameter
+#                        ^^^ type.builtin
+#                              ^^^^^^^^^ property
+#                                         ^^^^^ variable.parameter
+#                                                ^^^^^^ type
+#                                                         ^^^^^^^ type
+
+  end
+
+end
+
+def f(required: int, defaulted: int = fallback, *rest: array<int>, keyword: string = text, **options: hash<string, int>, &block: (int, string) -> bool)
+#     ^^^^^^^^ variable.parameter
+#                    ^^^^^^^^^ variable.parameter
+#                                     ^^^^^^^^ variable
+#                                                ^^^^ variable.parameter
+#                                                      ^^^^^ type.builtin
+#                                                                  ^^^^^^^ variable.parameter
+#                                                                                    ^^^^ variable
+#                                                                                            ^^^^^^^ variable.parameter
+#                                                                                                                         ^^^^^ variable.parameter
+#                                                                                                                                                 ^^^^ type.builtin
+
+end
+
+def bare value: Record, *, option: string = fallback
+#   ^^^^ function.method
+#                       ^ operator
+#        ^^^^^ variable.parameter
+#               ^^^^^^ type
+#                          ^^^^^^ variable.parameter
+#                                           ^^^^^^^^ variable
+
+end
+
+items.each { |(head, (Upper, *tail)), typed: int | string| head }
+# <- variable
+#              ^^^^ variable.parameter
+#                     ^^^^^ variable.parameter
+#                             ^^^^ variable.parameter
+#                                     ^^^^^ variable.parameter
+#                                            ^^^ type.builtin
+#                                                  ^^^^^^ type.builtin
+
+def collision(name: string)
+#             ^^^^ variable.parameter
+
+  user.name(name)
+# ^^^^ variable
+#      ^^^^ function.call
+#           ^^^^ variable.parameter
+
+  user.name
+#      ^^^^ function.method
+
+  { name: name }
+#   ^^^^ property
+#         ^^^^ variable.parameter
+
+  consume(name: name)
+#         ^^^^ variable.parameter
+#               ^^^^ variable.parameter
+
+end

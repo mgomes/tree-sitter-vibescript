@@ -1,0 +1,579 @@
+================
+Typed locals and constants
+================
+
+names: array<string> = []
+label: string? = nil
+amount: int | float = 1
+TAGS: array<string> = []
+
+---
+
+(program
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_name
+        (identifier)
+        (type_arguments
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (array))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_name
+        (identifier)))
+    (nil))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_name
+        (identifier))
+      (type_name
+        (identifier)))
+    (integer))
+  (typed_assignment
+    (constant)
+    (type_annotation
+      (type_name
+        (identifier)
+        (type_arguments
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (array)))
+
+================
+Nested generic union tuple and optional types
+================
+
+type Payload = hash<string, array<[int | string, { name: string }?]>>
+value: [int, string]? = nil
+
+---
+
+(program
+  (type_alias
+    (constant)
+    (type_annotation
+      (type_name
+        (identifier)
+        (type_arguments
+          (type_annotation
+            (type_name
+              (identifier)))
+          (type_annotation
+            (type_name
+              (identifier)
+              (type_arguments
+                (type_annotation
+                  (type_tuple
+                    (type_annotation
+                      (type_name
+                        (identifier))
+                      (type_name
+                        (identifier)))
+                    (type_annotation
+                      (type_shape
+                        (type_shape_field
+                          (identifier)
+                          (type_annotation
+                            (type_name
+                              (identifier)))))))))))))))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_tuple
+        (type_annotation
+          (type_name
+            (identifier)))
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (nil)))
+
+================
+Open and optional record fields
+================
+
+type Record = { name: string, age?: int, "note"?: string, ... }
+type Open = { ... }
+type Nested = { event: { id: string, ... } }
+
+---
+
+(program
+  (type_alias
+    (constant)
+    (type_annotation
+      (type_shape
+        (type_shape_field
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))))
+        (type_shape_field
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))))
+        (type_shape_field
+          (string
+            (string_content))
+          (type_annotation
+            (type_name
+              (identifier)))))))
+  (type_alias
+    (constant)
+    (type_annotation
+      (type_shape)))
+  (type_alias
+    (constant)
+    (type_annotation
+      (type_shape
+        (type_shape_field
+          (identifier)
+          (type_annotation
+            (type_shape
+              (type_shape_field
+                (identifier)
+                (type_annotation
+                  (type_name
+                    (identifier)))))))))))
+
+================
+Scoped aliases and fields
+================
+
+module Outer
+  class Inner
+    type Item = int
+    @name: string
+    @@count: int = 0
+  end
+end
+x: Outer::Inner::Item = 1
+
+---
+
+(program
+  (module
+    (constant)
+    (module_body
+      (class
+        (constant)
+        (class_body
+          (type_alias
+            (constant)
+            (type_annotation
+              (type_name
+                (identifier))))
+          (typed_assignment
+            (instance_variable)
+            (type_annotation
+              (type_name
+                (identifier))))
+          (class_variable_assignment
+            (class_variable)
+            (type_annotation
+              (type_name
+                (identifier)))
+            (integer))))))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (qualified_type_name
+        (constant)
+        (constant)
+        (constant)))
+    (integer)))
+
+================
+Required optional and zero argument block signatures
+================
+
+def run(value: int, &block: (int, string) -> bool) -> bool
+  yield(value, "x")
+end
+def maybe(&block?: int -> string)
+  puts yield(1) if block_given?
+end
+def name(&block: () -> string) -> string
+  yield
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier)))
+          (type_annotation
+            (type_name
+              (identifier)))
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (yield
+      (argument_list
+        (identifier)
+        (string
+          (string_content)))))
+  (method
+    (identifier)
+    (parameters
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier)))
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (modifier
+      (command_call
+        (identifier)
+        (command_arguments
+          (yield
+            (argument_list
+              (integer)))))
+      (method_name
+        (identifier))))
+  (method
+    (identifier)
+    (parameters
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (yield)))
+
+================
+Keyword separator and typed captures
+================
+
+def f(first: int, *, count: int = 1, label: string) -> int
+ first * count
+end
+def g(*items: array<int>, count: int = 1, **extras: hash<string, int>) -> int
+ items.sum
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (keyword_separator)
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
+        (integer))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (binary
+      (identifier)
+      (identifier)))
+  (method
+    (identifier)
+    (parameters
+      (splat_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
+        (integer))
+      (double_splat_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (member_access
+      (identifier)
+      (identifier))))
+
+================
+Types in checked casts and JSON
+================
+
+values = data.as(array<int | string>)
+pair = data.as([int, string])
+record = data.as({ id: string, note?: string, ... })
+value = JSON.parse_as("null", int?)
+schema = { value: array<int>, nested: { name: string }, ... }
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (call
+      (identifier)
+      (identifier)
+      (argument_list
+        (type_literal
+          (type_annotation
+            (type_name
+              (identifier)
+              (type_arguments
+                (type_annotation
+                  (type_name
+                    (identifier))
+                  (type_name
+                    (identifier))))))))))
+  (assignment
+    (identifier)
+    (call
+      (identifier)
+      (identifier)
+      (argument_list
+        (array
+          (identifier)
+          (identifier)))))
+  (assignment
+    (identifier)
+    (call
+      (identifier)
+      (identifier)
+      (argument_list
+        (type_literal
+          (type_annotation
+            (type_shape
+              (type_shape_field
+                (identifier)
+                (type_annotation
+                  (type_name
+                    (identifier))))
+              (type_shape_field
+                (identifier)
+                (type_annotation
+                  (type_name
+                    (identifier))))))))))
+  (assignment
+    (identifier)
+    (call
+      (constant)
+      (identifier)
+      (argument_list
+        (string
+          (string_content))
+        (method_name
+          (identifier)))))
+  (assignment
+    (identifier)
+    (type_literal
+      (type_annotation
+        (type_shape
+          (type_shape_field
+            (identifier)
+            (type_annotation
+              (type_name
+                (identifier)
+                (type_arguments
+                  (type_annotation
+                    (type_name
+                      (identifier)))))))
+          (type_shape_field
+            (identifier)
+            (type_annotation
+              (type_shape
+                (type_shape_field
+                  (identifier)
+                  (type_annotation
+                    (type_name
+                      (identifier))))))))))))
+
+================
+Floor division and regex disambiguation
+================
+
+a = 7 // 2
+b = -7//2
+a //= 2
+pattern = /id+/i
+puts 7 // 2
+c = a / b / 2
+d = 12//3//2
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (binary
+      (integer)
+      (integer)))
+  (assignment
+    (identifier)
+    (binary
+      (unary
+        (integer))
+      (integer)))
+  (compound_assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (regex))
+  (command_call
+    (identifier)
+    (command_arguments
+      (binary
+        (integer)
+        (integer))))
+  (assignment
+    (identifier)
+    (binary
+      (binary
+        (identifier)
+        (identifier))
+      (integer)))
+  (assignment
+    (identifier)
+    (binary
+      (binary
+        (integer)
+        (integer))
+      (integer))))
+
+================
+Zero argument calls and explicit brace blocks
+================
+
+uuid
+Time.now
+items.length
+read_label { "ready" }
+each_slice 2 { |items| puts items }
+
+---
+
+(program
+  (identifier)
+  (member_access
+    (constant)
+    (identifier))
+  (member_access
+    (identifier)
+    (identifier))
+  (call
+    (identifier)
+    (block
+      (string
+        (string_content))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (integer))
+    (block
+      (block_parameters
+        (identifier))
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier))))))
+
+================
+Typed block parameters with union and tuple
+================
+
+items.each { |item: int | string| puts item }
+pairs.each { |pair: [string, int]| puts pair }
+
+---
+
+(program
+  (call
+    (identifier)
+    (identifier)
+    (block
+      (block_parameters
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))
+            (type_name
+              (identifier)))))
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier)))))
+  (call
+    (identifier)
+    (identifier)
+    (block
+      (block_parameters
+        (typed_parameter
+          (identifier)
+          (type_annotation
+            (type_tuple
+              (type_annotation
+                (type_name
+                  (identifier)))
+              (type_annotation
+                (type_name
+                  (identifier)))))))
+      (command_call
+        (identifier)
+        (command_arguments
+          (identifier))))))

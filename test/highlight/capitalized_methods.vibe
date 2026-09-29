@@ -1,0 +1,13 @@
+def Build(value: Record) -> Record
+#   ^^^^^ function.method
+#         ^^^^^ variable.parameter
+#                ^^^^^^ type
+#                           ^^^^^^ type
+  Record
+# ^^^^^^ type
+end
+
+def Math -> Record
+#   ^^^^ function.method
+  Record
+end

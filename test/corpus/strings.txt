@@ -154,21 +154,29 @@ pair = "#{a}#{b}"
         body: (identifier)))))
 
 ================
-Interpolating percent arrays stay single tokens
+Interpolation in explicit arrays
 ================
 
-words = %W[hello #{name} world]
-syms = %I[a #{b}]
+words = ["hello #{name}", "world"]
+syms = [:a, :b]
 
 ---
 
 (program
   (assignment
     (identifier)
-    (percent_array))
+    (array
+      (string
+        (string_content)
+        (interpolation
+          (identifier)))
+      (string
+        (string_content))))
   (assignment
     (identifier)
-    (percent_array)))
+    (array
+      (symbol)
+      (symbol))))
 
 ================
 Single-quoted strings never interpolate

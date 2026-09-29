@@ -253,7 +253,7 @@ b = !x && y
 Former boolean operators are ordinary names
 ================
 
-def names(and, or, not)
+def names(and: any, or: any, not: any)
   [and, or, not]
 end
 and = 1
@@ -267,12 +267,21 @@ takes(and:, or:, not:)
   (method
     (identifier)
     (parameters
-      (simple_parameter
-        (identifier))
-      (simple_parameter
-        (identifier))
-      (simple_parameter
-        (identifier)))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
     (array
       (identifier)
       (identifier)

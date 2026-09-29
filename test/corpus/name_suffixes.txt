@@ -1,0 +1,342 @@
+==================
+Method suffixes in definitions calls aliases and symbols
+==================
+def ok? -> bool; true; end
+def save!(value: int); value; end
+def self.Ready?; true; end
+ok?
+ok? 1
+save!(1)
+user.valid?
+list&.empty?
+user.Ready?
+alias ready? ok?
+alias :persist! :save!
+:ok?
+:save!
+
+---
+
+(program
+  (method
+    (method_name
+      (identifier))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (true))
+  (method
+    (method_name
+      (identifier))
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (identifier))
+  (method
+    (self_method_name
+      (method_name
+        (constant)))
+    (true))
+  (method_name
+    (identifier))
+  (command_call
+    (method_name
+      (identifier))
+    (command_arguments
+      (integer)))
+  (call
+    (method_name
+      (identifier))
+    (argument_list
+      (integer)))
+  (member_access
+    (identifier)
+    (method_name
+      (identifier)))
+  (member_access
+    (identifier)
+    (method_name
+      (identifier)))
+  (member_access
+    (identifier)
+    (method_name
+      (constant)))
+  (alias
+    (method_name
+      (identifier))
+    (method_name
+      (identifier)))
+  (alias
+    (symbol)
+    (symbol))
+  (symbol)
+  (symbol))
+
+==================
+Adjacent equality and match operators after method suffixes
+==================
+a!=b
+LIMIT!=OTHER
+@left!=@right
+@@left!=@@right
+ok?==true
+save!==true
+text?=~/yes/
+text!=~/yes/
+:ok?==:other
+:ok!=:other
+
+---
+
+(program
+  (binary
+    (identifier)
+    (identifier))
+  (binary
+    (constant)
+    (constant))
+  (binary
+    (instance_variable)
+    (instance_variable))
+  (binary
+    (class_variable)
+    (class_variable))
+  (binary
+    (method_name
+      (identifier))
+    (true))
+  (binary
+    (method_name
+      (identifier))
+    (true))
+  (binary
+    (method_name
+      (identifier))
+    (regex))
+  (binary
+    (method_name
+      (identifier))
+    (regex))
+  (binary
+    (symbol)
+    (symbol))
+  (binary
+    (symbol)
+    (symbol)))
+
+==================
+Labels keep suffixes and annotations keep optional markers
+==================
+{ready?: true, save!: false}
+f ready?: true
+f(ready?: true)
+def f(&block?: () -> bool); yield; end
+h: {ready?: bool} = {}
+value: User? = nil
+value: int?=nil
+{value: comparable?, status: Status?}
+identity(ANY?)
+identity({id?:int,...})
+
+---
+
+(program
+  (hash
+    (hash_entry
+      (method_name
+        (identifier))
+      (true))
+    (hash_entry
+      (method_name
+        (identifier))
+      (false)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (keyword_argument
+        (method_name
+          (identifier))
+        (true))))
+  (call
+    (identifier)
+    (argument_list
+      (keyword_argument
+        (method_name
+          (identifier))
+        (true))))
+  (method
+    (identifier)
+    (parameters
+      (block_parameter
+        (identifier)
+        (block_type
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (yield))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_shape
+        (type_shape_field
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier))))))
+    (hash))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_name
+        (constant)))
+    (nil))
+  (typed_assignment
+    (identifier)
+    (type_annotation
+      (type_name
+        (identifier)))
+    (nil))
+  (hash
+    (hash_entry
+      (identifier)
+      (type_annotation))
+    (hash_entry
+      (identifier)
+      (type_annotation
+        (type_name
+          (constant)))))
+  (call
+    (identifier)
+    (argument_list
+      (type_literal
+        (type_annotation
+          (type_name
+            (constant))))))
+  (call
+    (identifier)
+    (argument_list
+      (type_literal
+        (type_annotation
+          (type_shape
+            (type_shape_field
+              (identifier)
+              (type_annotation
+                (type_name
+                  (identifier))))))))))
+
+==================
+Reject suffixed binding: READY? = 1
+:error
+==================
+READY? = 1
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: x! = 3
+:error
+==================
+x! = 3
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: @done? = true
+:error
+==================
+@done? = true
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: @@done! = true
+:error
+==================
+@@done! = true
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: def f(ok?: bool); end
+:error
+==================
+def f(ok?: bool); end
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: x?=y
+:error
+==================
+x?=y
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: {ready?:}
+:error
+==================
+{ready?:}
+
+---
+
+(ERROR)
+
+==================
+Reject suffixed binding: f(ready?:)
+:error
+==================
+f(ready?:)
+
+---
+
+(ERROR)
+
+==================
+Keyword prefixes in method names
+==================
+def if? -> bool; true; end
+if?
+if?==true
+return!
+user.class?
+{if?: true}
+
+---
+
+(program
+  (method
+    (method_name)
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (true))
+  (method_name)
+  (binary
+    (method_name)
+    (true))
+  (method_name)
+  (member_access
+    (identifier)
+    (method_name))
+  (hash
+    (hash_entry
+      (method_name)
+      (true))))

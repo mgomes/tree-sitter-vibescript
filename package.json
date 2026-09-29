@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-vibescript",
-  "version": "0.70.0",
+  "version": "0.80.0",
   "description": "Tree-sitter grammar for Vibescript",
   "main": "bindings/node",
   "keywords": [
@@ -14,6 +14,7 @@
     "nan": "^2.18.0"
   },
   "devDependencies": {
+    "@unicode/unicode-17.0.0": "2.0.7",
     "tree-sitter-cli": "0.26.13"
   },
   "tree-sitter": [
@@ -27,7 +28,7 @@
     }
   ],
   "scripts": {
-    "generate": "tree-sitter generate",
+    "generate": "node scripts/generate.mjs",
     "test": "tree-sitter test"
   },
   "repository": {

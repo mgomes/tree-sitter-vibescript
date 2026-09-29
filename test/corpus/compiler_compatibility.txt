@@ -1,0 +1,383 @@
+================
+No-space labels and annotations
+================
+
+def pack(*, a: int, b: int) -> int
+  a + b
+end
+pack a:1,b:2
+class Box
+  property payload:array<any>
+end
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (keyword_separator)
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (binary
+      (identifier)
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (keyword_argument
+        (identifier)
+        (integer))
+      (keyword_argument
+        (identifier)
+        (integer))))
+  (class
+    (constant)
+    (class_body
+      (property_declaration
+        (accessor_name
+          (identifier)
+          (type_annotation
+            (type_name
+              (identifier)
+              (type_arguments
+                (type_annotation
+                  (type_name
+                    (identifier)))))))))))
+
+================
+Reserved words as keyword labels
+================
+
+def pack(**kw: hash<string, int>) -> hash<string, int>
+  kw
+end
+pack begin:1,rescue:2,ensure:3
+pack if:1,while:2
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (double_splat_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)
+            (type_arguments
+              (type_annotation
+                (type_name
+                  (identifier)))
+              (type_annotation
+                (type_name
+                  (identifier))))))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier)
+          (type_arguments
+            (type_annotation
+              (type_name
+                (identifier)))
+            (type_annotation
+              (type_name
+                (identifier)))))))
+    (identifier))
+  (command_call
+    (identifier)
+    (command_arguments
+      (keyword_argument
+        (identifier)
+        (integer))
+      (keyword_argument
+        (identifier)
+        (integer))
+      (keyword_argument
+        (identifier)
+        (integer))))
+  (command_call
+    (identifier)
+    (command_arguments
+      (keyword_argument
+        (identifier)
+        (integer))
+      (keyword_argument
+        (identifier)
+        (integer)))))
+
+================
+Slashes and literal brackets in regex classes
+================
+
+a = /[[:/]/
+b = /[[:alpha:]/]/
+c = /[]/]/
+d = /[^]/]/
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (regex))
+  (assignment
+    (identifier)
+    (regex))
+  (assignment
+    (identifier)
+    (regex))
+  (assignment
+    (identifier)
+    (regex)))
+
+================
+Operator method calls
+================
+
+a = 1.<=>(2)
+b = nil&.<=>(1)
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (computed_call
+      (member_access
+        (integer)
+        (operator_name))
+      (argument_list
+        (integer))))
+  (assignment
+    (identifier)
+    (computed_call
+      (member_access
+        (nil)
+        (operator_name))
+      (argument_list
+        (integer)))))
+
+================
+Block comments
+================
+
+=begin
+ignored
+=end
+7
+
+---
+
+(program
+  (block_comment)
+  (integer))
+
+================
+Bare typed signatures
+================
+
+def add left: int, right: int -> int
+ left + right
+end
+add 1, 2
+
+---
+
+(program
+  (method
+    (identifier)
+    (bare_parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier))))
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (binary
+      (identifier)
+      (identifier)))
+  (command_call
+    (identifier)
+    (command_arguments
+      (integer)
+      (integer))))
+
+================
+Separate arrays and leading splat assignments
+================
+
+if true
+  []
+end
+values = [1, 2]
+*items, last = values
+
+---
+
+(program
+  (if
+    (true)
+    (array))
+  (assignment
+    (identifier)
+    (array
+      (integer)
+      (integer)))
+  (destructuring_assignment
+    (splat_target
+      (identifier))
+    (identifier)
+    (identifier)))
+
+================
+Unicode 17 identifiers
+================
+
+𑼄 = 1
+𰀀 = 2
+puts 𑼄, 𰀀
+
+---
+
+(program
+  (assignment
+    (identifier)
+    (integer))
+  (assignment
+    (identifier)
+    (integer))
+  (command_call
+    (identifier)
+    (command_arguments
+      (identifier)
+      (identifier))))
+
+================
+Symbol labels in compiler-accepted type shapes
+================
+
+type Row = { :id: int, :"name": string }
+
+---
+
+(program
+  (type_alias
+    (constant)
+    (type_annotation
+      (type_shape
+        (type_shape_field
+          (symbol)
+          (type_annotation
+            (type_name
+              (identifier))))
+        (type_shape_field
+          (quoted_symbol)
+          (type_annotation
+            (type_name
+              (identifier))))))))
+
+================
+Compiler-accepted empty calls
+================
+
+def value(n: int = 1) -> int
+  n
+end
+value()
+pattern = //
+
+---
+
+(program
+  (method
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type_annotation
+          (type_name
+            (identifier)))
+        (integer)))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
+    (identifier))
+  (call
+    (identifier))
+  (assignment
+    (identifier)
+    (regex)))
+
+================
+Hash keyword values beside attached blocks
+================
+
+C.new.take options:{retries:3}
+
+---
+
+(program
+  (command_call
+    (member_access
+      (member_access
+        (constant)
+        (identifier))
+      (identifier))
+    (command_arguments
+      (keyword_argument
+        (identifier)
+        (hash
+          (hash_entry
+            (identifier)
+            (integer)))))))
+
+================
+Rescue expressions inside parentheses
+================
+
+[(boom rescue 5)];
+("abc".chars rescue good) {|x| x}
+
+---
+
+(program
+  (array
+    (parenthesized
+      (rescue_modifier
+        (identifier)
+        (integer))))
+  (computed_call
+    (parenthesized
+      (rescue_modifier
+        (member_access
+          (string
+            (string_content))
+          (identifier))
+        (identifier)))
+    (block
+      (block_parameters
+        (identifier))
+      (identifier))))

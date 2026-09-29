@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-vibescript"
-version = "0.70.0"
+version = "0.80.0"
 description = "Tree-sitter grammar for Vibescript"
 authors = ["Mauricio Gomes"]
 license = "MIT"
@@ -14,10 +14,13 @@ build = "bindings/rust/build.rs"
 include = [
   "/bindings/rust/**",
   "/grammar.js",
+  "/unicode.js",
   "/docs/grammar.md",
+  "/docs/highlights.md",
   "/queries/*",
   "/src/**",
   "/test/examples/*.vibe",
+  "/test/highlight/*.vibe",
   "/tree-sitter.json",
   "/LICENSE",
   "/README.md",
@@ -33,4 +36,6 @@ tree-sitter-language = "0.1"
 cc = "1.2"
 
 [dev-dependencies]
+serde_json = "1"
 tree-sitter = "0.26"
+tree-sitter-highlight = "0.26"

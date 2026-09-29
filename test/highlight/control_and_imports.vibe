@@ -1,0 +1,54 @@
+items.each { |item| break item }
+#                   ^^^^^ keyword
+#                         ^^^^ variable.parameter
+
+items.each { |item| next item }
+#                   ^^^^ keyword
+#                        ^^^^ variable.parameter
+
+begin
+# <- keyword
+
+  raise problem
+# ^^^^^ keyword
+#       ^^^^^^^ variable
+
+rescue Errors::TypeError => error
+#      ^^^^^^ type
+#              ^^^^^^^^^ type
+#                           ^^^^^ variable
+
+  error.message
+# ^^^^^ variable
+#       ^^^^^^^ function.method
+
+  retry
+# ^^^^^ keyword
+
+end
+
+helpers = require("./helpers", as: "Tools")
+# <- variable
+#         ^^^^^^^ keyword
+#                  ^^^^^^^^^ string
+#                                   ^^^^^ type
+
+require("./helpers", as: "Other")
+#        ^^^^^^^^^ string
+#                         ^^^^^ type
+
+require "./helpers", as: "Third"
+#        ^^^^^^^^^ string
+#                         ^^^^^ type
+
+loader.require("./helpers", as: "NotAlias")
+# <- variable
+#      ^^^^^^^ function.call
+#                                ^^^^^^^^ string
+
+other("./helpers", as: "NotAlias")
+#                       ^^^^^^^^ string
+
+require("./helpers", as: "escaped\n")
+#                         ^^^^^^^ string
+#                                ^^ string.escape

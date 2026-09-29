@@ -1,0 +1,103 @@
+[(program) (class_body) (module_body) (block) (rescue)] @local.scope
+
+((method) @local.scope
+ (#set! local.scope-inherits false))
+
+(block_parameter name: [(identifier) (constant)] @local.definition)
+(typed_parameter name: [(identifier) (constant)] @local.definition)
+(splat_parameter name: [(identifier) (constant)] @local.definition)
+(double_splat_parameter name: [(identifier) (constant)] @local.definition)
+(block_parameters [(identifier) (constant)] @local.definition)
+(destructured_parameter [(identifier) (constant)] @local.definition)
+(typed_assignment name: [(identifier) (constant)] @local.definition)
+(assignment . [(identifier) (constant)] @local.definition)
+(compound_assignment . [(identifier) (constant)] @local.definition)
+(require variable: [(identifier) (constant)] @local.definition)
+(require
+  (string)
+  (string . (string_content) @local.definition .))
+((call
+  !receiver
+  method: (identifier) @_require
+  (argument_list
+    (keyword_argument
+      key: (identifier) @_as
+      value: (string . (string_content) @local.definition .))))
+ (#eq? @_require "require")
+ (#eq? @_as "as"))
+((command_call
+  method: (identifier) @_require
+  (command_arguments
+    (keyword_argument
+      key: (identifier) @_as
+      value: (string . (string_content) @local.definition .))))
+ (#eq? @_require "require")
+ (#eq? @_as "as"))
+(destructuring_assignment left: [(identifier) (constant)] @local.definition)
+(destructured_target [(identifier) (constant)] @local.definition)
+(splat_target [(identifier) (constant)] @local.definition)
+(parenthesized_target [(identifier) (constant)] @local.definition)
+(for variable: [(identifier) (constant)] @local.definition)
+(rescue binding: [(identifier) (constant)] @local.definition)
+
+(class name: [(identifier) (constant)] @local.definition)
+(module name: (constant) @local.definition)
+(enum name: [(identifier) (constant)] @local.definition)
+(type_alias name: (constant) @local.definition)
+
+; Only value/type references inherit a local definition's highlight.
+(program [(identifier) (constant)] @local.reference)
+(class_body [(identifier) (constant)] @local.reference)
+(module_body [(identifier) (constant)] @local.reference)
+(block [(identifier) (constant)] @local.reference)
+(argument_list [(identifier) (constant)] @local.reference)
+(command_arguments [(identifier) (constant)] @local.reference)
+(splat_argument [(identifier) (constant)] @local.reference)
+(double_splat_argument [(identifier) (constant)] @local.reference)
+(array [(identifier) (constant)] @local.reference)
+(assignment [(identifier) (constant)] @local.reference)
+(compound_assignment [(identifier) (constant)] @local.reference)
+(destructuring_assignment [(identifier) (constant)] @local.reference)
+(destructured_target [(identifier) (constant)] @local.reference)
+(splat_target [(identifier) (constant)] @local.reference)
+(parenthesized_target [(identifier) (constant)] @local.reference)
+(parenthesized [(identifier) (constant)] @local.reference)
+(subscript [(identifier) (constant)] @local.reference)
+(binary [(identifier) (constant)] @local.reference)
+(unary [(identifier) (constant)] @local.reference)
+(ternary [(identifier) (constant)] @local.reference)
+(beginless_range [(identifier) (constant)] @local.reference)
+(endless_range [(identifier) (constant)] @local.reference)
+(return [(identifier) (constant)] @local.reference)
+(break [(identifier) (constant)] @local.reference)
+(next [(identifier) (constant)] @local.reference)
+(raise [(identifier) (constant)] @local.reference)
+(if [(identifier) (constant)] @local.reference)
+(elsif [(identifier) (constant)] @local.reference)
+(else [(identifier) (constant)] @local.reference)
+(while [(identifier) (constant)] @local.reference)
+(for [(identifier) (constant)] @local.reference)
+(case [(identifier) (constant)] @local.reference)
+(when [(identifier) (constant)] @local.reference)
+(begin [(identifier) (constant)] @local.reference)
+(rescue [(identifier) (constant)] @local.reference)
+(rescue_modifier [(identifier) (constant)] @local.reference)
+(ensure [(identifier) (constant)] @local.reference)
+(modifier [(identifier) (constant)] @local.reference)
+(class_variable_assignment [(identifier) (constant)] @local.reference)
+(ivar_parameter [(identifier) (constant)] @local.reference)
+(type_name [(identifier) (constant)] @local.reference)
+(method name: (_) [(identifier) (constant)] @local.reference)
+(typed_assignment name: (_) [(identifier) (constant)] @local.reference)
+(typed_parameter name: (_) [(identifier) (constant)] @local.reference)
+(call receiver: [(identifier) (constant)] @local.reference)
+(computed_call function: [(identifier) (constant)] @local.reference)
+(member_access . [(identifier) (constant)] @local.reference)
+(scope_resolution . [(identifier) (constant)] @local.reference)
+(scoped_constant . (constant) @local.reference)
+(qualified_type_name module: [(identifier) (constant)] @local.reference)
+(hash_entry value: [(identifier) (constant)] @local.reference)
+(hash_entry !value key: [(identifier) (constant)] @local.reference)
+(keyword_argument value: [(identifier) (constant)] @local.reference)
+(keyword_argument !value key: [(identifier) (constant)] @local.reference)
+(interpolation body: [(identifier) (constant)] @local.reference)

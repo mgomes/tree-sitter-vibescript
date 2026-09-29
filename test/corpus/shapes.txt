@@ -36,25 +36,28 @@ body = JSON.parse_as(raw, { tags: array<int>, user: { name: string | nil } })
       method: (identifier)
       (argument_list
         (identifier)
-        (hash
-          (hash_entry
-            key: (identifier)
-            value: (type_annotation
-              (type_name
-                (identifier)
-                (type_arguments
+        (type_literal
+          (type_annotation
+            (type_shape
+              (type_shape_field
+                name: (identifier)
+                (type_annotation
                   (type_name
-                    (identifier))))))
-          (hash_entry
-            key: (identifier)
-            value: (type_annotation
-              (type_shape
-                (type_shape_field
-                  name: (identifier)
-                  (type_annotation
-                    (type_name
-                      (identifier))
-                    (type_name)))))))))))
+                    (identifier)
+                    (type_arguments
+                      (type_annotation
+                        (type_name
+                          (identifier)))))))
+              (type_shape_field
+                name: (identifier)
+                (type_annotation
+                  (type_shape
+                    (type_shape_field
+                      name: (identifier)
+                      (type_annotation
+                        (type_name
+                          (identifier))
+                        (type_name)))))))))))))
 
 ================
 Plain hashes keep the expression reading
@@ -91,7 +94,7 @@ end
     name: (identifier)
     (parameters
       (typed_parameter
-        (identifier)
+        name: (identifier)
         (type_annotation
           (qualified_type_name
             module: (identifier)
@@ -109,7 +112,7 @@ Dotted constants stay expressions
 
 x = Math.PI
 
-def f(pi: Math.PI)
+def f(pi: float = Math.PI) -> float
   pi
 end
 
@@ -124,18 +127,25 @@ end
   (method
     name: (identifier)
     (parameters
-      (keyword_parameter
+      (typed_parameter
         name: (identifier)
-        default: (member_access
+        (type_annotation
+          (type_name
+            (identifier)))
+        (member_access
           (constant)
           (constant))))
+    (return_type
+      (type_annotation
+        (type_name
+          (identifier))))
     (identifier)))
 
 ================
 Nullable builtin shorthand in shape values
 ================
 
-opt = { x: string?, ok: valid? }
+opt = { x: string?, value: comparable?, ok: valid? }
 
 ---
 
@@ -148,13 +158,17 @@ opt = { x: string?, ok: valid? }
         value: (type_annotation))
       (hash_entry
         key: (identifier)
-        value: (identifier)))))
+        value: (type_annotation))
+      (hash_entry
+        key: (identifier)
+        value: (method_name
+          (identifier))))))
 
 ================
-Quoted symbol, string, and symbol shape keys
+String and label shape keys
 ================
 
-def f(p: { :"user-id": string, "email": string, :legacy: int })
+def f(p: { "user-id": string, "email": string, legacy: int })
   p
 end
 
@@ -165,11 +179,12 @@ end
     name: (identifier)
     (parameters
       (typed_parameter
-        (identifier)
+        name: (identifier)
         (type_annotation
           (type_shape
             (type_shape_field
-              name: (quoted_symbol)
+              name: (string
+                (string_content))
               (type_annotation
                 (type_name
                   (identifier))))
@@ -180,7 +195,7 @@ end
                 (type_name
                   (identifier))))
             (type_shape_field
-              name: (symbol)
+              name: (identifier)
               (type_annotation
                 (type_name
                   (identifier))))))))
